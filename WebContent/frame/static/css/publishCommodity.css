@@ -1,0 +1,64 @@
+@CHARSET "UTF-8";
+/*
+	作者：wanghongyi
+	时间：2017-03-13
+	描述：商品管理-商品发布的css样式
+ */
+.vertical-m{
+	vertical-align:middle;
+}
+form{
+	width: 600px;
+}
+form h4{
+	color: #03A1A4;
+}
+form label{
+	display: inline-block;
+	width: 120px;
+	text-align: right;
+}
+form input[type='text'],
+form input[type='number'],
+form select{
+	display: inline-block;
+	width:234px;
+	height:26px;
+	line-height:26px;
+	margin-bottom: 14px;
+	border:1px solid #d2d2d2;
+	background:#fff;
+	padding-left:5px;
+	box-sizing:border-box;
+}
+form textarea{
+	width:420px;
+	height:100px;
+	resize:none;
+	margin-bottom: 14px;
+	background:#fff;
+	padding-left:5px;
+	box-sizing:border-box;
+}
+form textarea{vertical-align: top;}
+form .add_discount{
+	background: #CCCCCC;
+	border: none;
+	color: #FFFFFF;
+}
+form .issue{
+	width: 100px;
+    height: 32px;
+    background: #03A1A4;
+    border: none;
+    color: #FFFFFF;
+    border-radius: 3px;
+    margin-left: 120px;
+    margin-top: 20px;
+}
+input[type=number]+em{
+	background: url(../img/-.png);
+}
+.error{
+	color:#c81623
+}

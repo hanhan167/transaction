@@ -1,0 +1,96 @@
+body{
+	background: #eeeeee;
+}
+.clear{
+	clear:both;
+}
+.left{
+	float:left;
+}
+.right{
+	float:right;	
+}
+.content-shop{
+	width:1185px;
+	margin: 60px auto;
+}
+.tar{
+	margin: 60px 0 45px 0;
+}
+.from{
+	margin-left:20px;
+}
+.layui-breadcrumb{
+	visibility: visible;
+	font-size: 12px;
+	position: relative;	
+}
+
+.buttonCss{
+	width: 200px;
+	border-radius: 5%;
+	padding: 8px 16px;
+}
+
+.layui-breadcrumb a span{
+	padding-left: 16px;
+}
+
+.buttonCss:hover{
+	cursor:pointer;
+}
+
+.layui-breadcrumb a:nth-child(1) .buttonCss{
+	background:#03A1A4 ;
+	color: white;
+}
+
+.layui-nav{
+	background-color: white;
+	width: 112px;
+	height: 482px;
+}
+#bg{
+	text-align:center;
+}
+.hidden{display:none!important}
+#bg>span{
+	color:#fff !important;
+	background: #03A1A4 !important;
+	position: relative;
+    vertical-align: middle;
+    display:block;
+    width: 100%;
+    line-height: 45px;
+}
+.layui-nav .layui-nav-item a{
+	color: #888888;
+	padding: 0 18px;
+}
+
+.layui-nav .layui-nav-item a:hover {
+	background-color: white;
+	color: #03A1A4;
+	cursor: pointer;
+}
+
+.layui-nav-itemed{
+	background:#03A1A4 ;
+}
+
+.layui-nav-tree .layui-nav-item a{
+	height: 40px;
+	font-size: 15px;
+}
+
+.layui-nav-itemed>a,
+.layui-nav-tree .layui-nav-title a,
+.layui-nav-tree .layui-nav-title a:hover {
+	background-color: #03A1A4!important;
+	color: #fff!important
+}
+
+.Iframe{
+	border: 0;
+	/* overflow-x:hidden; */
+}

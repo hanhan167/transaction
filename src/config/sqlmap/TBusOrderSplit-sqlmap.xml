@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="busOrderSplit">
+	<resultMap class="com.hansy.transaction.model.vo.TBusOrderSplitVo" id="busOrderSplitVoResultMap">
+		<result property="splitNo" column="SPLIT_NO"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="orderType" column="ORDER_TYPE"/>
+		<result property="custNo" column="CUST_NO"/>
+		<result property="goodsNo" column="GOODS_NO"/>
+		<result property="goodsPrice" column="GOODS_PRICE"/>
+		<result property="defaultPayDt" column="DEFAULT_PAY_DT"/>		
+		<result property="wishPayDt" column="WISH_PAY_DT"/>	
+		<result property="goodsDiscount" column="goods_Discount"/>
+		<result property="orderStatus" column="ORDER_STATUS"/>
+		<result property="insertDate" column="INSERT_DATE"/>
+		<result property="updateDate" column="UPDATE_DATE"/>
+		<result property="supplyNo" column="SUPPLY_NO"/>
+		<result property="goodsCount" column="GOODS_COUNT"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="tableKey" column="TABLE_KEY"/>
+		<result property="splitStatus" column="SPLIT_STATUS"/>
+		<result property="status" column="STATUS"/>
+		<result property="orderStatusSel" column="ORDER_STATUS_SEL"/>
+		<result property="updateCustsType" column="UPDATE_CUST_TYPE"/>
+	</resultMap>
+	<sql id="allColumns">
+	table_key,
+	split_no,
+order_no,
+order_type,
+cust_no,
+goods_no,
+goods_price,
+address,
+default_pay_dt,
+wish_pay_dt,
+goods_discount,
+order_status,
+insert_date,
+update_date,
+supply_no,
+goods_count,
+status,
+update_cust_type,
+order_status_sel,
+split_status
+	</sql>
+		<!-- 批量新增 -->
+	<insert id="saveSplitOrder" parameterClass="java.util.List">
+        insert all 
+         <iterate  conjunction=" ">
+        	into t_bus_order_split(<include refid="allColumns"/>) values 
+	           		 (#orderSplitList[].tableKey#,
+	           		  #orderSplitList[].splitNo#,
+	           		  #orderSplitList[].orderNo#,  
+	             	  #orderSplitList[].orderType#,  
+	                  #orderSplitList[].custNo#,  
+	                  #orderSplitList[].goodsNo#,  
+	                  #orderSplitList[].goodsPrice#,  
+	                  #orderSplitList[].address#,  
+	                  #orderSplitList[].defaultPayDt#,  
+	                  #orderSplitList[].wishPayDt#,  
+	                  #orderSplitList[].goodsDiscount#,  
+	                  #orderSplitList[].orderStatus#,  
+	                  #orderSplitList[].insertDate#,  
+	                  #orderSplitList[].updateDate#,  
+	                  #orderSplitList[].supplyNo#,  
+	                  #orderSplitList[].goodsCount#,
+	                  #orderSplitList[].status#,
+	                  #orderSplitList[].updateCustsType#,
+	                  #orderSplitList[].orderStatusSel#,
+	                  #orderSplitList[].splitStatus#
+	                  ) 
+	      </iterate > 
+	       select * from dual 
+	</insert>
+	<select id = "getByTableKey" parameterClass="java.lang.String" resultMap="busOrderSplitVoResultMap">
+		select t.* from t_bus_order_split t where t.TABLE_KEY = #tableKey#
+	</select>
+	<!-- 修改价格及折扣 -->
+	<update id="updateOrderPrice" parameterClass="java.util.HashMap">
+		update t_bus_order_split t set t.goods_Discount=#goodsDiscount#,t.goods_Price=#goodsPrice#,t.update_date=#nowTime# where t.TABLE_KEY=#tableKey#
+	</update>
+</sqlMap>

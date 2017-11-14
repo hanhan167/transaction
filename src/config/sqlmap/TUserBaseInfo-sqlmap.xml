@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="userBaseInfo">
+	<resultMap class="com.hansy.transaction.model.vo.TUserBaseInfoVo" id="userBaseInfoVoResultMap">
+		<result property="userNo" column="user_no"/>
+		<result property="userLoginName" column="user_login_name"/>
+		<result property="userName" column="user_name"/>
+		<result property="userType" column="user_type"/>
+		<result property="userRole" column="user_role"/>
+		<result property="userPwd" column="user_pwd"/>
+		<result property="custNo" column="cust_no"/>		
+		<result property="custName" column="cust_name"/>	
+		<result property="userAlias" column="user_alias"/>
+		<result property="userPhone" column="user_phone"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="superUserNo" column="super_user_no"/>
+		<result property="insertDate" column="insert_date"/>
+		<result property="updateDate" column="update_date"/>
+	</resultMap>
+	
+	<resultMap class="com.hansy.transaction.model.bo.TUserBaseInfoBo" id="userBaseInfoVoResultMapBo">
+		<result property="userNo" column="user_no"/>
+		<result property="userLoginName" column="user_login_name"/>
+		<result property="userName" column="user_name"/>
+		<result property="userType" column="user_type"/>
+		<result property="userRole" column="user_role"/>
+		<result property="userPwd" column="user_pwd"/>
+		<result property="custNo" column="cust_no"/>		
+		<result property="custName" column="cust_name"/>	
+		<result property="userAlias" column="user_alias"/>
+		<result property="userPhone" column="user_phone"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="superUserNo" column="super_user_no"/>
+		<result property="insertDate" column="insert_date"/>
+		<result property="updateDate" column="update_date"/>
+		<result property="gradeNo" column="grade_no"/>
+		
+	</resultMap>
+ 	
+ 	
+		<select id = "getMyOrderNoBill" parameterClass="map" resultClass="com.hansy.transaction.model.vo.GoodAlls">
+select totalAmt,  orderNo,  updateDate,  orderType, custNo,cust_name custName  from (
+SELECT SUM(GOODS_MONEY) totalAmt, ORDER_NO orderNo, UPDATE_DATE updateDate, ORDER_TYPE orderType,CUST_NO custNo
+          FROM T_BUS_ORDER T
+        where T.ORDER_STATUS = '090005' 
+         AND T.SUPPLY_NO = #supplyNo# 
+           GROUP BY ORDER_NO, UPDATE_DATE, ORDER_TYPE ,CUST_NO) tt  
+            left join t_user_base_info t2
+    		 on tt.custNo=t2.cust_no
+           where 1=1
+                    <dynamic prepend="">	
+  <isNotEmpty property="orderNo" prepend="and">
+   						  <![CDATA[ 
+   						    (orderNo  like '%$query$%' or custNo like '%$query$%' or cust_name like '%$query$%')
+		                ]]>
+			</isNotEmpty>
+		<isNotEmpty property="startTime" prepend="and">
+   						  <![CDATA[ 
+		                    updateDate >= to_date(#startTime#, 'yy-mm-dd')
+		                ]]>
+			</isNotEmpty>
+			<isNotEmpty property="endTime" prepend="and">
+					    <![CDATA[
+					         updateDate < to_date(#endTime#, 'yy-mm-dd')
+					    ]]>
+			</isNotEmpty>	
+			
+			<isNotEmpty property="startAmt" prepend="and">
+					    <![CDATA[
+					         totalAmt >= #startAmt#
+					    ]]>
+			</isNotEmpty>	
+				<isNotEmpty property="endAmt" prepend="and">
+					    <![CDATA[
+					         totalAmt < #endAmt#
+					    ]]>
+			</isNotEmpty>
+		</dynamic>
+		</select>
+ 	
+ 	
+ 	<select id="selectUserbaseInfo" resultMap="userBaseInfoVoResultMap">
+ 		select * from t_user_base_info
+ 	</select>
+ 	
+ 	<!--根据用户名密码获取用户-->
+ 	<select id="getUser" resultMap="userBaseInfoVoResultMapBo">
+		select t.*,ug.grade_no  from t_user_base_info t left join t_user_grade ug on t.cust_no = ug.cust_no where t.cust_no=#custNo# 
+ 	</select>
+ 	
+ 	<select id="getOrderCount" resultClass="java.lang.Integer">
+ 		select count(1)
+		  from t_bus_order temp 
+		    left join data_cp cp on temp.goods_no = cp.cpdm 
+		  left join data_cpmls mls on cp.code = mls.code
+		  left join t_user_base_info u
+		    on temp.supply_no = u.cust_no
+		 where temp.status = '1' 
+		 	   and (temp.supply_no = #custNo# or  temp.cust_no=#custNo#)
+ 	</select>
+</sqlMap>

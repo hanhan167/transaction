@@ -1,0 +1,121 @@
+/*
+	娴ｆ粏锟介敍姝竌nghongyi
+	閺冨爼妫块敍锟�017-03-09
+	閹诲繗鍫敍姘櫌閸濅胶顓搁悶鍡欐畱css閺嶅嘲绱�
+*/
+@CHARSET "UTF-8";
+/* body{background: #e3e3e3;} */
+.content_left{width: 194px;margin-right: 30px;float: left;margin-left: 5%;border-right: 1px solid #ccc;height: 520px;}
+.content_right{float: left; min-width: 900px;}
+.content_left h1{
+	background: url(../img/line.png) no-repeat bottom;
+	font-size: 32px;
+	font-weight: bold;
+	color: #333333;
+	height: 62px;
+	line-height: 62px;
+	margin-bottom: 30px;
+}
+.content_left h1>img{
+	vertical-align:text-bottom;
+	margin-right: 18px;
+}
+.content_left h3{
+	margin-bottom: 18px;
+	padding-left: 20px;
+}
+.content_left ul{
+	margin-bottom: 30px;
+	padding-left: 20px;
+}
+.content_left li.pitch{background: url(../img/arrow_right.png) no-repeat center;}
+.content_left li.pitch>a{color: #03A1A4;}
+.content_left ul>li+li{
+	margin-top: 14px;
+}
+h4{
+	color: #03A1A4;
+	margin-bottom: 40px;
+}
+.header{
+	background: #FFF;
+	display: table;
+	margin-bottom: 20px;
+}
+.header span{
+	display: block;
+	float: left;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+}
+.moudle{display: table;}
+.moudle div{
+	background: #FFFFFF;
+	float: left;
+	height: 120px;
+	padding-top: 10px;
+	-webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.moudle div+div{border-left: 1px solid #CCCCCC;}
+.com_name{width: 210px;}
+.com_brand,
+.com_type,
+.com_univalence,
+.com_operate{
+	width: 100px;
+	text-align: center;
+}
+.com_discount{width: 120px;}
+.com_discount>span{display: block;}
+.com_discount>span+span{margin-top: 12px;}
+.com_operate>a{
+	display: block;
+	text-align: center;
+}
+.com_operate>a:nth-child(1){margin: 10px 0 20px 0;}
+.moudle{
+	background: #fff;
+	height: 150px;
+	margin-bottom: 10px;
+}
+.moudle h5{
+	border-bottom: 1px solid #CCCCCC;
+	text-align: right;
+	height: 30px;
+	line-height: 30px;
+}
+.condition{color: #ec7720;}
+.redact,.redact:hover{color: #0f82c3;}
+.com_name>dd{font-size: 12px;color: #666666;}
+
+.header{
+	background: #FFFFFF;
+	margin-bottom: 20px;
+}
+.line{
+	background: #FFFFFF;
+	margin-bottom: 10px;
+	vertical-align: middle;
+}
+.header>span,
+.line>span{
+	display: table-cell;
+	padding: 0 20px;
+	vertical-align: middle;
+}
+.sell_name{
+	width: 240px;
+}
+.sell_specification,.sell_salesVolume,.sell_sum{text-align: center;}
+.sell_specification{
+	width: 100px;
+}
+.sell_salesVolume{
+	width: 100px;
+}
+.sell_sum{
+	width: 120px;
+}

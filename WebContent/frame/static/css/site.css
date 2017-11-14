@@ -1,0 +1,109 @@
+@CHARSET "UTF-8";
+/*
+ * 刀具
+ * 个人信息
+ * 2017-02-24
+ * wanghongyi
+*/
+.site_head{
+	display: table;
+	width: 100%;
+}
+.site_head>h4{float: left;}
+button.add_site{
+	height: 26px;
+	width: 120px;
+	float: right;
+	margin: 0;
+}
+.site_module,
+.site_headline{
+	background-color: #FFFFFF;
+	height: 40px;
+	width: 725px;
+	margin-bottom: 12px;
+	padding-left: 8px;
+}
+.site_headline,
+.site_module:hover{background-color: #ccc;}
+.site_headline>input,
+.site_headline>a,
+.site_module>input,
+.site_module>a{
+	display: block;
+	float: left;
+	height: 40px;
+	line-height: 40px;
+	text-overflow: ellipsis;
+	margin: 0;
+}
+.site_headline>input[disabled="disabled"],
+.site_module>input[disabled="disabled"]{background: transparent;}
+.name{width: 75px;}
+.site{width: 300px;}
+.postcode{width: 80px;}
+.tel{width: 115px;}
+.site_module>a{
+	color: #EC7720;
+	padding-right: 8px;
+}
+.moban label{
+	float: left;
+}
+.moban div+div{margin-top: 14px;}
+.moban textarea{
+	height: 50px;
+	width: 480px;
+	resize:none;
+	float: left;
+	border: 1px solid rgb(169, 169, 169);
+}
+.moban form>div{display: table;}
+.moban form select+label{width: 35px;}
+.moban form select{
+	display: block;
+	height: 26px;
+	float: left;
+	width: 120px;
+}
+.moban>form>.affirm{margin: 25px 10px 50px 85px;}
+.moban>form>.countermand{
+	margin: 25px 0 0 0;
+	background-color: #FFFFFF;
+	color: #333333;
+	border-radius: 3px;
+	height: 40px;
+}
+.moban div>span>label{
+	width: 200px;
+    text-align: left;
+    margin-left: 14px;
+    color: red;
+}
+.moban textarea+span>label{margin-left: 75px;}
+form input{float: left;}
+.site_module>a.default_address{
+	border: 1px solid #ff3800;
+    height: 22px;
+    margin: 8px 0;
+    text-align: center;
+    line-height: 22px;
+    padding: 0 4px;
+    border-radius: 6px;
+    background: #ffd6cc;
+}
+.site_module>a.choose_address{display:none;}
+.site_module:hover>a.choose_address{
+	background: #f60;
+    color: #fff;
+    border: 1px solid #f60;
+    border-radius: 3px;
+    display:block;
+}
+.moban input{
+    background: #fff;
+    border: 1px solid rgb(169, 169, 169);
+    display: block;
+    height: 26px;
+    width: 234px;
+}

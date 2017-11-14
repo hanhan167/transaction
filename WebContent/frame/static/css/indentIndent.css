@@ -1,0 +1,351 @@
+@CHARSET "UTF-8";
+/*
+	作者：wanghongyi
+	时间：2017-03-09
+	描述：供方订单的css样式
+*/
+body {
+	background: #E3E3E3;
+}
+
+.show {
+	width: 990px;
+}
+
+.head_tab {
+	margin: 0 0 50px 0;
+}
+
+.head_tab li {
+	float: left;
+	margin-right: 14px;
+	border-right: 1px solid rgb(210, 210, 210);
+	padding-right: 14px;
+}
+
+.head_tab li>a {
+	display: inline-block;
+	width: 100px;
+	height: 30px;
+	border-radius: 3px;
+	line-height: 30px;
+	text-align: center;
+}
+
+.head_tab>div>input {
+	height: 20px;
+	width: 300px;
+	padding: 5px;
+	float: left;
+}
+
+.head_tab>div>a {
+	height: 20px;
+	width: 20px;
+	display: inline-block;
+	background: url("../img/search.png") no-repeat;
+	margin: 5px;
+	background-size: 20px;
+}
+
+.choice>a,.choice>a:hover {
+	background: #03A1A4;
+	color: #FFFFFF;
+}
+
+.header {
+	background: #FFFFFF;
+	margin-bottom: 20px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.header>span {
+	display: table-cell;
+	padding: 0 20px;
+	text-align: center;
+	color: #666;
+}
+
+.indent_name {
+	width: 300px;
+	line-height: 20px;
+}
+
+.buyerIndex_name {
+	width: 300px;
+	line-height: 20px;
+}
+
+.buyerIndex_name>p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 220px;
+}
+
+.indent_price,.indent_quantity,.indent_aggregate,.indent_type,.indent_noperation,.indent_operation
+	{
+	width: 90px;
+}
+
+.indent_operation>a {
+	color: #1190c9;
+	display: block;
+	text-align: center;
+}
+
+.indent_noperation>a {
+	color: #1190c9;
+}
+
+.message .indent_price,.message>.indent_quantity,.message>.indent_aggregate,.message>.indent_type,.message>.indent_operation
+	{
+	/* border-right: 1px solid #e3e3e3; */
+	
+}
+
+.message>.indent_aggregate {
+	color: #ec7720;
+}
+
+.moudle {
+	background: #fff;
+	margin-bottom: 20px;
+}
+
+.moudleNull {
+	background: #fff;
+	padding: 30px 0;
+	font-size: 16px;
+	text-align: center;
+}
+
+.moudle>div+div {
+	border-top: 1px solid #e5e5e5;
+}
+
+.uname {
+	padding: 0 40px 0 10px;
+}
+
+.moudle .utel {
+	background: url(../img/phone.png) no-repeat left center;
+	padding-left: 20px;
+	color: #03a1a4;
+}
+
+.sheet {
+	display: table-row-group;
+	width: 990px;
+}
+
+.sheet>div {
+	width: inherit;
+}
+
+.uindent,.udate {
+	color: #888;
+	font-size: 12px;
+	margin-left: 50px;
+}
+
+.row {
+	height: 50px;
+	line-height: 50px;
+}
+
+.line {
+	height: 40px;
+	line-height: 40px;
+}
+
+.line>span {
+	display: inline-block;
+}
+
+.message {
+	height: 79px;
+	vertical-align: middle;
+}
+
+.indent_name>p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 220px;
+}
+
+.message>div {
+	vertical-align: middle;
+	display: table-cell;
+	font-size: 16px;
+	padding: 0 20px;
+	height: inherit;
+}
+
+.message>div+div {
+	text-align: center;
+}
+
+.line,.row {
+	padding: 0 20px;
+}
+
+.remark {
+	padding: 5px 20px;
+}
+
+.remark>label {
+	float: left;
+}
+
+.remark>input {
+	margin-left: 50px;
+}
+
+.remark>div>span {
+	display: block;
+	color: #999;
+}
+
+.remark>div>input {
+	border: 1px solid #d2d2d2;
+	height: 40px;
+	width: 530px;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+
+.site>span:nth-child(1) {
+	background: url(../img/address.png) no-repeat left center;
+	padding-left: 20px;
+}
+
+.site>span+span {
+	color: rgb(143, 143, 143);
+	margin-left: 38px;
+}
+
+/***************************** 添加内容 ***************************** */
+#my_button {
+	float: left;
+	margin-top: 0.6%;
+	margin-left: 0%;
+}
+
+#my_text {
+	float: left;
+	margin-top: 1.5%;
+	margin-left: 1%;
+	width: 180px;
+	height: 25px;
+	background: #ddd;
+	border: 1px solid #960;
+}
+
+.my_link {
+	margin-right: 3%;
+	text-decoration: none;
+	color: red;
+}
+
+.my_link:hover {
+	color: blue;
+}
+
+.timeMsg {
+	text-indent: 1.5em;
+}
+
+.myLgtMsg {
+	font-size: 12px;
+	font-family: arial;
+	position: absolute;
+	background: #fff;
+	width: 300px;
+	right: 316px;
+	z-index: 1;
+	display: none;
+	box-sizing: border-box;
+	padding: 10px;
+	border: 1px solid #ebebeb;
+	box-shadow: 2px 2px 2px #ccc;
+}
+
+.sale {
+	text-align: left;
+	right: 220px;
+}
+
+.myLgtMsg li {
+	line-height: 2;
+	border-bottom: 1px solid #ebebeb;
+	list-style: circle;
+}
+
+#my_a:hover {
+	color: blue;
+}
+
+#my-menu {
+	FLOAT: LEFT;
+	WIDTH: 96PX;
+	HEIGHT: 43PX;
+	MARGIN-TOP: 3PX;
+	background: #ddd;
+	border: 1px solid rgb(0, 0, 0);
+}
+
+/*****************************  ***************************** */
+.cancel_indent {
+	border: 1px solid #03A1A4;
+	height: 40px;
+	width: 120px;
+	background: #fff;
+	border-radius: 3px;
+	color: #03a1a4;
+}
+
+.affirm_indent {
+	border: none;
+	height: 40px;
+	width: 120px;
+	background: #03A1A4;
+	border-radius: 3px;
+	color: #FFFFFF;
+}
+
+.delivery_date {
+	float: right;
+	line-height: inherit;
+}
+
+.float-bar-right {
+	float: right;
+}
+
+.moudle .text-bar-right {
+	text-align: right;
+}
+
+.moudle>.text-bar-right>button {
+	margin-left: 25px;
+}
+
+.moudle>.text-bar-right em {
+	font-size: 20px;
+	font-style: normal;
+	color: #ec7720;
+}
+
+.layui-layer-content input {
+	border: 1px solid #666;
+	margin: 5px;
+	padding: 5px;
+	width: 180px;
+}
+
+.ugenre {
+	display: none;
+}

@@ -1,0 +1,433 @@
+.layui-form{
+	background: white;
+}
+.layui-table{
+	/* width: 1057px; */
+	margin: 0;
+}
+.vertical-m{
+    vertical-align: middle;	
+}
+.clear{
+	clear:both;
+}
+.text-r{
+	text-align:right;
+}
+.text-l{
+	text-align:left;
+}
+.text-c{
+	text-align:center;
+}
+.right{
+	float:right;
+}
+.left{
+	float:left;
+}
+.bg-fff{
+	background:#fff;
+}
+/* 字体颜色 */
+.font-888{
+	color:#888;
+}
+.font-666{
+	color:#666;
+}
+.layui-table td, .layui-table th{
+	text-align: center;
+	line-height: 10px;
+	padding: 10px 5px;
+	color:#888888;
+}
+
+#thColor{
+	color:#666666 ;
+}
+
+td , th{
+	font-weight: normal;
+}
+
+.layui-table th input,
+.layui-table input[type=checkbox]{
+	position: absolute;
+	float: left;
+	left: 10px;
+}
+
+.commoditySearch{
+	border: 1px solid #dddddd;
+	width: 1049px;
+	padding:10px;
+}
+.commoditySearch>ul li{
+	float:left;
+    margin: 10px;
+}
+.commoditySearch>ul li span,.commoditySearch>ul li input{
+	vertical-align: middle;
+    height: 24px;
+    line-height: 24px;
+}
+#fiflterCommodity td>span{
+	display:inline-block;
+	width: 80px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 5px;
+    overflow: hidden;
+}
+.commoditySize{
+	text-align: left;
+    width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.commodityCheckAll{
+	position: relative;
+	left: 20px;
+}
+
+.commodityCheck{
+	width: 1050px;
+	height: 59px;
+	line-height:59px;
+	background: white;
+	position: relative;
+	padding-left:20px;
+	box-sizing:border-box;
+}
+
+.layui-btn{
+	width: 70px;
+	font-size: 14px;
+	line-height:28px;
+}
+
+.layui-btn-small{
+	height: 28px;
+}
+.checkThis{
+	border: 2px solid #03A1A4;
+	color: #03A1A4;
+	font-weight:bold ;
+	height: 20px;
+    width: 56px;
+    position: relative;
+    left: 4px;
+    line-height: 20px;
+	border-radius: 7%;
+	cursor: pointer;
+}
+
+.start{
+	color: #EC7720;
+	border: 2px solid #EC7720;
+	font-weight:bold ;
+	height: 20px;
+    width: 56px;
+    position: relative;
+    left: 4px;
+	line-height: 20px;
+	border-radius: 7%;
+	cursor: pointer;	
+}
+
+.start a{
+	color: #EC7720;
+}
+
+.commodityEdit{
+	border: 2px solid #03A1A4;
+	background:#03A1A4 ;
+	height: 22px;
+    width: 56px;
+    position: relative;
+    left: 13px;
+	line-height: 23px;
+	border-radius: 7%;
+	cursor: pointer;	
+}
+
+.commodityEdit a{
+	color: white;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.layui-form-checkbox[lay-skin=primary] i{
+	right: 4px;
+}
+
+.Checked i{
+	right: 11px;
+}
+.iconMove{
+	position: relative;
+	right: 11px;
+}
+.levelColor{
+	color:#EC7720!important ;
+	font-weight: bold;
+	
+}
+
+.checkLevel ul li{
+	float: left;
+	position: relative;
+	display: inline-block;
+	text-align: center;
+	width: 153px;
+	height: 30px;
+	color:#666666;
+}
+
+.checkLevel{
+	clear: both;
+    line-height: 2.2;
+    position: relative;
+    right: 7px;
+    border: .5px solid #e2e2e2;
+    border-bottom: none;
+}
+
+.upDown{
+	width: 1050px;
+	height: 45px;
+	overflow: hidden;
+	position: relative;
+    top: 10px;
+}
+
+.upDown1{
+	position: relative;
+	top: 10px;
+	overflow: hidden;
+	/*110px 48px*/
+	height: 48px;	
+	width: 100%;
+}
+.layui-laypage a, .layui-laypage span{
+	border: none;
+}
+
+.formSell{
+	margin-top: 10px;
+}
+
+.commoditySellCheck{
+	margin-top: 10px;
+}
+
+.allRevise{
+	overflow: hidden;
+    border: 1px solid #e2e2e2;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+
+.commodityCheckSell{
+    line-height:59px;
+}
+.Revise{
+    margin-top: 20px;
+    margin-left: 1.9%;
+    font-family: "΢���ź�";    
+}
+
+.comfirm{
+	width: 82px;
+    border-radius: 6%;
+    border: 1px solid #c2c2c2;
+    position: relative;
+    left: 10px;
+    height: 25px;
+    font-size: 12px;
+    text-align: center;
+}
+
+#comfirmSet{
+	padding:10px;
+}
+
+.release{
+	margin-top:17px;
+    width: 115px;
+}
+
+.comfirmRelease{
+	text-align: center;
+	background-color: white;
+    height: 70px;
+    position: relative;
+    top: 10px;
+}
+
+.layui-laypage{
+	margin: 13px 0;
+}
+.leftMove{
+	margin-left: 3%;
+}
+
+.Selectdown{
+	position: absolute;
+    left: 296px;
+    top: 402px;
+}
+
+.onethis{
+	width: 70px;
+}
+
+.layui-laypage>:first-child, .layui-laypage>:first-child em{
+	font-size: 13px;
+}
+
+.layui-laypage>:last-child, .layui-laypage>:last-child em{
+	font-size: 13px;
+}
+
+#demo3_1{
+	position: absolute;
+    left: 595px;
+    bottom: 121px;
+}
+
+.Screening{
+	border: 1px solid #e2e2e2;
+    background: white;
+    min-height: 40px;
+    line-height: 2.8;
+}
+
+#model{
+	height: 40px;
+    width: 292px;
+    position: relative;
+    left: 21px;
+    border-bottom: none;
+    border-top: none;
+    border-color: #e2e2e2;
+    color: #03A1A4;
+}
+
+#thisname{
+	position: relative;
+    left: 16px;
+    width: 306px;
+    height: 40px;
+    border-bottom: none;
+    border-top: none;
+    border-color: #e2e2e2;
+    color: #03A1A4;
+}
+
+#start{
+	position: relative;
+    left: 11px;
+    height: 40px;
+    width: 175px;
+    border-bottom: none;
+    border-top: none;
+    border-color: #e2e2e2;
+    color: #03A1A4;
+}
+
+.srearch{
+	height: 28px;
+    position: relative;
+    left: 64px;
+    background-color: #03A1A4;
+}
+
+.layui-laypage .layui-laypage-curr .layui-laypage-em{
+	background-color: #03A1A4;
+}
+
+.layui-table tr{
+	height:38px
+}
+
+#userLevel{
+	width: 80px;
+    height: 25px;
+    border-radius: 6%;
+    border: 1px solid #c2c2c2;
+    position: relative;
+    top: 1px;
+    left: 5px;
+}
+.right-top {
+    height: auto;
+    margin: 0 auto;
+    width: 100%;
+    color: #666666;
+    font-size: 14px;
+}
+.right-top .items {
+   	line-height: 39px;
+   	border-bottom: 1px solid #d8d8d8;
+}
+.right-top .items .items-tit {
+    text-align: center;
+       padding-left: 10px;
+}
+.fl {
+    float: left;
+}	
+.on-red {
+   color: #b1191a;
+}
+.right-top .items span {
+    display: inline-block;
+    padding: 0 10px;
+}
+.right-top .items span:hover {
+    color: #b1191a;
+    cursor: pointer;
+}	
+.items>label{
+	width: 66px;
+    text-align: center;
+    display: inline-block;
+    padding-left: 10px;
+}
+.items>input{
+	padding:3px;
+}
+.items>a{
+	height: 20px;
+    width: 20px;
+    display: inline-block;
+    background: url(../img/search.png) no-repeat;
+    margin: 5px;
+    background-size: 20px;
+    vertical-align: middle;
+}
+.shop_mode{
+	float: left;
+	width: 180px;
+	height: 40px;
+	padding: 5px;
+	text-overflow: ellipsis;
+	border: 1px solid rgba(0, 0, 0, 0.14);
+}
+#shop_select{
+	background: #fff;
+}
+.specification{
+	clear:both;
+	padding-left: 5px;
+	font-weight: bold;
+	height: 30px;
+	line-height: 30px;
+}

@@ -1,0 +1,239 @@
+@CHARSET "UTF-8";
+/*
+	作者：wanghongyi
+	时间：2017-03-13
+	描述：买方购物车的css样式
+ */
+ .vertical-m{
+ 	vertical-align:middle;
+ }
+ .text-flow{
+ 	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+ }
+ span,div{
+ 	-webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+ }
+.head_tab{
+	display: table;
+	margin: 50px 0;
+}
+.head_tab>li{
+    border-right: 1px solid rgb(210,210,210);
+    float: left;
+}
+.head_tab>li>a{
+	display: inline-block;
+	width: 80px;
+	height: 30px;
+	border-radius: 3px;
+	line-height: 30px;
+	text-align: center;
+}
+.choice>a{
+	background: #03A1A4;
+	color: #FFFFFF;
+}
+
+.header,.sheet,.row{width: 990px;}
+.header{
+	background: #FFFFFF;
+	height: 30px;
+	line-height: 30px;
+	padding-left: 24px;
+}
+.shop-info input[type="checkbox"],
+.header input{
+	margin-right: 10px;
+}
+.header>span,
+.header>label{
+	display: table-cell;
+	height: inherit;
+	line-height: inherit;
+	text-align: center;
+}
+.centre{
+	padding-top:50px;
+}
+.shop-info{
+	height: 40px;
+	line-height: 40px;
+	padding-left: 24px;
+}
+.shop-info .utel{
+	background: url(../img/phone.png) no-repeat left center;
+    padding-left: 20px;
+    color: #03a1a4;	
+}
+.message{
+	height: 100px;
+}
+.message>div{
+}
+.buy_name{
+	width: 335px;
+}
+.buy_univalence{
+	width: 100px;
+}
+.buy_discount{
+	width: 100px;
+}
+.buy_amount{
+	width: 140px;
+}
+.buy_aggregate{
+	width: 120px;
+}
+.buy_operate{
+	width: 110px;
+}
+.message .buy_aggregate{
+	color: #ec7720;
+}
+/* .message .buy_operate{
+	border: solid #e3e3e3;
+	border-width:0 1px; 
+} */
+.message input[type="checkbox"]{
+	float: left;
+	margin-right: 38px;
+	height: 100px;
+}
+.buy_delete{
+	width: 100px;
+}
+.moudle{
+	background:#fff;
+	margin-bottom: 20px;
+}
+.message>div{
+	display: table-cell;
+	font-size: 16px;
+	height: inherit;
+	text-align: center;
+	vertical-align: middle;
+}
+.moudle>div+div{
+	border-top: 1px solid #e3e3e3; 
+	padding-left: 24px; 
+}
+.row{
+	background: #fff;
+	margin-bottom: 10px;
+	height: 60px;
+	line-height: 60px;
+	padding-left: 24px;
+}
+.date,.remark{
+	height: 60px;
+	line-height: 60px;
+}
+.uname,.usite{
+	color: #888888;
+	font-size: 14px;
+}
+.uname{
+	margin-left: 33px;
+}
+.cancel_indent{
+	background: #03a1a4;
+	border-radius:3px;
+	color:#fff;
+	height: 40px;
+	width: 120px;
+	margin: 10px 15px;
+}
+.text-bar-right{
+	float: right;
+}
+.affirm_indent{
+	background: #03a1a4;
+	border-radius:3px;
+	color:#fff;
+	height: 40px;
+	width: 120px;
+	margin-right: 15px;
+}
+.cost em{
+	font-style: normal;
+	font-size: 20px;
+	color: #ec7720;
+}
+.date input[disabled="disabled"]{
+	background: #fff;
+	border: 1px solid #ccc;
+	height: 38px;
+	width: 248px;
+}
+.amout_num{
+	width: 100px;
+	height: 26px;
+	line-height: 26px;
+	border: 1px solid #e3e3e3;
+	margin: 0 auto;
+}
+.amout_num .num{
+	width:40px;
+	text-align:center;
+}
+.amout_subtrac,
+.amout_add{
+	height:inherit;
+	width: 26px;
+}
+.amout_subtrac{
+	float:left;
+	background: url("../img/subtract.png") no-repeat center;
+	border-right: 1px solid #e3e3e3;
+}
+.amout_add{
+	float:right;
+	background: url("../img/add.png") no-repeat center;
+	border-left: 1px solid #e3e3e3;
+}
+.buy_amount span{
+	display: inline-block;
+	height: inherit;
+}
+.input-remark,.wishDate{
+	border:1px solid #d2d2d2;
+    padding: 5px;
+}
+input[type=radio]{
+	background: url("../img/choose.png")  no-repeat center;
+	background-size:100%;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 0;
+    outline: 0!important;
+    appearance: none;
+    -moz-appearance:none;
+    -webkit-appearance: none;
+    cursor:pointer;
+}
+input.pitch[type=radio]{
+	background: url("../img/choose_clik.png") no-repeat center;
+	background-size:100%;
+}
+.all_check{width:56px;}
+.fixed-bottom {
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    z-index: 999;
+    margin: 0;
+}
+.clearing a{padding: 0 10px;}
+#multiDelete{color: #ec7720;}
+.button_box{
+	float: right;
+}
+#addressTip{
+	margin-bottom: 50px;
+}

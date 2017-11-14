@@ -1,0 +1,212 @@
+/*  闁告帪鎷烽崣锟�
+ * 闁稿浚鍓欓崣锟�
+ * 2017-02-21
+ * wanghongyi
+ */
+/* 闁告帗绻傞～鎰板礌閿燂拷*/
+body,h1,h2,h3,h4,h5,h6,hr,p,
+dl,dt,dd,ul,ol,li,
+pre,
+form,fieldset,legend,button,input,textarea,div,
+th,td,img{
+	border: medium none;
+	margin: 0;
+	padding: 0;
+}
+body,button,input,select,textarea,p,li,th,td{font: 14px "閻庣懓顑勭紞锟�";}
+h1,h2,h3,h4,h5,h6{font-size: 100%;}
+ul,ol{list-style: none;}
+a,a:hover{text-decoration: none; color: #333;cursor:pointer;}
+img{border: none;}
+.sheet{
+	margin-top:25px;
+}
+table{border-collapse: collapse;border-spacing: 0;}
+pre{
+	white-space: pre-wrap;       
+	white-space: -moz-pre-wrap;  
+	white-space: -pre-wrap;      
+	white-space: -o-pre-wrap;    
+	word-wrap: break-word;       
+}
+.vertical-m{
+    vertical-align: middle;	
+}
+.clear{
+	clear:both;
+}
+.text-r{
+	text-align:right;
+}
+.text-l{
+	text-align:left;
+}
+.text-c{
+	text-align:center;
+}
+.right{
+	float:right;
+}
+.left{
+	float:left;
+}
+/* 鐎涙ぞ缍嬫径褍鐨� */
+.fs12{
+	font-size:12px;
+}
+.fs14{
+	font-size:14px;
+}
+.fs18{
+	font-size:18px;
+}
+.fs20{
+	font-size:20px;
+}
+/* 閼冲本娅欓懝锟� */
+.bg-fff{
+	background:#fff;
+}
+/* 鐎涙ぞ缍嬫０婊嗗 */
+.font-888{
+	color:#888;
+}
+.font-666{
+	color:#666;
+}
+/* 闁告帗绻傞～鎰板礌閺夊埖d */
+
+.head{/*濡炪倕鐖奸崕锟�*/
+	background:linear-gradient(#363636, #1a1a1a);;
+	height: 48px;
+	width: 100%;
+	min-width: 990px;
+}
+.content{	
+	width: 990px;
+	margin: 0 auto;
+}
+ul#loginOut{float: right;}
+ul#loginOut>li{float: left;position:relative;}
+ul#loginOut>li>ul{
+	display: none;
+	position: absolute;
+}
+ul#loginOut>li>ul>li{
+	height: 40px;
+	width: 100px;
+	background: #fff;
+	line-height: 40px;
+	text-align: center;
+	border: solid #e3e3e3;
+	border-width: 0 1px 1px 1px;
+}
+ul#loginOut>li>ul>li:hover{
+	cursor:pointer;
+	background:#c81623;
+	color:#fff;
+}
+ul#loginOut>li:hover>ul{
+	display: block;
+}
+ul#loginOut>li a{
+	color: #fff;
+	width: 100px;
+    height: 48px;
+    line-height: 48px;
+    display: block;
+    text-align: center;
+}
+ul#loginOut>li:nth-of-type(1)>a{background: url(../img/nav_huanli.png) no-repeat left center;}
+ul#loginOut>li:nth-of-type(2)>a{background: url(../img/nav_list.png) no-repeat left center;}
+ul#loginOut>li:nth-of-type(3)>a{background: url(../img/nav_gouwu.png) no-repeat left center;}
+.centre{/*濞戞搩鍙冨Λ锟�*/
+    padding-top: 60px;
+	background-color: rgb(230,230,230);
+	min-width: 990px;
+	padding-bottom: 50px;
+}
+.centre .content{display: table;min-height:400px;}
+.base{/*閹煎瓨娲熼崕锟�*/
+	border-top: 1px solid rgb(220,220,220);
+    height: 100px;
+    width: 100%;
+    min-width: 990px;
+    background: #fff;
+}
+.base .content{
+	text-align: center;
+	margin-top: 20px;
+}
+.base .content div{height: 26px;}
+.preview{margin: 0 0 14px 0;}
+.fillet{
+	background: #03A1A4;
+	border-radius: 4px;
+	float:left;
+	height: 40px;
+	width: 234px;
+	color: #FFFFFF;
+}
+#loginOut .personage_overview{
+	background-color: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    display: none;
+    height: 166px;
+    width: 272px;
+    position: absolute;
+    text-align: left;
+    line-height: 16px;
+    right: 0;
+}
+#loginOut li:HOVER .personage_overview{display: block;}
+#first{
+	border-bottom: 1px solid #e5e5e5;
+	height: 85px;
+	padding: 0 24px;
+}
+#first>.portrait{
+	float: left;
+	height: 60px;
+	width: 60px;
+	margin: 12px 10px 0 0;
+}
+#first>.portrait>img{
+	height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+#first>img{
+	float: left;
+        margin: 10px 0 5px 0;
+}
+#first>h3{
+	display:block;
+	margin: 20px 0 0 0;
+	font-weight: normal;
+}
+#first>.exit{
+	float: right;
+    color: #333;
+	10px 0 5px 10px;
+}
+#second{
+	border-bottom: 1px solid #E5E5E5;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 24px;
+}
+#thirdly{
+	line-height: 38px;
+	padding: 0 24px;
+}
+#second>span:nth-of-type(2),
+#thirdly>span:nth-of-type(2){
+	float: right;
+    line-height: 40px;
+    color: #ec7720;
+}
+#demo{
+	text-align: center;
+	margin: 30px;
+}
