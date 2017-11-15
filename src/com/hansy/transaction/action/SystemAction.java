@@ -68,6 +68,7 @@ public class SystemAction {
 		url = url.replace("toInformation", "toshoppinglogin");
 		return new ModelAndView("redirect:"+url+"?custNo="+custNo);
 	}
+	
 	@RequestMapping(value = "/loginShoopingCarback", method=RequestMethod.GET)
 	public ModelAndView loginShoopingCarback(String custNo,HttpSession session){
 		//根据custNo获取用户
@@ -84,6 +85,29 @@ public class SystemAction {
 		
 		return view;
 	}
+	
+	/**
+	 * app购物车
+	 * @param custNo
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/loginShoopingCarbackApp", method=RequestMethod.GET)
+	public ModelAndView loginShoopingCarbackApp(String custNo,HttpSession session){
+		//根据custNo获取用户
+		BusinessMap<TUserBaseInfoBo> bMap=baseInfoService.getUser(custNo);
+		if (!bMap.getIsSucc()) {
+			return new ModelAndView("error");
+		}
+		session.setAttribute("custNo", custNo);
+		if(StringUtil.isEmpty(session.getAttribute("custNo")+"")){
+			session.setAttribute("custNo", custNo);
+		}
+		String turnAddress="buyerIndent_shoppingCarApp";
+		ModelAndView view = new ModelAndView(turnAddress);
+		
+		return view;
+	} 
 	
 	
 	
