@@ -202,6 +202,9 @@ public class BusShoppCartAction {
 	@RequestMapping("/selectIsExist")
 	@ResponseBody
 	public BaseReslt<Object> selectIsExist(HttpSession session,String listGoods,String listbrandNames,String listSupplyNos) {
+		System.out.println("*******************************************************listGoods:"+listGoods);
+		System.out.println("listbrandNames:"+listbrandNames);
+		System.out.println("listSupplyNos:"+listSupplyNos);
 		BaseReslt<Object> bReslt = new BaseReslt<>();
 		//查询购物车里面的sp的产品编号
 		String custNo = (String) session.getAttribute("custNo");

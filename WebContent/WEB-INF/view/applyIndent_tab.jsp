@@ -724,14 +724,9 @@ function display(data,orderStatus,query){
 					layer.msg('操作成功', {
 						icon : 1,
 						time : 2000
-					}, function() {
-						layer.msg('操作成功', {
-							icon : 1,
-							time : 2000
-						}, function() {
+					},  function() {
 							location.reload();
 						});
-					});
 				} else {
 					layer.open({
 						title : '错误信息',

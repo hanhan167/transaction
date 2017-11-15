@@ -215,7 +215,7 @@ WHERE t.goods_no IN
       and t.status='1'
     ))temp
 	join t_user_base_info b on temp.cust_no=b.cust_no 
-	and b.cust_no=#custNo#
+	<!-- and b.cust_no=#custNo# -->
 	</select>
 	
 	<insert id="insert" parameterClass="com.hansy.transaction.model.vo.TBusShoppCartVo">

@@ -151,6 +151,7 @@ where 1=1
      				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' )
      				 	   ]]>
      				 </isNotEmpty>
+     			order by temp.ORDER_NO desc
 	</select>
 	<select id="selectSupplyOrders1" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.Order">
 		  SELECT TEMP.ORDER_STATUS ORDERSTATUS,
@@ -504,6 +505,7 @@ where 1=1
      				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' )
      				 	   ]]>
      				 </isNotEmpty>
+     			 order by temp.ORDER_NO desc
 	</select>
 	
 	

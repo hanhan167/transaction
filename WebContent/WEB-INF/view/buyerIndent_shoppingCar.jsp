@@ -196,10 +196,12 @@ $(function(){
 					$(".content>.clearing").show();
 					var html=baidu.template('bd_t1',data.map);
 		            $(".sheet").html(html);
+		            if(data.map.userAddress != null){
 		            $("#addressName").text(data.map.userAddress.userName);
 		            $("#addressPhone").text(data.map.userAddress.userPhone);
 		            $("#address").text(data.map.userAddress.userAddress);	            
 		            $("#addressNo").val(data.map.userAddress.tableKey);	 
+		            }
 		         	// 日历插件
 		        	laydate.skin('molv');// 切换皮肤，请查看skins下面皮肤库
 		        	clearHeight = $('#sheet').height();

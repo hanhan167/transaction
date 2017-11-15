@@ -330,16 +330,16 @@ $(function(){
 			}
 		});
 	});
-	//手机号验证
+	/* //手机号验证
 	$(document).on("blur","[name=phone]",function(){
 		var phone = $(this).val();
 		if(!(/^1[34578]\d{9}$/.test(phone))){ 
 	        $("#billReceivePhone").text('手机号码有误');
 	    }else{
 	    	$("#billReceivePhone").text('');
-	    	siteUpdate_verification();
+	    	//siteUpdate_verification();
 	    }
-	});
+	}); */
 	//确认订单
 	$("#createOrder").click(function(){
 		var orderArray=new Array();
@@ -466,7 +466,7 @@ function GetQueryString(name){
 
 //新增地址
 var siteTemplate = '<div class="moban">';
-siteTemplate = siteTemplate + '<form method="post" id="site_add">';
+siteTemplate = siteTemplate + '<form method="post" id="site_add" onsubmit="return false">';
 siteTemplate = siteTemplate + '<div id="">';
 siteTemplate = siteTemplate + '<label>省:</label>';
 siteTemplate = siteTemplate + '<select name="input_province" id="input_province" class="form-control">';
@@ -560,30 +560,37 @@ function siteAdd_verification(){
 	var address=$("[name='dizhi']").val();
 	var addresseeName=$("[name='consignee']").val();
 	var telephone=$("[name='phone']").val();
-	$.ajax({
-		url:"busShoppCart/addSite.do",
-		data:{
-			"province":province,
-			"city":city,
-			"area":area,
-			"postCode":postCode,
-			"address":address,
-			"addresseeName":addresseeName,
-			"telephone":telephone
-		},
-		type:"post",
-		success : function(data){         		
-			if(data.success){
-				//location.reload();
-				location.href="goods/toConfirmOrder.do?vue=true";
-			}else{
-				layer.open({
-					title: '错误信息'
-					,content:data.msg
-				}); 
+	console.log(2)
+	
+	if(!(/^1[34578]\d{9}$/.test(telephone))){ 
+        $("#billReceivePhone").text('手机号码有误');
+    }else{
+    	$("#billReceivePhone").text('');
+		$.ajax({
+			url:"busShoppCart/addSite.do",
+			data:{
+				"province":province,
+				"city":city,
+				"area":area,
+				"postCode":postCode,
+				"address":address,
+				"addresseeName":addresseeName,
+				"telephone":telephone
+			},
+			type:"post",
+			success : function(data){         		
+				if(data.success){
+					//location.reload();
+					location.href="goods/toConfirmOrder.do?vue=true";
+				}else{
+					layer.open({
+						title: '错误信息'
+						,content:data.msg
+					}); 
+				}
 			}
-		}
-	});
+		}); 
+    }
 }
 //修改
 function siteUpdate(mou){
