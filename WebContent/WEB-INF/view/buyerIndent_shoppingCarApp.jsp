@@ -4,18 +4,18 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<title>购物车</title>
 <base href="<%=basePath %>"/>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>购物车</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="frame/static/css/shopOrder.css">
+
 <!-- <link rel="stylesheet" type="text/css" href="frame/static/css/shopping_cart.css"/>  -->
-<!-- <link rel="stylesheet" type="text/css" href="frame/static/css/jcDate.css"/> --> 
-<style type="text/css">
+<link rel="stylesheet" type="text/css" href="frame/static/css/jcDate.css"/> 
+<!-- <style type="text/css">
 .shopping_checked{
 	background-color: #eee;
 }
@@ -23,15 +23,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .content>#sheet,
 .content>.clearing{
 	display: none;
-}
-</style>
+} 
+</style>-->
 </head>
 <body>
+
 <div class="header">
     <div class="header-box">
-        <div class="header-img fl">全选</div>
+        <div class="header-img fl" id="allChoose">全选</div>
         <div class="text-tit fl">我的订单</div>
-        <div class="header-img fr" style="text-align: right">
+        <div class="header-img fr" style="text-align: right" id="multiDelete">
             <img class="r-img" src="frame/static/picture/clear.png">
         </div>
     </div>
@@ -43,28 +44,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <div class="lists-box">
         <ul>
-            <li>
-                <div class="check-box fl">
-                    <img src="frame/static/picture/check.png">
-                </div>
-                <div class="li-img fl">
-                    <img src="frame/static/picture/jdc.png">
-                </div>
-                <div class="frame/static/picture/li-texts fl">
-                    <h5>游标卡尺万能角度尺</h5>
-                    <p class="num-text">10123098 29-09</p>
-                    <div class="price-frames">
-                        <div class="fl price-text">156.00元</div>
-                        <div class="fr num-box">
-                            <div class="com-nums fl">-</div>
-                            <div class="com-nums fl" style="font-size: 12px">12</div>
-                            <div class="com-nums fl">+</div>
-                        </div>
-                        <div class="clear-box"></div>
-                    </div>
-                </div>
-                <div class="clear-box"></div>
-            </li>
             <li>
                 <div class="check-box fl">
                     <img src="frame/static/picture/check.png">
@@ -87,28 +66,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
                 <div class="clear-box"></div>
             </li>
-            <li>
-                <div class="check-box fl">
-                    <img src="frame/static/picture/check.png">
-                </div>
-                <div class="li-img fl">
-                    <img src="frame/static/picture/jdc.png">
-                </div>
-                <div class="frame/static/picture/li-texts fl">
-                    <h5>游标卡尺万能角度尺</h5>
-                    <p class="num-text">10123098 29-09</p>
-                    <div class="price-frames">
-                        <div class="fl price-text">156.00元</div>
-                        <div class="fr num-box">
-                            <div class="com-nums fl">-</div>
-                            <div class="com-nums fl" style="font-size: 12px">12</div>
-                            <div class="com-nums fl">+</div>
-                        </div>
-                        <div class="clear-box"></div>
-                    </div>
-                </div>
-                <div class="clear-box"></div>
-            </li>
         </ul>
     </div>
 </div>
@@ -116,10 +73,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="price-box fl">
         <span>合计:</span>
         <span>&yen;</span>
-        <span>624.00</span>
+        <span class="cost">0</span>
     </div>
     <div class="footer-btn fr">生成订单</div>
 </div>
+</body>
+</html>
 
 	<%-- <!--顶部-->
 	<div class="head">
@@ -168,7 +127,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div> -->
 </html>
 <script type="text/javascript" src="frame/static/js/baiduTemplate.js"></script>
+<script type="text/javascript" src="frame/static/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="frame/layui/layui.js"></script>
 <script type="text/javascript" src="frame/static/js/jQuery-jcDate.js"></script>
+<script type="text/javascript" src="frame/static/layer/mobile/layer.js"></script>
 <script id="bd_t1" type="text/template">
 <*
 var supplyName = [];
@@ -198,58 +160,62 @@ var supplyName = [];
 *>
 	<*for(var key in tmp){*>
 		<*var list = shoppCart[tmpguan[key][1]]*>
-		
 		<div class="moudle" id="<*=key*>">
-			<div class="shop-info">
-				<label><input type="checkbox" class="vertical-m"><span class="margin-right-40 vertical-m"><*=list.supplyName*></span><span class="vertical-m utel"><*=list.supplyPhone*></span></label>
-			</div>
+    			<div class="tit-box">
+      				  <div class="tit-text fl"><*=list.supplyName*></div>
+       				<div class="phone fr"><*=list.supplyPhone*></div>
+    			</div>
+			<div class="lists-box">
+        <ul>
 <*for(var num = 1; num < tmpguan[key].length; num++){*>
 <*var listDetail = shoppCart[tmpguan[key][num]]*>
 			<!--商品信息-->
-			<div class="message" id="<*=listDetail.tableKey*>">
-				<input type="checkbox" class="singleCheck">
+			 <li id="<*=listDetail.tableKey*>">
+                <div class="check-box fl">
+                   <input type="checkbox" class="singleCheck">
+                </div>
 				<input type="hidden" value="<*=listDetail.tableKey*>">
 				<input type="hidden" value="<*=listDetail.minkc*>">
-				<div class="buy_name">
-					<p style="width:310px;" class="text-l margin-bottom-10 text-flow" title="<*=listDetail.goodsName*>"><*=listDetail.goodsName*></p>
-					<p style="width:310px;" class="text-l text-flow" title="<*=listDetail.par*>"><*=listDetail.par*></p>
-				</div>
-				<div class="buy_discount">
-					<*if(listDetail.goodsDiscount==10){*>
-						无折扣
-					<*}else{*>
-						<*=listDetail.goodsDiscount*>
-					<*}*>
-				</div>
+				<input type="hidden" value="<*=listDetail.goodsPrice*>">
+				<input type="hidden" value="<*=listDetail.goodsDiscount*>">
+                <div class="li-img fl">
+    				<img src="http://new.cp2013.com.cn/File/B/<*=(listDetail.code).substring((listDetail.code).indexOf("-"),(listDetail.code).length)+".jpg"*>">
+                </div>
 
-				<div class="buy_univalence"><*=listDetail.goodsPrice.toFixed(2)*></div>
-				<div class="buy_amount">
-					<div class="amout_num">
-						<button class="amout_subtrac"></button>
-						<input class="num" value="<*=listDetail.buyNum*>" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
-						<button class="amout_add"></button>
+    
+                <div class="li-texts fl">
+                    <h5><*=listDetail.goodsName*></h5>
+                    <p class="num-text"><*=listDetail.par*></p>
+                    <div class="price-frames">
+                        <div class="fl price-text buy_aggregate"><*=Math.round(listDetail.buyNum*listDetail.goodsPrice*listDetail.goodsDiscount/10).toFixed(2)*></div>&nbsp;元
+                        <div class="fr num-box buy_amount">
+                            <div class="com-nums fl amout_subtrac">-</div>
+							<input type="text" class="com-nums fl num" style="font-size: 12px" value="<*=listDetail.buyNum*>">
+                            <div class="com-nums fl amout_add">+</div>
+                        </div>
+
+
+
+					<!--
+					<div class="buy_amount">
+						<div class="amout_num">
+							<button class="amout_subtrac"></button>
+							<input class="num" value="<*=listDetail.buyNum*>" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+							<button class="amout_add"></button>
+						</div>
 					</div>
-				</div>
-				<div class="buy_aggregate"><*=(Math.round(listDetail.buyNum*listDetail.goodsPrice*listDetail.goodsDiscount)/10).toFixed(2)*></div>
-				<div class="buy_operate">
-					<label"><span class="vertical-m fs14 font-666 buytype" buytype="<*=listDetail.buyType*>"><*=listDetail.buyType==09001? "试刀" : "购买"*></span></label>
-				</div>
-				<div class="buy_delete"><a class="fs14" style='color:#ec7720'>删除</a></div>
-			</div>
-<*}*>
-	<!--	<div class="date">
-				<label>默认收货时间：<*=list.defaultPayDt*></label>
-				<div class="text-bar-right margin-right-10">
-					<label class="delivery_date">期望到货时间：</label>
-					<input class="wishDate" readonly onclick="laydate()"/>
-				</div>
-				<div class="clear"></div>
-			</div>
-			<div class="remark">
-				<label>备注：</label>
-				<input type="text" class="input-remark"/>
-			</div>
 -->
+
+
+                        <div class="clear-box"></div>
+                    </div>
+                </div>
+                <div class="clear-box"></div>
+            </li> 
+<*}*>
+</ul>
+    </div>
+	
 		</div>
 	<*}*>
 </script>
@@ -293,7 +259,7 @@ $(function(){
 					$(".content>#sheet").show();
 					$(".content>.clearing").show();
 					var html=baidu.template('bd_t1',data.map);
-		            $(".sheet").html(html);
+		            $(".mains").html(html);
 		            if(data.map.userAddress != null){
 		            $("#addressName").text(data.map.userAddress.userName);
 		            $("#addressPhone").text(data.map.userAddress.userPhone);
@@ -389,22 +355,25 @@ $(function(){
 			$dom.val('');
 			shu = 0;
 		}
-		var univalence = $dom.parent().parent().prev().html();//获取到单价		
-		var discount =  $dom.parent().parent().prev().prev().html();//获取到折扣
+		var univalence = $dom.parent().parent().parent().parent().children("input[type=hidden]:eq(2)").val();;//获取到单价
+		var discount = $dom.parent().parent().parent().parent().children("input[type=hidden]:eq(3)").val();;//获取到折扣
 		if(discount == "无折扣"){
-			discount = 10
+			discount = 10;
 		}
 		if(shu>=0){
 			var result=Math.round(univalence*shu*discount)/10;
-			$dom.parent().parent().next().text(result.toFixed(2));
+			$dom.parent().prev().text(result.toFixed(2));
 		}
 		total();
 	}
-	$(".sheet").on("blur",".num",function(){
-		var tablekey = $(this).parent().parent().parent().children("input[type=hidden]:eq(0)").val();
+	
+	$(".mains").on("blur",".num",function(){
+		var univalence = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(2)").val();;//获取到单价
+		var shu = $(this).val();//获取现有的数量
+		var discount = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(3)").val();;//获取到折扣
+		var tablekey = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(0)").val();
 		var num = $(this).parent().children(".num").val();
-		var minkc = $(this).parent().parent().parent().children("input[type=hidden]:eq(1)").val();
-		
+		var minkc = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(1)").val();
 		if(num < minkc){
 			$(this).val(minkc);
 			num = minkc;
@@ -428,12 +397,12 @@ $(function(){
 		}
 	});
 	/* 商品数量减少 */
-	$(".sheet").on("click",".amout_subtrac",function(){
-		var univalence = $(this).parent().parent().prev().html();//获取到单价
+	$(".mains").on("click",".amout_subtrac",function(){
+		var univalence = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(2)").val();;//获取到单价
 		var shu = $(this).next().val();//获取现有的数量
-		var discount = $(this).parent().parent().prev().prev().html();//获取到折扣
-		var tablekey = $(this).parent().parent().parent().children("input[type=hidden]:eq(0)").val();
-		var minkc = $(this).parent().parent().parent().children("input[type=hidden]:eq(1)").val();
+		var discount = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(3)").val();;//获取到折扣
+		var tablekey = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(0)").val();
+		var minkc = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(1)").val();
 		if(discount == "无折扣"){
 			discount = 10;
 		}
@@ -442,8 +411,10 @@ $(function(){
 			$(this).next().val(minkc);
 			
 			var result=Math.round(univalence*minkc*discount)/10;
-			$(this).parent().parent().next().text(result.toFixed(2));
-		
+			
+			//$(this).parent().parent().next().text(result.toFixed(2));
+			$(this).parent().prev().text(result.toFixed(2));
+			
 			var num = $(this).parent().children(".num").val();
 			numupdate(tablekey,num,minkc);
 			total();
@@ -452,20 +423,23 @@ $(function(){
 			var upshu = shu-minkc;
 			$(this).next().val(upshu);
 			var result=Math.round(univalence*upshu*discount)/10;
-			$(this).parent().parent().next().text(result.toFixed(2));
+			//$(this).parent().parent().next().text(result.toFixed(2));
 		
 			var num = $(this).parent().children(".num").val();
+			
+			$(this).parent().prev().text(result.toFixed(2));
 			numupdate(tablekey,num,minkc);
 			total();
 		}
 	});
+	
 	/* 商品数量添加 */
-	$(".sheet").on("click",".amout_add",function(){
-		var tablekey = $(this).parent().parent().parent().children("input[type=hidden]:eq(0)").val();
-		var minkc = $(this).parent().parent().parent().children("input[type=hidden]:eq(1)").val();
-		var univalence = $(this).parent().parent().prev().html();//获取到单价
+	$(".mains").on("click",".amout_add",function(){
+		var tablekey = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(0)").val();
+		var minkc = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(1)").val();
+		var univalence = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(2)").val();;//获取到单价
 		var shu = $(this).prev().val();//获取现有的数量
-		var discount = $(this).parent().parent().prev().prev().html();//获取到折扣
+		var discount = $(this).parent().parent().parent().parent().children("input[type=hidden]:eq(3)").val();;//获取到折扣
 		if(discount == "无折扣"){
 			discount = 10;
 		}
@@ -479,17 +453,22 @@ $(function(){
 		}
 		var result=Math.round(univalence*upshu*discount)/10;
 		
-		
-		$(this).parent().parent().next().text(result.toFixed(2));
+		$(this).parent().prev().text(result.toFixed(2));
 		var num = $(this).parent().children(".num").val();
 		
-		numupdate(tablekey,num,minkc);
+		numupdate(tablekey,num,minkc);		
 		total();
 	});
 	/* 点击顶部全选 */
-	$(".header input[type=checkbox]").click(function(){command(this);});
-	/* 点击底部全选 */
-	$(".clearing input[type=checkbox]").click(function(){command(this);});
+	 $("#allChoose").click(function() {	
+		if($('.singleCheck').prop('checked'))
+		{
+			$('.singleCheck').prop('checked',false);
+		}else{
+			$('.singleCheck').prop('checked',true);
+		}	
+	}); 
+	//$(".header input[type=checkbox]").click(function(){command(this);});
 	//点供货商选中商品
 	$(".sheet").on("click",".shop-info input[type=checkbox]",function(){
 		var choose = $(".moudle").children(".message").length;//选购的总数
@@ -502,41 +481,44 @@ $(function(){
 		}
 	});
 	/*点击全选选中取消全选*/
-	function command(place){
+	/* function command(place){
 		if($(place).is(':checked')){
 			$("input[type='checkbox']").prop("checked", true);
 		}else{
 			$("input[type='checkbox']").prop("checked", false);
 		}
-	}
+	} */
 	/* 计算商品数量和价格 */ 
 	$("input[type=checkbox]").click(function(){
 		total();
 	});
-	$(".sheet").on("click","input[type=checkbox]",function(){
+	$(".mains").on("click","input[type=checkbox]",function(){
+		total();
+	});
+	//全选计算总价格
+	$("#allChoose").click(function() {	
 		total();
 	});
 	function total(){
 		var aggregate = 0;
 		var amount = 0; //累计计算总数量
-		$(".sheet").find(".buy_amount").each(function(i){
+		$(".mains").find(".buy_amount").each(function(i){
 			var obj = $(this);
-			if(obj.siblings(".singleCheck").is(":checked")){
+			if(obj.parent().parent().siblings(".check-box").children(".singleCheck").is(":checked")){
 				amount = eval(amount+"+"+obj.find(".num").val());
 				aggregate = (eval(aggregate +"+"+ obj.siblings(".buy_aggregate").text())).toFixed(2);
 			}
 		});
 		if(amount==" "){
-			$(".cost em:eq(0)").html("0");
-			$(".cost em:eq(1)").html("￥0");
+			$(".cost").html("0");
 		}else{ 
-			$(".cost em:eq(0)").html(amount);
-			$(".cost em:eq(1)").html("￥"+aggregate);
+			$(".cost").html(aggregate);
 		} 
 	}
 	
 	//批量删除
 	$("#multiDelete").click(function(){
+		debugger;
 		layer.open({
 			 title: '提示信息'
 			 ,content:"是否删除已选中的商品?"
@@ -546,30 +528,26 @@ $(function(){
 				 var tableKey=new Array();
 					var flag=0;
 					//循环遍历，获取选中的checkbox，并把tableKey封装成数组
-					$(".moudle .message").find(".singleCheck:checked").each(function(){
-						tableKey.push($(this).next().val());
+					$(".moudle .check-box").children(".singleCheck:checked").each(function(){
+						tableKey.push($(this).parent().next().val());
 						flag=1;
 					});
 					if(flag!=1){
-						layer.msg('请至少选中一条记录', {
-							  icon: 2,
-							  time: 2000
-							}, function(){
-						});
+						layer.open({  
+						    style: 'border:1px; color:#333333;',  
+						    content:'请至少选中一条记录'  
+						}) ;
 						return;
 					}
 					$.ajax({
-						url:"busShoppCart/deleteShoppCar.do",
-						data:{tableKey:tableKey},
+						url:"busShoppCart/deleteShoppCar.do", 
+						data:{
+							tableKey:tableKey
+							},
 						type:"post",
 						success:function(data){
 							if(data.success){
-								layer.msg('删除成功', {
-								  icon: 1,
-								  time: 3000
-								}, function(){
-								location.reload();
-							});
+							location.reload();
 							}else{
 								layer.open({
 									 title: '错误信息'
