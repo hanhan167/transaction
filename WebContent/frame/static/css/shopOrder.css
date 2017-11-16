@@ -118,7 +118,7 @@ a {
     top: 44px;
     bottom: 49px;
     left: 0;
-    overflow: hidden;
+    overflow: auto;
     background-color: #FFFFFF;
 }
 
