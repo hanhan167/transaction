@@ -12,19 +12,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="frame/static/css/shopOrder.css">
-
-<!-- <link rel="stylesheet" type="text/css" href="frame/static/css/shopping_cart.css"/>  -->
 <link rel="stylesheet" type="text/css" href="frame/static/css/jcDate.css"/> 
-<!-- <style type="text/css">
-.shopping_checked{
-	background-color: #eee;
-}
-.content>.header,
-.content>#sheet,
-.content>.clearing{
-	display: none;
-} 
-</style>-->
+
 </head>
 <body>
 
@@ -38,27 +27,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
 </div>
 <div class="mains">
-    <div class="tit-box">
-        <div class="tit-text fl">成都伊高数控公司</div>
-        <div class="phone fr">139880000033</div>
+   <!--  <div class="tit-box">
+        <div class="tit-text fl"></div>
+        <div class="phone fr"></div>
     </div>
     <div class="lists-box">
         <ul>
             <li>
                 <div class="check-box fl">
-                    <img src="frame/static/picture/check.png">
                 </div>
                 <div class="li-img fl">
-                    <img src="frame/static/picture/jdc.png">
                 </div>
                 <div class="li-texts fl">
-                    <h5>游标卡尺万能角度尺</h5>
-                    <p class="num-text">10123098 29-09</p>
+                    <h5></h5>
+                    <p class="num-text"></p>
                     <div class="price-frames">
-                        <div class="fl price-text">156.00元</div>
+                        <div class="fl price-text"></div>
                         <div class="fr num-box">
                             <div class="com-nums fl">-</div>
-                            <div class="com-nums fl" style="font-size: 12px">12</div>
+                            <div class="com-nums fl" style="font-size: 12px"></div>
                             <div class="com-nums fl">+</div>
                         </div>
                         <div class="clear-box"></div>
@@ -67,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="clear-box"></div>
             </li>
         </ul>
-    </div>
+    </div> -->
 </div>
 <div class="footer">
     <div class="price-box fl">
@@ -79,52 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 </body>
 </html>
-
-	<%-- <!--顶部-->
-	<div class="head">
-		<jsp:include page="head.jsp" flush="true"/>
-	</div>
-
-	<!-- 中间的内容 -->
-	<div class="centre">
-		<div class="content">
-			<div class="header">
-				<label class="all_check"><input type="checkbox">全选</label>
-				<span class="buy_name">商品</span>
-				<span class="buy_discount">折扣</span>
-				<span class="buy_univalence">单价（元）</span>
-				<span class="buy_amount">数量</span>
-				<span class="buy_aggregate">小计（元）</span>
-				<span class="buy_operate">类型</span>
-				<span class="buy_delete">操作</span>
-			</div>
-			<div id="sheet" class="sheet">
-				<!--供应商模块-->
-			</div>
-			<div class="row clearing">
-				<input type="checkbox" />
-				<label >全选</label>
-				<a id="multiDelete">删除</a>
-				<a id="clearInvalid">清空失效商品</a>
-				<div class='text-bar-right'>
-					<span class="cost">共有<em class="vertical-m margin-left-5 margin-right-5">0</em>件商品，总计：<em class="vertical-m">￥0</em></span>
-					<button type="button" class="affirm_indent" id="createOrder">生成订单</button>
-				</div>
-			</div>
-		</div>
-	</div> 
-	
-	<!--底部-->
-	<div class="base">
-		 <jsp:include page="base.jsp" flush="true"/>
-	</div> --%>
-	
 </body>
-<!-- <div id="addressTip" style="display:none">
-	<table class="layui-table" lay-skin="line">
-		
-	</table>
-</div> -->
 </html>
 <script type="text/javascript" src="frame/static/js/baiduTemplate.js"></script>
 <script type="text/javascript" src="frame/static/js/jquery-1.11.1.min.js"></script>
@@ -285,8 +227,8 @@ $(function(){
 		        	//调用清空失效商品
 		        	clearShopCar({"listbrandNames":listbrandNames,"listSupplyNos":listSupplyNos});
 		        }else{
-		        	$(".centre>.content").html("<div style='text-align:center;background:#fff;padding:120px;height:400px;'><img src='frame/static/img/gouwu.png'>购物车是空的,赶快去挑选商品吧</div>");
-		        }
+		        	$(".mains").html("<div style='text-align:center;background:#fff;margin-top:49%;margin-left:2%;margin-right:2%'><img src='frame/static/img/gouwu.png'>购物车是空的,赶快去挑选商品吧</div>");
+		        }         
 			}else{
 				layer.open({
 					 title: '错误信息'
