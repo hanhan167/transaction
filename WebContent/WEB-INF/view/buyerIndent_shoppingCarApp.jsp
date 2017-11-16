@@ -13,10 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="frame/static/css/shopOrder.css">
 <link rel="stylesheet" type="text/css" href="frame/static/css/jcDate.css"/> 
-
 </head>
 <body>
-
 <div class="header">
     <div class="header-box">
         <div class="header-img fl" id="allChoose">全选</div>
@@ -123,8 +121,6 @@ var supplyName = [];
                 <div class="li-img fl">
     				<img src="http://new.cp2013.com.cn/File/B/<*=(listDetail.code).substring((listDetail.code).indexOf("-"),(listDetail.code).length)+".jpg"*>">
                 </div>
-
-    
                 <div class="li-texts fl">
                     <h5><*=listDetail.goodsName*></h5>
                     <p class="num-text"><*=listDetail.par*></p>
@@ -135,20 +131,6 @@ var supplyName = [];
 							<input type="text" class="com-nums fl num" style="font-size: 12px" value="<*=listDetail.buyNum*>">
                             <div class="com-nums fl amout_add">+</div>
                         </div>
-
-
-
-					<!--
-					<div class="buy_amount">
-						<div class="amout_num">
-							<button class="amout_subtrac"></button>
-							<input class="num" value="<*=listDetail.buyNum*>" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
-							<button class="amout_add"></button>
-						</div>
-					</div>
--->
-
-
                         <div class="clear-box"></div>
                     </div>
                 </div>
@@ -267,27 +249,7 @@ $(function(){
 			});
 		}
 	}
-	/* 商品数量变化 */
-/* 	 $(".sheet").on("keyup",".num",function(){
-		var reg = /^[1-9]\d*$/;
-		var shu =$(this).val(); //获取现有的数量
-		if(reg.test(shu)){
-			shu = $(this).val();
-		}else{
-			$(this).val('');
-			shu = 0;
-		}
-		var univalence = $(this).parent().parent().prev().html();//获取到单价		
-		var discount = $(this).parent().parent().prev().prev().html();//获取到折扣
-		if(discount == "无折扣"){
-			discount = 10
-		}
-		if(shu>=0){
-			var result=Math.round(univalence*shu*discount)/10;
-			$(this).parent().parent().next().text(result);
-		}
-		total();
-	});  */
+	
 	function countPrice($dom){
 		var reg = /^[1-9]\d*$/;
 		var shu =$dom.val(); //获取现有的数量
@@ -422,14 +384,6 @@ $(function(){
 			}
 		}
 	});
-	/*点击全选选中取消全选*/
-	/* function command(place){
-		if($(place).is(':checked')){
-			$("input[type='checkbox']").prop("checked", true);
-		}else{
-			$("input[type='checkbox']").prop("checked", false);
-		}
-	} */
 	/* 计算商品数量和价格 */ 
 	$("input[type=checkbox]").click(function(){
 		total();
