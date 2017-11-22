@@ -169,6 +169,7 @@ var supplyName = [];
 <*for(var num = 1; num < tmpguan[key].length; num++){*>
 <*var listDetail = shoppCart[tmpguan[key][num]]*>
 			<!--商品信息-->
+			
 			<div class="message" id="<*=listDetail.tableKey*>"  data-supplyno="<*=listDetail.supplyNo*>">
 				<input type="hidden" value="<*=listDetail.tableKey*>">
 				<div class="buy_name">

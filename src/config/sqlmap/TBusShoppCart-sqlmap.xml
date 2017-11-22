@@ -134,8 +134,10 @@ and p.brand is not null
 	<delete id="deleteInvalidGoods" parameterClass="java.util.HashMap">
 		delete from t_bus_shopp_cart t 
 			where 
-				t.goods_no in (select t.goods_no from t_bus_shopp_cart t join t_pub_supply_goods g on t.supply_no=g.cust_no and t.goods_no=g.goods_no and g.status='0' and  sysdate > g.DOWN_DATE )
+				t.goods_no in (select t.goods_no from t_bus_shopp_cart t join t_pub_supply_goods g on t.goods_no=g.goods_no and g.status='0' and  sysdate > g.DOWN_DATE )
 					and t.cust_no=#custNo#
+	
+	
 	</delete>
 	
 	<delete id = "deleteInvalidGoods1" parameterClass="java.util.HashMap">
@@ -149,23 +151,25 @@ and t1.status='1'
 and (t1.down_date     >sysdate or t1.down_date IS NULL))
 				and CUST_NO = #custNo# -->
 				
-				delete 
+				DELETE
 FROM t_bus_shopp_cart t
-WHERE t.goods_no IN
+WHERE
+ t.CUST_NO =#tcustNo# and
+t.goods_no IN
   (SELECT cpdm
   FROM data_cp
   WHERE brand IN
-    (SELECT t1.brand_name brandName
+    (SELECT t2.brand
     FROM T_PUB_SUPPLY_BRAND t1,
       DATA_CPMLS t2
     WHERE t1.brand_no = t2.brand_id
-    AND t1.cust_no    = #custNo#
+    AND t1.cust_no    = #custNo# 
     AND t2.code       =#code#
-    AND t1.status     ='1'
-    AND (t1.down_date >sysdate
-    OR t1.down_date  IS NULL))
-    ) 
-  AND t.CUST_NO =#custNo#
+    AND (sysdate      > t1.down_date
+    OR t1.down_date  IS NULL
+    OR t1.status      ='1' )
+    )
+  )
 	</delete>
 	<select id="getCreateOrder" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.CreateOrder">
 			  select 
@@ -259,6 +263,7 @@ WHERE t.goods_no IN
 		select nvl(d.distcount_rate,'10') goodsDiscount,
        temp.table_key tableKey,
        p.cpdm goodsCode,
+       p.code,
        u.user_phone supplyPhone,
        temp.goods_name goodsName,
        temp.supply_name supplyName,

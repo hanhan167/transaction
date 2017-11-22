@@ -183,6 +183,7 @@ public class BusShoppCartAction {
 		for(int i =0;i<brandNames.length;i++){
 			map5.put("custNo", supplys[i]);
 			map5.put("code", brandNames[i]);
+			map5.put("tcustNo", custNo);
 			//查询该商品是否在使用 在使用就能查出来
 			List<TPubSupplyBrand> list1 = goodsService.getTopMenu1(map5);
 			if(list1.size()==0){
@@ -315,6 +316,7 @@ public class BusShoppCartAction {
 		Map<String, Object> map = new HashMap<>();
 		Map<String, Object> map1 = new HashMap<>();
 		String[] arry = (String[]) session.getAttribute("arry");
+		String[] codeArray = (String[]) session.getAttribute("codeArray");
 		List tableKey = new ArrayList(Arrays.asList(arry));
 		map1.put("custNo", custNo);
 		map1.put("orderArray", tableKey);

@@ -313,6 +313,7 @@ where 1=1
          TEMP.TABLE_KEY TABLEKEY,
          TEMP.SPLIT_STATUS splitStatus,
          TEMP.goods_money goodsMoney,
+         TEMP.LGT_NUMS LGTNUMS,
         u.cust_name applyName,
        u.user_phone applyPhone,
        u.cust_no custNo,
@@ -348,6 +349,7 @@ where 1=1
                  UPDATE_CUST_TYPE,
                  TABLE_KEY,
                  goods_money,
+                 LGT_NUMS,
                  ORDER_STATUS_SEL
             FROM T_BUS_ORDER TEMP
            WHERE STATUS = '1'

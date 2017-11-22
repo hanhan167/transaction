@@ -495,6 +495,9 @@ public class BusOrderAction {
 	public BaseReslt<Object> createOrder(String orderArray){
 		BaseReslt<Object> bReslt=new BaseReslt<>();
 		List list=(List) JSONObject.parse(orderArray);
+		for (Object object : list) {
+			System.out.println(object);
+		}
 		//订单待生成list
 		List<TBusOrderVo> orderList=new ArrayList<>();
 		//订单跟踪待生成list

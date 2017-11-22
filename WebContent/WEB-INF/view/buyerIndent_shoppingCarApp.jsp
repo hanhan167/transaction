@@ -12,47 +12,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="frame/static/css/shopOrder.css">
+
 <link rel="stylesheet" type="text/css" href="frame/static/css/jcDate.css"/> 
+
 </head>
 <body>
+
 <div class="header">
     <div class="header-box">
         <div class="header-img fl" id="allChoose">全选</div>
-        <div class="text-tit fl">我的订单</div>
+        <div class="text-tit fl">我的购物车</div>
         <div class="header-img fr" style="text-align: right" id="multiDelete">
             <img class="r-img" src="frame/static/picture/clear.png">
         </div>
     </div>
 </div>
 <div class="mains">
-   <!--  <div class="tit-box">
-        <div class="tit-text fl"></div>
-        <div class="phone fr"></div>
-    </div>
-    <div class="lists-box">
-        <ul>
-            <li>
-                <div class="check-box fl">
-                </div>
-                <div class="li-img fl">
-                </div>
-                <div class="li-texts fl">
-                    <h5></h5>
-                    <p class="num-text"></p>
-                    <div class="price-frames">
-                        <div class="fl price-text"></div>
-                        <div class="fr num-box">
-                            <div class="com-nums fl">-</div>
-                            <div class="com-nums fl" style="font-size: 12px"></div>
-                            <div class="com-nums fl">+</div>
-                        </div>
-                        <div class="clear-box"></div>
-                    </div>
-                </div>
-                <div class="clear-box"></div>
-            </li>
-        </ul>
-    </div> -->
+   
 </div>
 <div class="footer">
     <div class="price-box fl">
@@ -60,12 +36,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <span>&yen;</span>
         <span class="cost">0</span>
     </div>
-    <div class="footer-btn fr">生成订单</div>
+    <div class="footer-btn fr" id="createOrder">生成订单</div>
 </div>
+<a id="clearInvalid" style="display: none;"></a>
 </body>
 </html>
-</body>
-</html>
+
+	
+	
+
 <script type="text/javascript" src="frame/static/js/baiduTemplate.js"></script>
 <script type="text/javascript" src="frame/static/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="frame/layui/layui.js"></script>
@@ -118,9 +97,13 @@ var supplyName = [];
 				<input type="hidden" value="<*=listDetail.minkc*>">
 				<input type="hidden" value="<*=listDetail.goodsPrice*>">
 				<input type="hidden" value="<*=listDetail.goodsDiscount*>">
-                <div class="li-img fl">
+				<input type="hidden" value="<*=listDetail.code*>">
+				<label  style="display: none;"><span class="vertical-m fs14 font-666 buytype" buytype="<*=listDetail.buyType*>"><*=listDetail.buyType==09001? "试刀" : "购买"*></span></label>               
+				<div class="li-img fl">
     				<img src="http://new.cp2013.com.cn/File/B/<*=(listDetail.code).substring((listDetail.code).indexOf("-"),(listDetail.code).length)+".jpg"*>">
                 </div>
+
+    
                 <div class="li-texts fl">
                     <h5><*=listDetail.goodsName*></h5>
                     <p class="num-text"><*=listDetail.par*></p>
@@ -203,14 +186,14 @@ $(function(){
 		        		listSupplyNos += rows[l].supplyNo+",";
 		        		listGoods += rows[l].goodsNo+",";
 		        	}
-		        	var datas = {"listbrandNames":listbrandNames,"listSupplyNos":listSupplyNos,"listGoods":listGoods}
+		        	var datas = {"listbrandNames":listbrandNames,"listSupplyNos":listSupplyNos,"listGoods":listGoods};
 		        	overTimeShop(datas);
 		        	
 		        	//调用清空失效商品
 		        	clearShopCar({"listbrandNames":listbrandNames,"listSupplyNos":listSupplyNos});
 		        }else{
-		        	$(".mains").html("<div style='text-align:center;background:#fff;margin-top:49%;margin-left:2%;margin-right:2%'><img src='frame/static/img/gouwu.png'>购物车是空的,赶快去挑选商品吧</div>");
-		        }         
+		        	$(".mains").html("<div style='text-align:center;background:#fff;margin-top:49%;margin-left:2%;margin-right:2%'><img src='frame/static/img/gouwu.png'>购物车是空的,赶快去挑选商品吧</div>");		      
+		        }
 			}else{
 				layer.open({
 					 title: '错误信息'
@@ -237,9 +220,16 @@ $(function(){
 				url:'busShoppCart/selectIsExist.do',
 				data:data,
 				type:"post",
-				success:function(data){
-					if(!data.success){
-						layer.alert(data.msg)
+				success:function(dataMsg){
+					if(!dataMsg.success){
+						clearShopCar({"listbrandNames":data.listbrandNames,"listSupplyNos":data.listSupplyNos});
+						layer.open({
+							// title: '错误信息'
+							 content:dataMsg.msg,
+							 end:function(){
+								$("#clearInvalid").click();
+							 }
+						}); 
 						$("#createOrder").attr("disabled","disabled");
 					}else{
 						$("#createOrder").removeAttr("disabled");
@@ -249,7 +239,7 @@ $(function(){
 			});
 		}
 	}
-	
+
 	function countPrice($dom){
 		var reg = /^[1-9]\d*$/;
 		var shu =$dom.val(); //获取现有的数量
@@ -372,7 +362,6 @@ $(function(){
 			$('.singleCheck').prop('checked',true);
 		}	
 	}); 
-	//$(".header input[type=checkbox]").click(function(){command(this);});
 	//点供货商选中商品
 	$(".sheet").on("click",".shop-info input[type=checkbox]",function(){
 		var choose = $(".moudle").children(".message").length;//选购的总数
@@ -384,6 +373,7 @@ $(function(){
 			}
 		}
 	});
+	
 	/* 计算商品数量和价格 */ 
 	$("input[type=checkbox]").click(function(){
 		total();
@@ -414,7 +404,6 @@ $(function(){
 	
 	//批量删除
 	$("#multiDelete").click(function(){
-		debugger;
 		layer.open({
 			 title: '提示信息'
 			 ,content:"是否删除已选中的商品?"
@@ -443,7 +432,12 @@ $(function(){
 						type:"post",
 						success:function(data){
 							if(data.success){
-							location.reload();
+								layer.open({
+									 content:'删除成功',
+									 end:function(){
+										location.reload();
+									 }
+							});
 							}else{
 								layer.open({
 									 title: '错误信息'
@@ -460,44 +454,7 @@ $(function(){
 		});
 	});
 	
-	//单个删除
-	$(".sheet").on("click",".buy_delete",function(){
-		var buyId = $(this).parent().attr('id');
-		layer.open({
-			 title: '提示信息'
-			 ,content:"是否删除已选中的商品?"
-			 ,btn:['确认','取消']
-			 ,yes: function(index, layero){
-				layer.close(index);
-				var tableKey=new Array();
-				tableKey.push(buyId);
-				$.ajax({
-					url:"busShoppCart/deleteShoppCar.do",
-					data:{tableKey:tableKey},
-					type:"post",
-					success:function(data){
-						if(data.success){
-							layer.msg('删除成功', {
-							  icon: 1,
-							  time: 3000
-							}, function(){
-							location.reload();
-						});
-						}else{
-							layer.open({
-								 title: '错误信息'
-								 ,content:data.msg
-							}); 
-						}
-					}
-				});
-			}
-			,btn2: function(index, layero){
-				layer.close(index);
-			}
-			,closeBtn: 0
-		});
-	});
+	
 	var clearShopCar = function(data){
 		//清空失效的商品
 		$("#clearInvalid").click(function(){
@@ -513,12 +470,13 @@ $(function(){
 						type:"post",
 						success:function(data){
 							if(data.success){
-								layer.msg('清空成功', {
-									  icon: 1,
-									  time: 2000
-									}, function(){
-									   location.reload();
+								layer.open({
+									content:"清空成功",
+									end:function(){
+										location.reload();
+									}
 								});
+									   
 							}else{
 								layer.open({
 									 title: '错误信息'
@@ -528,9 +486,9 @@ $(function(){
 						}
 					});
 				  }
-				  ,btn2: function(index, layero){
+				  /* ,btn2: function(index, layero){
 					 layer.close(index);
-				  }
+				  } */
 				  ,closeBtn: 0
 			});
 		});
@@ -543,53 +501,54 @@ $(function(){
 		var array = [];
 		$(".moudle").find(".singleCheck:checked").each(function(){
 			var order={};
-			$(this).parent().find(".buy_amount").find("input").each(function(){
+			$(this).parent().parent().find(".buy_amount").find("input").each(function(){
 				order["num"]=$(this).val();
 			});
-			$(this).parent().find(".buytype").each(function(){
+			$(this).parent().parent().find(".buytype").each(function(){
 				order["type"]=$(this).attr("buytype");
 			});
 			$(this).parent().parent().find(".wishDate").each(function(){
 				order["wishDate"]=$(this).val();
 			});
 			$(this).parent().parent().find(".input-remark").each(function(){
-				order["remark"]=$(this).val();
+				order["remark"]=$(this).val();//备注
 			});
-			$(this).parent().find("input[type=hidden]:eq(0)").each(function(){
+			$(this).parent().parent().find("input[type=hidden]:eq(0)").each(function(){
 				order["tableKey"]=$(this).val();
 			});
-			$(this).parent().find("input[type=hidden]:eq(1)").each(function(){
+			$(this).parent().parent().find("input[type=hidden]:eq(1)").each(function(){
 				order["minkc"]=$(this).val();
 			});
+			$(this).parent().parent().find("input[type=hidden]:eq(4)").each(function(){
+				order["code"]=$(this).val();
+			});	
 			orderArray.push(order);
 			flag=1;
 		});
 		for(var i in orderArray){
 				array.push(orderArray[i].tableKey);
 			if(orderArray[i].num < orderArray[i].minkc){
-				layer.msg('商品数量小于最小起订量', {
-					  icon: 2,
-					  time: 2000
-				}, function(){
-				});
+				layer.open({  
+				    style: 'border:1px; color:#333333;',  
+				    content:'商品数量小于最小起订量'  
+				}) ;
 				return;
 			}
 		}
 		if(flag!=1){
-			layer.msg('请至少选中一条记录', {
-				  icon: 2,
-				  time: 2000
-			}, function(){
-			});
+			layer.open({  
+			    style: 'border:1px; color:#333333;',  
+			    content:'请至少选中一条记录'  
+			}) ;
 			return;
 		}
 		
 		$.ajax({
-			url:"goods/toConfirmOrder.do",
+			url:"goods/toConfirmOrderApp.do",
 			type:"post",
 			data:{"orderArray":array},
 			success:function(data){
-				location.href="goods/toConfirmOrder.do";
+				location.href="goods/toConfirmOrderApp.do";
 			}
 		});
 	});
@@ -691,7 +650,7 @@ function singleDelete(key){
 	layer.open({
 		 title: '提示信息'
 		 ,content:"是否删除?"
-		 ,btn:['确认','取消']
+		 ,btn:['','取消']
 		 ,yes: function(index, layero){
 			 layer.close(index);
 			 var tableKey=new Array();

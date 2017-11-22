@@ -566,6 +566,7 @@ $(function(){
 	
 	//生成订单
 	$("#createOrder").click(function(){
+		debugger;
 		var orderArray=new Array();
 		var flag=0,typeFlag=1,dateFlag=1;
 		var array = [];
@@ -683,6 +684,7 @@ $(function(){
 	});
 	
 });
+
 //保存商品数量
 function numupdate(key,num,minkc){
 	$.ajax({

@@ -130,6 +130,35 @@ public class GoodsAction {
 		return new ModelAndView("confirm_order");
 	}
 	
+	
+	/**
+	 * 购物车跳转商品结算界面App
+	 * @description: TODO
+	 * @creator: tx
+	 * @createDate: 2017年7月7日 
+	 * @modifier:
+	 * @modifiedDate:
+	 * @return
+	 */
+	@RequestMapping("/toConfirmOrderApp")
+	public ModelAndView confirmOrderApp(HttpSession session,@RequestParam(value="orderArray[]",required=false) List<String> orderArray){
+		if (orderArray == null) {
+			String [] arry = (String[]) session.getAttribute("arry");
+			session.setAttribute("arry", arry);
+			return new ModelAndView("confirm_orderApp");
+		}
+		String arry[] = new String [orderArray.size()];
+		for (int i = 0; i < orderArray.size(); i++) {
+			arry[i] = orderArray.get(i);
+		}
+		
+		
+		
+		session.setAttribute("arry", arry);
+		return new ModelAndView("confirm_orderApp");
+	}
+	
+	
 	/**
 	 * 跳转商品管理界面
 	 * @description: TODO
