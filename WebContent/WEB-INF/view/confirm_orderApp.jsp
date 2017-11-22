@@ -19,7 +19,8 @@
 <body>
 	<div class="header address-pri">
 		<div class="header-box">
-			<div class="header-img fl"></div>
+			<div class="header-img fl"><img class="l-img returnShopCart"
+					src="frame/static/picture/arrow-white.png"></div>
 			<div class="text-tit fl">我的订单</div>
 			<div class="clear-box"></div>
 		</div>
@@ -886,7 +887,10 @@ var supplyName = [];
 		$("[name=dizhi]").val(mou.parent().parent().prev().children("p:eq(1)").text().substring(3));
 	}
 	
-	
+	$(".returnShopCart").click(function(){
+		var custNo = "${sessionScope.custNo}";
+		location.href="sys/loginShoopingCarbackApp.do?custNo="+custNo;
+	});
 	
 	
 	
@@ -1006,5 +1010,8 @@ var supplyName = [];
 
 		
 	}
+	
+
+
 	
 </script>
