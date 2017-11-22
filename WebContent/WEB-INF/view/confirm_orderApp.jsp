@@ -19,8 +19,10 @@
 <body>
 	<div class="header address-pri">
 		<div class="header-box">
-			<div class="header-img fl"><img class="l-img returnShopCart"
-					src="frame/static/picture/arrow-white.png"></div>
+			<div class="header-img fl">
+				<img class="l-img returnShopCart"
+					src="frame/static/picture/arrow-white.png">
+			</div>
 			<div class="text-tit fl">我的订单</div>
 			<div class="clear-box"></div>
 		</div>
@@ -121,8 +123,8 @@
 				</li>
 			</ul>
 		</div>
-		 <div class="btn-order insert">确认</div>
-	    <div class="btn-order update" style="display: none;">确认</div>
+		<div class="btn-order insert">确认</div>
+		<div class="btn-order update" style="display: none;">确认</div>
 	</div>
 
 
@@ -246,7 +248,9 @@ var supplyName = [];
 					<label"><span class="vertical-m fs14 font-666 buytype" buytype="<*=listDetail.buyType*>"><*=listDetail.buyType==09001? "试刀" : "购买"*></span></label>
 				</div>
 				<div class="clear-box"></div>
-                
+            </li>
+<*}*>
+			<li class="newStyle">
 			<div class="remark-box">
                     <div class="remark-com">
                         <span class="fl">默认收货时间:</span>
@@ -265,13 +269,7 @@ var supplyName = [];
                     </div>
                     <div class="clear-box"></div>
                 </div>
-            </li>
-
-
-
-<*}*>
-
-			
+			</li>
              </ul>
     </div>			
 	<*}*>
@@ -344,21 +342,20 @@ var supplyName = [];
 		$(".address-more-close").click(function() {
 			location.href = "goods/toConfirmOrderApp.do";
 		});
-		
+
 		//新增地址
-		$("#addressAdd").click(function(){
-				$(".mains").hide();//2-页面
-				$(".header").hide();//2-头
-				$(".addressAdd").show();//3-头 & 3-页面
-				$(".insert").show();//3-新增按钮
-				$(".update").hide();//3-修改按钮
-				siteAdd();
-				$(".insert").click(function(){
-					siteAdd_verification();
-				});
+		$("#addressAdd").click(function() {
+			$(".mains").hide();//2-页面
+			$(".header").hide();//2-头
+			$(".addressAdd").show();//3-头 & 3-页面
+			$(".insert").show();//3-新增按钮
+			$(".update").hide();//3-修改按钮
+			siteAdd();
+			$(".insert").click(function() {
+				siteAdd_verification();
+			});
 		});
-		
-		
+
 		//关闭新增地址
 		$(".addressAddClose").click(function() {
 			$(".mains").show();// 2-页面
@@ -410,7 +407,7 @@ var supplyName = [];
 			$('input:radio[name="operation"]').removeClass("pitch");
 			$('input:radio[name="operation"]:checked').addClass("pitch");
 		});
-	
+
 		///设为默认
 		$(".addressTip-table").on('click', ".default", function() {
 			var val = $(this).parent().find("[name=tableKey]").val();
@@ -433,7 +430,7 @@ var supplyName = [];
 				}
 			});
 		});
-	
+
 		function total() {
 			var aggregate = 0;
 			$(".mains").find(".totalEvr").each(function(i) {
@@ -477,74 +474,43 @@ var supplyName = [];
 		    }
 		}); */
 		//确认订单
-		$("#createOrder")
-				.click(
-						function() {
+		$("#createOrder").click(function() {
 							var orderArray = new Array();
-							var address = $(
-									'input:radio[name="operation"]:checked')
-									.next().val();
+							var address = $('input:radio[name="operation"]:checked').next().val();
 							if (address == "" || address == null) {
 								layer.msg('请先确认收货地址', {
 									icon : 2
 								});
 								return;
 							}
-							$(".message")
-									.each(
-											function() {
-												var order = {};
-												order["supplyNo"] = $(this)
-														.attr("data-supplyno");
-												;
-
-												$(this)
-														.find(".buy_amount")
-														.each(
-																function() {
-																	order["num"] = $(
-																			this)
-																			.text();
-																});
-												$(this).find(".buytype").each(
-														function() {
-															order["type"] = $(
-																	this).attr(
-																	"buytype");
-														});
-												$(this)
-														.parent()
-														.find(".wishDate")
-														.each(
-																function() {
-																	order["wishDate"] = $(
-																			this)
-																			.val();
-																});
-												$(this)
-														.parent()
-														.find(".input-remark")
-														.each(
-																function() {
-																	order["remark"] = $(
-																			this)
-																			.val();
-																});
-												$(this)
-														.find(
-																"input[type=hidden]")
-														.each(
-																function() {
-																	order["tableKey"] = $(
-																			this)
-																			.val();
-																	/* d("tableKey:"
-																			+ order["tableKey"]); */
-																});
-												order["address"] = address;
-												orderArray.push(order);
-												flag = 1;
-											});
+							$(".message").each(function() {
+							var order = {};
+							order["supplyNo"] = $(this).attr("data-supplyno");;
+							$(this).find(".buy_amount").each(function() {
+								order["num"] = $(this).text();
+								});
+							$(this).find(".buytype").each(function() {
+							order["type"] = $(this).attr("buytype");
+							});
+							
+							//重新设置
+							$(this).parent().find(".wishDate").each(function() {
+							order["wishDate"] = $(this).val();
+							});
+							
+							$(this).parent().find(".input-remark").each(function() {
+							order["remark"] = $(this).val();
+							});
+							
+							
+							$(this).find("input[type=hidden]").each(function() {
+							order["tableKey"] = $(this).val();
+							});
+							
+							order["address"] = address;
+							orderArray.push(order);
+							flag = 1;
+							});
 							var array = JSON.stringify(orderArray);
 							$
 									.ajax({
@@ -597,29 +563,29 @@ var supplyName = [];
 					var vue = GetQueryString("vue");
 					var liatDate = [];
 					if (vue) {
-					/* 	$(".addressTip-table").children("li").css("dispaly",
-								"table-row;")
-						for (var i = 0; i < choose; i++) {
-							liatDate.push(data.obj[i].insetDate);
-							liatDate.sort();
-						}
-						var sumDate = liatDate[choose - 1];
-						for (var i = 0; i < choose; i++) {
-							if (data.obj[i].insetDate == sumDate) {
-								$($(".addressTip-table li")[i]).find(
-										"input[type=radio]").attr("checked",
-										"checked");
-								//$($($(".addressTip-table li")[i]).children()[1]).addClass("uearname_checked");
-
-							} else {
-								$($(".addressTip-table li")[i]).find(
-										"input[type=radio]").attr("checked",
-										false);
-								//$($($(".addressTip-table li")[i]).children()[1]).removeClass("uearname_checked");
-								$($(".addressTip-table li")[i]).hide();
-
+						/* 	$(".addressTip-table").children("li").css("dispaly",
+									"table-row;")
+							for (var i = 0; i < choose; i++) {
+								liatDate.push(data.obj[i].insetDate);
+								liatDate.sort();
 							}
-						} */
+							var sumDate = liatDate[choose - 1];
+							for (var i = 0; i < choose; i++) {
+								if (data.obj[i].insetDate == sumDate) {
+									$($(".addressTip-table li")[i]).find(
+											"input[type=radio]").attr("checked",
+											"checked");
+									//$($($(".addressTip-table li")[i]).children()[1]).addClass("uearname_checked");
+
+								} else {
+									$($(".addressTip-table li")[i]).find(
+											"input[type=radio]").attr("checked",
+											false);
+									//$($($(".addressTip-table li")[i]).children()[1]).removeClass("uearname_checked");
+									$($(".addressTip-table li")[i]).hide();
+
+								}
+							} */
 					}
 					for (var i = 0; i < choose; i++) {
 						if ($($(".addressTip-table li")[i]).find(
@@ -651,7 +617,7 @@ var supplyName = [];
 					total();
 					//进页面时跳地址页面
 					var vue = GetQueryString("vue");
-					if(vue=="update" || vue){
+					if (vue == "update" || vue) {
 						addressMore();
 					}
 				} else {
@@ -663,7 +629,6 @@ var supplyName = [];
 			}
 		});
 	});
-
 
 	Date.prototype.Format = function(fmt) { //author: meizz 
 		var o = {
@@ -878,22 +843,28 @@ var supplyName = [];
 							$("#input_area").append(html);
 						});
 		//绑定
-		$("#input_province").val(mou.children("[name=province]").val());$("#input_province").change();
-		$("#input_city").val(mou.children("[name=city]").val());$("#input_city").change();
+		$("#input_province").val(mou.children("[name=province]").val());
+		$("#input_province").change();
+		$("#input_city").val(mou.children("[name=city]").val());
+		$("#input_city").change();
 		$("#input_area").val(mou.children("[name=area]").val());
 		$("[name=tableKey]").val(mou.children("[name=tableKey]").val());
-		$("input[name=phone]").val((mou.parent().parent().prev().children("p:eq(0)").children("span:eq(1)").text()).substring(3));
-		$("input[name=consignee]").val(mou.parent().parent().prev().children("p:eq(0)").children("span:eq(0)").text().substring(3));
-		$("[name=dizhi]").val(mou.parent().parent().prev().children("p:eq(1)").text().substring(3));
+		$("input[name=phone]").val(
+				(mou.parent().parent().prev().children("p:eq(0)").children(
+						"span:eq(1)").text()).substring(3));
+		$("input[name=consignee]").val(
+				mou.parent().parent().prev().children("p:eq(0)").children(
+						"span:eq(0)").text().substring(3));
+		$("[name=dizhi]").val(
+				mou.parent().parent().prev().children("p:eq(1)").text()
+						.substring(3));
 	}
-	
-	$(".returnShopCart").click(function(){
+
+	$(".returnShopCart").click(function() {
 		var custNo = "${sessionScope.custNo}";
-		location.href="sys/loginShoopingCarbackApp.do?custNo="+custNo;
+		location.href = "sys/loginShoopingCarbackApp.do?custNo=" + custNo;
 	});
-	
-	
-	
+
 	function siteUpdate_verification() {
 		var province = $("[name='input_province']").val();
 		var city = $("[name='input_city']").val();
@@ -904,63 +875,71 @@ var supplyName = [];
 		var telephone = $("[name='phone']").val();
 		var tableKey = $("[name='tableKey']").val();
 
-		$.ajax({
-			url : "busShoppCart/addSite.do",
-			data : {
-				"tableKey" : tableKey,
-				"province" : province,
-				"city" : city,
-				"area" : area,
-				"postCode" : postCode,
-				"address" : address,
-				"addresseeName" : addresseeName,
-				"telephone" : telephone
-			},
-			type : "post",
-			success : function(data) {
-				if (!data.success) {
-					layer.open({
-						title : '错误信息',
-						content : data.msg
-					});
-				} else {
-					layer.open({
-						content:'修改地址成功'
-						,end:function(){
-							location.href="goods/toConfirmOrderApp.do?vue=update";
+		$
+				.ajax({
+					url : "busShoppCart/addSite.do",
+					data : {
+						"tableKey" : tableKey,
+						"province" : province,
+						"city" : city,
+						"area" : area,
+						"postCode" : postCode,
+						"address" : address,
+						"addresseeName" : addresseeName,
+						"telephone" : telephone
+					},
+					type : "post",
+					success : function(data) {
+						if (!data.success) {
+							layer.open({
+								title : '错误信息',
+								content : data.msg
+							});
+						} else {
+							layer
+									.open({
+										content : '修改地址成功',
+										end : function() {
+											location.href = "goods/toConfirmOrderApp.do?vue=update";
+										}
+									});
 						}
-					});
-				}
-			}
-		});
+					}
+				});
 	}
 
 	//更多地址
 	function addressMore() {
-		
-		//删除
-		$(".address-lis").on('click',".delete",function(){
-			var val = $(this).parent().prev().children().children("[name=tableKey]").val();
-			$.ajax({
-				url:"busShoppCart/deleteSite.do",
-				data:{"tableKey":val},
-				dataType:"json",
-				type:"post",
-				success:function(data){
-					if(data.success){
-						location.href="goods/toConfirmOrderApp.do?vue=update";
-					}else{
-						layer.open({
-							 title: '错误信息'
-							 ,content:data.msg
-						}); 
-					}
-				}
-			});
-		});
 
-		
-		
+		//删除
+		$(".address-lis")
+				.on(
+						'click',
+						".delete",
+						function() {
+							var val = $(this).parent().prev().children()
+									.children("[name=tableKey]").val();
+							$
+									.ajax({
+										url : "busShoppCart/deleteSite.do",
+										data : {
+											"tableKey" : val
+										},
+										dataType : "json",
+										type : "post",
+										success : function(data) {
+											if (data.success) {
+												location.href = "goods/toConfirmOrderApp.do?vue=update";
+											} else {
+												layer.open({
+													title : '错误信息',
+													content : data.msg
+												});
+											}
+										}
+									});
+						});
+
 		$(".address-lis").show();//2-页面
 		$(".arrow-box").hide();//1-标签
 		$(".geng-duo-di-zhi").hide();//1-标签
@@ -992,26 +971,21 @@ var supplyName = [];
 				}
 			});
 		});
-		
+
 		//修改地址
-		$(".address-lis").on('click',".update-btn",function(){
+		$(".address-lis").on('click', ".update-btn", function() {
 			var trMould = $(this).parent().prev().children();
-		
+
 			$(".mains").hide();//2-页面
 			$(".header").hide();//2-头
 			$(".addressAdd").show();//3-头 & 3-页面
 			$(".insert").hide();//3-新增按钮
 			$(".update").show();//3-修改按钮
 			siteUpdate(trMould);
-			$(".update").click(function(){
+			$(".update").click(function() {
 				siteUpdate_verification();
 			});
 		});
 
-		
 	}
-	
-
-
-	
 </script>

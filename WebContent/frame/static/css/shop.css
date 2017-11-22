@@ -151,12 +151,13 @@ a {
 .lists-box ul li {
     width: 92%;
     margin: 0 auto;
-    height: 120px;
+    height: 80px;
     border-bottom: 1px solid #cecece;
+    padding-bottom: 3%;
 }
 
 .lists-box ul li:last-child {
-    margin-bottom: 50px;
+    margin-bottom: 24px;
 }
 
 .lists-box ul li .check-box {
@@ -478,3 +479,10 @@ input[type="date"]::-webkit-clear-button {
     background-color: #b2191b;
     border-radius: 3px;
 }
+
+/* .newStyle{
+	width: 92%;
+    margin: 0 auto;
+    height: 84px;
+    border-bottom: 1px solid #cecece;
+} */
