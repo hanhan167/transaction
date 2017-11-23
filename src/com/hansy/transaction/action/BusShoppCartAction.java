@@ -220,7 +220,7 @@ public class BusShoppCartAction {
 			map.clear();
 			map.put("custNo", custNo);
 			map.put("goodsNo", goods[i]);
-			BusinessMap<CreateCart> bMap2 = shoppCartService.getCreateCart(map);
+			BusinessMap<CreateCart> bMap2 = shoppCartService.getCreateCart1(map);
 			CreateCart createCart = bMap2.getInfoBody();
 			if (!bMap2.getIsSucc()) {
 				bReslt.setSuccess(false);
@@ -527,7 +527,7 @@ public class BusShoppCartAction {
 			mapm.clear();
 			mapm.put("custNo", custNo);
 			mapm.put("goodsNo", list.get(i).getGoodsNo());
-			BusinessMap<CreateCart> bMap2 = shoppCartService.getCreateCart(mapm);
+			BusinessMap<CreateCart> bMap2 = shoppCartService.getCreateCart1(mapm);
 			CreateCart createCart = bMap2.getInfoBody();
 			if (!bMap2.getIsSucc()) {
 				bReslt.setSuccess(false);
