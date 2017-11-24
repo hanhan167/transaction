@@ -436,6 +436,7 @@
 			});
 		});
 	}
+	
 	function count() {
 		$.ajax({
 			url : 'busOrder/getBuyerOrderCount.do',
@@ -450,6 +451,7 @@
 			}
 		});
 	}
+	
 	function getOrderStus(orderStatus, userType) {
 		var tradeStus;
 		if (orderStatus == 090005) {
@@ -471,6 +473,7 @@
 		}
 		return tradeStus;
 	}
+	
 	//填写发票信息
 	function invoiceInformation(orderNo, price, remark) {
 		layer.open({
@@ -481,6 +484,7 @@
 			area : [ '800px', '600px' ],
 		});
 	}
+	
 	//付款
 	function invoice(orderNo, price, element) {
 		var remark;
@@ -631,9 +635,11 @@
 			closeBtn : 0
 		});
 	};
+	
 	function vendor(val) {
 		location.href = "/portal/commercial_particulars.jsp?key=" + val;
 	}
+	
 	//取消订单
 	function cancelOrder(orderNo, orderType, element) {
 		var orde = $(element).parent().prev().find(".clear>input").val();
@@ -681,6 +687,7 @@
 					closeBtn : 0
 				});
 	}
+	
 	//再次购买
 	function againPurchase(Row, supplyNo, element) {
 		var brands = "";
@@ -738,8 +745,6 @@
 	function lookWlMsg(str, that) {
 		event.stopPropagation();
 		myDivId = $(that).parent().next().attr('id');
-		console.log(myDivId);	
-		console.log(str);
 		$modal = $('#'+ myDivId);
 		$modal.show();
 		var $info = $('#info'), html = '';
