@@ -93,6 +93,7 @@ int getGoodsNo(String custNo);
 	 * @return
 	 */
 	BusinessMap<CreateCart> getCreateCart(Map<String, String> param);
+	BusinessMap<CreateCart> getCreateCart1(Map<String, String> param);
 	/**
 	 * 创建购物车
 	 * @description: TODO
