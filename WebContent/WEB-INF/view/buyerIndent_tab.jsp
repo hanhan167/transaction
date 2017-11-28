@@ -260,7 +260,7 @@
 					+ Row.rows[tmpguan[i][1]].supperName + "</span>";
 			content += "<span class='utel'>"
 					+ Row.rows[tmpguan[i][1]].applyPhone + "</span>";
-			content += "<span class='udate right'>提交时间："
+			content += "<span class='udate right'>下单时间："
 					+ new Date(Row.rows[tmpguan[i][1]].insertDate)
 							.Format("yyyy-MM-dd hh:mm:ss") + "</span>";
 			content += "<span class='uindent right'>订单编号："
@@ -472,7 +472,7 @@
 		return tradeStus;
 	}
 	//填写发票信息
-	function invoiceInformation(orderNo, price, remark) {
+	/* function invoiceInformation(orderNo, price, remark) {
 		layer.open({
 			title : '发票信息',
 			type : 2,
@@ -480,7 +480,8 @@
 					+ '&billMoney=' + price + '&remark=' + remark,
 			area : [ '800px', '600px' ],
 		});
-	}
+	} */
+	
 	//付款
 	function invoice(orderNo, price, element) {
 		var remark;
@@ -498,7 +499,41 @@
 					},
 					success : function(data) {
 						if (data.success) {
-							layer
+							$
+							.ajax({
+								url : 'busOrder/orderOperator.do',
+								type : 'post',
+								data : {
+									"remark" : remark,
+									"orderNo" : orderNo
+								},
+								success : function(data) {
+									if (data.success) {
+										layer
+												.msg(
+														'操作成功',
+														{
+															icon : 1,
+															time : 2000
+														},
+														function() {
+															stateLook(
+																	curr,
+																	"090003");
+															orderStatus = "090003";
+															//location.reload();
+															count();
+														});
+									} else {
+										layer
+												.open({
+													title : '错误信息',
+													content : data.msg
+												});
+									}
+								}
+							});
+					/* 		layer
 									.open({
 										title : '供方帐号信息',
 										content : "<div style='font-size:16px;line-height:26px;'><span class='label'>"
@@ -517,42 +552,9 @@
 													remark);
 										},
 										btn2 : function() {
-											$
-													.ajax({
-														url : 'busOrder/orderOperator.do',
-														type : 'post',
-														data : {
-															"remark" : remark,
-															"orderNo" : orderNo
-														},
-														success : function(data) {
-															if (data.success) {
-																layer
-																		.msg(
-																				'操作成功',
-																				{
-																					icon : 1,
-																					time : 2000
-																				},
-																				function() {
-																					stateLook(
-																							curr,
-																							"090003");
-																					orderStatus = "090003";
-																					//location.reload();
-																					count();
-																				});
-															} else {
-																layer
-																		.open({
-																			title : '错误信息',
-																			content : data.msg
-																		});
-															}
-														}
-													});
+										
 										}
-									});
+									}); */
 						}
 					}
 				});
@@ -652,7 +654,7 @@
 								"dealType" : "cancel",
 								"orderType" : orderType,
 								"remark" : $("select option:selected").text()
-										+ "" + $("input.cause").val(),
+										+ "," + $("input.cause").val(),
 								"statusWay" : "0",
 							},
 							dataType : "json",
@@ -738,6 +740,7 @@
 	function lookWlMsg(str, that) {
 		event.stopPropagation();
 		myDivId = $(that).parent().next().attr('id');
+		alert(myDivId);
 		console.log(myDivId);	
 		console.log(str);
 		$modal = $('#'+ myDivId);
@@ -996,7 +999,7 @@
 	}
 	
 	$(document).on('click', '.my_link', function(e) {
-		e.stopPropagation()
+		e.stopPropagation();
 		$(that).parent().siblings('#'+ myDivId).show();
 	});
 	
@@ -1006,6 +1009,5 @@
 
 	$(document).on('click','.myLgtMsg',function(e) {
 	 e.stopPropagation();
-	 console.log('XXX')
-	 })
+	 });
 </script>

@@ -23,7 +23,7 @@
 				<img class="l-img returnShopCart"
 					src="frame/static/picture/arrow-white.png">
 			</div>
-			<div class="text-tit fl">我的订单</div>
+			<div class="text-tit fl">订单确认</div>
 			<div class="clear-box"></div>
 		</div>
 	</div>
@@ -529,8 +529,9 @@ var supplyName = [];
 												layer
 														.open({
 															content : '订单生成成功',
+															time:2,
 															end : function() {
-																location.href = "busOrder/toPage/buyerIndent_tab.do";
+																location.href = "busOrder/toPage/buyerIndent_tabApp.do";
 															}
 														});
 											} else {
@@ -610,6 +611,14 @@ var supplyName = [];
 		//获取商品信息
 		$.ajax({
 			url : "busShoppCart/getOrderList.do",
+			boforeSend:function(){
+				$(".mains").html(	 "<div class='warn-box'>"
+						+	"<div class='warn-infos'>"        
+						+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+						+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+						+	       " </div>"
+						+	    "</div>"		);
+			},
 			success : function(data) {
 				if (data.success) {
 					var html2 = baidu.template('bd_t2', data.map);
@@ -889,6 +898,14 @@ var supplyName = [];
 						"telephone" : telephone
 					},
 					type : "post",
+					boforeSend:function(){
+						$(".mains").html(	 "<div class='warn-box'>"
+								+	"<div class='warn-infos'>"        
+								+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+								+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+								+	       " </div>"
+								+	    "</div>"		);
+					},
 					success : function(data) {
 						if (!data.success) {
 							layer.open({
@@ -927,6 +944,14 @@ var supplyName = [];
 										},
 										dataType : "json",
 										type : "post",
+										boforeSend:function(){
+											$(".mains").html(	 "<div class='warn-box'>"
+													+	"<div class='warn-infos'>"        
+													+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+													+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+													+	       " </div>"
+													+	    "</div>"		);
+										},
 										success : function(data) {
 											if (data.success) {
 												location.href = "goods/toConfirmOrderApp.do?vue=update";
@@ -959,6 +984,14 @@ var supplyName = [];
 				},
 				dataType : "json",
 				type : "post",
+				boforeSend:function(){
+					$(".mains").html(	 "<div class='warn-box'>"
+							+	"<div class='warn-infos'>"        
+							+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+							+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+							+	       " </div>"
+							+	    "</div>"		);
+				},
 				success : function(data) {
 					if (data.success) {
 						location.href = "goods/toConfirmOrderApp.do";

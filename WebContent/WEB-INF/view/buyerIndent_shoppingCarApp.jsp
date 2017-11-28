@@ -159,6 +159,14 @@ $(function(){
 	
 	$.ajax({
 		url:'busShoppCart/getShoppCart.do',
+		boforeSend:function(){
+			$(".mains").html(	 "<div class='warn-box'>"
+					+	"<div class='warn-infos'>"        
+					+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+					+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+					+	       " </div>"
+					+	    "</div>"		);
+		},
 		success:function(data){
 			if(data.success){
 				if(data.map.goodsNo!="0"){
@@ -430,6 +438,14 @@ $(function(){
 							tableKey:tableKey
 							},
 						type:"post",
+						boforeSend:function(){
+							$(".mains").html(	 "<div class='warn-box'>"
+									+	"<div class='warn-infos'>"        
+									+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+									+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+									+	       " </div>"
+									+	    "</div>"		);
+						},
 						success:function(data){
 							if(data.success){
 								layer.open({

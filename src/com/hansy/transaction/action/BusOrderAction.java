@@ -36,6 +36,7 @@ import com.hansy.transaction.common.BaseReslt;
 import com.hansy.transaction.common.BusinessMap;
 import com.hansy.transaction.common.constants.OrderConstants;
 import com.hansy.transaction.common.constants.UserConstants;
+import com.hansy.transaction.common.utils.AllPager;
 import com.hansy.transaction.common.utils.DateUtil;
 import com.hansy.transaction.common.utils.Pager;
 import com.hansy.transaction.common.utils.SerialNumberUtils;
@@ -65,14 +66,14 @@ import com.hansy.transaction.util.HttpUtils;
 /**
  * 订单类控制器
  * TODO javadoc for com.hansy.transaction.action.BusOrderAction
- * @Copyright: 2017成都环赛信息技术有限公司 
+ * @Copyright: 2017成都环赛信息技术有限公司
  * @author: cj
  * @since: 2017年3月10日
  */
 @Controller
 @RequestMapping("/busOrder")
 public class BusOrderAction {
-	
+
 	@Resource
 	private ITBusOrderService busOrderService;
 	@Resource
@@ -89,7 +90,7 @@ public class BusOrderAction {
 	private ITBusAddressService itBusAddressService;
 	@Resource
 	private ITUserAddressService addressService;
-	
+
 	@RequestMapping("/productRank")
 	@ResponseBody
 	public BaseReslt<Object> productRank(Integer pageNo,HttpSession session,String Sort1,String Sort2,String query,String startTime,String endTime)throws Exception{
@@ -98,7 +99,7 @@ public class BusOrderAction {
 		}
 		startTime ="2017-09-04";
 		endTime = "2017-09-04";
-		
+
 		BaseReslt<Object> bReslt=new BaseReslt<Object>();
 		TUserBaseInfoBo baseInfoVo=(TUserBaseInfoBo) session.getAttribute("loginUser");
 		int pageSize=5;
@@ -119,7 +120,7 @@ public class BusOrderAction {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar cd = Calendar.getInstance();
 			cd.setTime(sdf.parse(endTime));
-			cd.add(Calendar.DATE, 1);//  增加一天 
+			cd.add(Calendar.DATE, 1);//  增加一天
 			map.put("endTime", sdf.format(cd.getTime()));
 		}else{
 			map.put("endTime", endTime);
@@ -128,9 +129,9 @@ public class BusOrderAction {
 		bReslt.setObj(pager);
 		return bReslt;
 	}
-	
-	
-	
+
+
+
 	@RequestMapping("/getBillByOrderNo")
 	@ResponseBody
 	public BaseReslt<Pager<TBusBillVo>> getBillByOrderNo(String orderNo,String pageNo,HttpSession session,String startTime,String endTime){
@@ -169,10 +170,10 @@ public class BusOrderAction {
 			return bReslt;
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	@RequestMapping("/save")
 	@ResponseBody
 	public  BaseReslt<Object> save(HttpSession session,TBusBillVo tBusBillVo){
@@ -211,12 +212,12 @@ public class BusOrderAction {
 		}
 		return bReslt;
 	}
-	
+
 	/**
 	 * 获取供应方订单列表
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月14日 
+	 * @createDate: 2017年3月14日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param pageNo
@@ -245,7 +246,7 @@ public class BusOrderAction {
 			bReslt.setMsg(bMap.getMsg());
 			return bReslt;
 		}
-		
+
 		//循环遍历订单，获取备注消息
 		Pager resultPage=bMap.getInfoBody();
 		//获取订单list
@@ -253,7 +254,7 @@ public class BusOrderAction {
 				//订单备注list
 				List<Object> dList=new ArrayList<>();
 				Map<String, String>map = new HashMap<>();
-				
+
 				for (int i = 0; i < oList.size(); i++) {
 					map.put(oList.get(i).getOrderNo(), oList.get(i).getOrderNo());
 				}
@@ -271,12 +272,12 @@ public class BusOrderAction {
 		bReslt.setSuccess(true);
 		return bReslt;
 	}
-	
+
 	/**
 	 * 获取买方订单列表
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月14日 
+	 * @createDate: 2017年3月14日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param pageNo
@@ -293,7 +294,8 @@ public class BusOrderAction {
 		param.put("custNo", custNo);
 		param.put("orderStatus", orderStatus);
 		param.put("queryWay", query);
-		//默认每页1条数据
+
+		//默认每页8条数据
 		int pageSize=8;
 		Pager pager=new Pager();
 		//初始化page对象
@@ -305,7 +307,7 @@ public class BusOrderAction {
 			bReslt.setMsg(bMap.getMsg());
 			return bReslt;
 		}
-		
+
 		//循环遍历订单，获取备注消息
 		Pager resultPage=bMap.getInfoBody();
 		//获取订单list
@@ -313,7 +315,7 @@ public class BusOrderAction {
 		//订单备注list
 		List<Object> dList=new ArrayList<>();
 		Map<String, String>map = new HashMap<>();
-		
+
 		for (int i = 0; i < oList.size(); i++) {
 			map.put(oList.get(i).getOrderNo(), oList.get(i).getOrderNo());
 		}
@@ -332,12 +334,74 @@ public class BusOrderAction {
 		bReslt.setSuccess(true);
 		return bReslt;
 	}
-	
+
+
+	/**
+	 * 获取买方订单列表App
+	 * @description: TODO
+	 * @creator: cj
+	 * @createDate: 2017年3月14日
+	 * @modifier:
+	 * @modifiedDate:
+	 * @param pageNo
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("/getBuyerOrdersApp")
+	@ResponseBody
+	public BaseReslt<Object> getBuyerOrdersApp(Integer pageNo,HttpSession session,String orderStatus,String query){
+		BaseReslt<Object> bReslt=new BaseReslt<Object>();
+		String custNo=(String) session.getAttribute("custNo");
+		//查询参数，第一个参数为custNo,第二个参数为orderStatus(可为空),
+		Map<String, Object> param=new HashMap<String,Object>();
+		param.put("custNo", custNo);
+		param.put("orderStatus", orderStatus);
+		param.put("queryWay", query);
+		
+
+		AllPager allPager=new AllPager();
+		//初始化Allpage对象
+		BusinessMap<AllPager> bMap=busOrderService.selectBuyerOrders(param);
+		if (!bMap.getIsSucc()) {
+			bReslt.setSuccess(false);
+			bReslt.setMsg(bMap.getMsg());
+			return bReslt;
+		}
+
+		//循环遍历订单，获取备注消息
+		AllPager resultPage=bMap.getInfoBody();
+		//获取订单list
+		List<Order> oList=resultPage.getRows();
+		//订单备注list
+		List<Object> dList=new ArrayList<>();
+		Map<String, String>map = new HashMap<>();
+
+		for (int i = 0; i < oList.size(); i++) {
+			map.put(oList.get(i).getOrderNo(), oList.get(i).getOrderNo());
+		}
+		Iterator<String> iter5=map.values().iterator();
+		Map<String, Object> map2 = new HashMap<>();
+		while (iter5.hasNext()){
+			String xObject =iter5.next();
+			BusinessMap<Object> bMap2=orderDetlService.getOrderDetl(xObject);
+			dList=(List<Object>) bMap2.getInfoBody();
+			map2.put(xObject, (List<Object>) bMap2.getInfoBody());
+		}
+		bReslt.setList(dList);
+		bReslt.setMap(map2);
+		resultPage.setRows(oList);
+		bReslt.setObj(resultPage);
+		bReslt.setSuccess(true);
+		return bReslt;
+	}
+
+
+
 	/**
 	 * 获取供方（全部，待发货，待确认，完成4种类型订单数量）
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -359,12 +423,12 @@ public class BusOrderAction {
 		bReslt.setSuccess(true);
 		return bReslt;
 	}
-	
+
 	/**
 	 * 获取买方（全部，待付款，待收货，完成4种类型订单数量）
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -386,12 +450,12 @@ public class BusOrderAction {
 		bReslt.setSuccess(true);
 		return bReslt;
 	}
-	
+
 	/**
 	 * 删除订单(逻辑删除)
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月17日 
+	 * @createDate: 2017年3月17日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -428,7 +492,7 @@ public class BusOrderAction {
 	 * 取消订单
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月17日 
+	 * @createDate: 2017年3月17日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -471,7 +535,7 @@ public class BusOrderAction {
 			bReslt.setSuccess(false);
 			bReslt.setMsg(bMap2.getMsg());
 		}
-		
+
 		if (!bMap.getIsSucc()) {
 			bReslt.setSuccess(false);
 			bReslt.setMsg(bMap.getMsg());
@@ -480,12 +544,12 @@ public class BusOrderAction {
 		bReslt.setSuccess(true);
 		return bReslt;
 	}
-	
+
 	/**
 	 * 生成订单
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月22日 
+	 * @createDate: 2017年3月22日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -495,9 +559,7 @@ public class BusOrderAction {
 	public BaseReslt<Object> createOrder(String orderArray){
 		BaseReslt<Object> bReslt=new BaseReslt<>();
 		List list=(List) JSONObject.parse(orderArray);
-		for (Object object : list) {
-			System.out.println(object);
-		}
+
 		//订单待生成list
 		List<TBusOrderVo> orderList=new ArrayList<>();
 		//订单跟踪待生成list
@@ -529,14 +591,14 @@ public class BusOrderAction {
 			}
 			custNo=createOrder.getCustNo();
 			goodsNo=createOrder.getGoodsNo();
-			
+
 			String tableKey=UUIDUtil.getParseUUID();
 			orderVo.setTableKey(tableKey);
 			if(orderList.size()>0){
 				for(int j = 0;j<orderList.size();j++){
 					if(orderMap.get("supplyNo").equals(orderList.get(j).getSupplyNo())){
 						orderNo = orderList.get(j).getOrderNo();
-						
+
 					}
 				}
 			}
@@ -557,12 +619,12 @@ public class BusOrderAction {
 			orderVo.setSupplyNo(createOrder.getSupplyNo());						//供应商编号
 			orderVo.setGoodsCount(Integer.valueOf(orderMap.get("num")));		//商品数量
 			orderVo.setStatus(OrderConstants.orderTypeNor);					//状态
-			orderVo.setOrderStatusSel(OrderConstants.orderTypeNormal);		
+			orderVo.setOrderStatusSel(OrderConstants.orderTypeNormal);
 			orderVo.setGoodsMoney(0.1*createOrder.getGoodsPrice()*createOrder.getGoodsDiscount()*Integer.valueOf(orderMap.get("num")));
 			orderList.add(orderVo);
 			deleteParam.add(orderMap.get("tableKey"));
 		}
-		
+
 		//保存订单表和订单备注表
 		BusinessMap<Object> bMap1=busOrderService.saveOrder(orderList);
 		if (!bMap1.getIsSucc()){
@@ -570,7 +632,7 @@ public class BusOrderAction {
 			bReslt.setMsg("生成订单失败");
 			return bReslt;
 		}
-		
+
 		Map<String, String> orderMap1 = new HashMap<String,String>();
 		String temp;
 		for(int i = 0 ; i<orderList.size();i++){
@@ -600,13 +662,13 @@ public class BusOrderAction {
 					orderDetlVo.setGoodsNo("");
 				}
 				orderDetlVo.setInsertDate(new Date());
-				
+
 				orderDetlVo.setOrderNo(key);
 				orderDetlVo.setOrderType(type);
 				if(null==remark||""==remark||StringUtil.isEmpty(remark)){
 					remark="......";
 				}
-				
+
 				orderDetlVo.setRemark(remarkMap.get(key));
 				orderDetlVo.setTableKey(UUIDUtil.getParseUUID());
 				orderDetlVo.setUserNo(custNo);
@@ -619,21 +681,21 @@ public class BusOrderAction {
 			bReslt.setSuccess(false);
 			bReslt.setMsg("生成订单失败");
 			return bReslt;
-		
+
 		}
 		//生成订单成功以后删除购物车
 		shoppCartService.delete(deleteParam);
-		
+
 		bReslt.setSuccess(true);
 		bReslt.setMsg("生成订单成功");
 		return bReslt;
 	}
-	
+
 	/**
 	 * 订单一系列操作，如确认收货、确认发货、确认信息、确认付款。。。。
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月23日 
+	 * @createDate: 2017年3月23日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -646,16 +708,16 @@ public class BusOrderAction {
 		{
 			//赋值
 			if(tBusOrderVo.getLgtNums().equals("上门取货"))
-			{	
+			{
 			tBusOrderVo.setLgtNums("0001001");
 			}
 			if(tBusOrderVo.getLgtNums().equals("滴滴配送"))
 			{
-			tBusOrderVo.setLgtNums("0002002");	
+			tBusOrderVo.setLgtNums("0002002");
 			}
 			busOrderService.lgtSend(tBusOrderVo);
 		}
-		
+
 		BaseReslt<Object> bReslt=new BaseReslt<>();
 		String orderStatus="";
 		Map<String, Object> param=new HashMap<>();
@@ -663,7 +725,7 @@ public class BusOrderAction {
 		List<TBusOrderVo> list=busOrderService.getById(orderNo);
 		//TBusOrderVo orderVo=busOrderService.getById(orderNo);
 		//根据数据库里面orderStatus设置当前状态的下一个状态
-		
+
 		if (list.get(0).getOrderStatus().equals(OrderConstants.orderStatusNoneConfirmed)) {
 			orderStatus=OrderConstants.orderStatusNonePayment;//卖方待确认
 		}else if(list.get(0).getOrderStatus().equals(OrderConstants.orderStatusReadyShip)){
@@ -694,7 +756,7 @@ public class BusOrderAction {
 		orderDetlVo.setTableKey(UUIDUtil.getParseUUID());
 		orderDetlVo.setUserNo((String)session.getAttribute("custNo"));
 		orderDetlVo.setStatus(OrderConstants.orderDetailCust);
-		
+
 		BusinessMap<Object> bMap1=busOrderService.updateOrderStatus(param);
 		if (!bMap1.getIsSucc()) {
 			bReslt.setSuccess(false);
@@ -709,10 +771,10 @@ public class BusOrderAction {
 		return bReslt;
 	}
 	/**
-	 * 
+	 *
 	 * @description: 买家待付款
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年8月1日 
+	 * @createDate: 2017年8月1日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -722,10 +784,10 @@ public class BusOrderAction {
 		return new ModelAndView("buyerIndent_Pay");
 	}
 	/**
-	 * 
+	 *
 	 * @description: 买家待 待收货
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年8月1日 
+	 * @createDate: 2017年8月1日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -735,10 +797,10 @@ public class BusOrderAction {
 		return new ModelAndView("buyerIndent_Get");
 	}
 	/**
-	 * 
+	 *
 	 * @description: 卖家 待确认
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年8月1日 
+	 * @createDate: 2017年8月1日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -748,10 +810,10 @@ public class BusOrderAction {
 		return new ModelAndView("applyIndent_Sure");
 	}
 	/**
-	 * 
+	 *
 	 * @description: 卖家 待发货
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年8月1日 
+	 * @createDate: 2017年8月1日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -764,7 +826,7 @@ public class BusOrderAction {
 	 * 跳转买方订单完成
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -777,7 +839,7 @@ public class BusOrderAction {
 	 * 跳转已取消
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -786,12 +848,12 @@ public class BusOrderAction {
 	public ModelAndView toPage(@PathVariable String fileName){
 		return new ModelAndView(fileName);
 	}
-	
+
 	/**
 	 * 跳转买方订单所有
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -800,12 +862,12 @@ public class BusOrderAction {
 	public ModelAndView toBuyerAll(){
 		return new ModelAndView("buyerIndent_all");
 	}
-	
+
 	/**
 	 * 跳转买方订单待付款
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -814,12 +876,12 @@ public class BusOrderAction {
 	public ModelAndView tobuyerPayment(){
 		return new ModelAndView("buyerIndent_nonePayment");
 	}
-	
+
 	/**
 	 * 跳转买方订单待收货
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -828,13 +890,17 @@ public class BusOrderAction {
 	public ModelAndView toBuyerReadCollect(){
 		return new ModelAndView("buyerIndent_readCollect");
 	}
+
+	
+	
+	
 	
 	
 	/**
 	 * 跳转供方订单完成
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -843,12 +909,12 @@ public class BusOrderAction {
 	public ModelAndView toApplyComplete(){
 		return new ModelAndView("applyIndent_complete");
 	}
-	
+
 	/**
 	 * 跳转供方订单所有
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -857,12 +923,12 @@ public class BusOrderAction {
 	public ModelAndView toApplyAll(){
 		return new ModelAndView("applyIndent_all");
 	}
-	
+
 	/**
 	 * 跳转供方订单待确认
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -871,12 +937,12 @@ public class BusOrderAction {
 	public ModelAndView toApplyConfirmed(){
 		return new ModelAndView("applyIndent_noneConfirmed");
 	}
-	
+
 	/**
 	 * 跳转供方订单待发货
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -885,13 +951,13 @@ public class BusOrderAction {
 	public ModelAndView toSellerReadyShip(){
 		return new ModelAndView("applyIndent_readyShip");
 	}
-	
+
 
 	@RequestMapping("/supplyIndentTab")
 	public ModelAndView supplyIndentTab(){
 		return new ModelAndView("applyIndent_tab");
 	}
-	
+
 	@RequestMapping("/buyerIndentTab")
 	public ModelAndView buyerIndentTab(){
 		return new ModelAndView("buyerIndent_tab");
@@ -904,12 +970,12 @@ public class BusOrderAction {
 	public ModelAndView borderBillDetail(){
 		return new ModelAndView("invoiceInformationLook");
 	}
-	
+
 	/**
 	 * 修改订单
 	 * @description: TODO
 	 * @creator: tx
-	 * @createDate: 2017年7月9日 
+	 * @createDate: 2017年7月9日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -921,11 +987,11 @@ public class BusOrderAction {
 	public BaseReslt<Object> changeOrderByOrderNo(HttpSession session,String orderNo,Double goodsPrice,Double goodsDiscount,String tableKey,Integer goodsCount,Double goodsMoney){
 		BaseReslt<Object> bReslt=new BaseReslt<>();
 		Map<String,Object> params=new HashMap<String,Object>();
-	
+
 		params.put("orderNo", orderNo);
 		params.put("custNo", (String)session.getAttribute("custNo"));
 		params.put("nowTime", new Date());
-		
+
 		params.put("tableKey", tableKey);
 		if(goodsMoney!=null){
 			try {
@@ -937,7 +1003,7 @@ public class BusOrderAction {
 				bReslt.setMsg("操作失败，数据异常");
 				return bReslt;
 			}
-		
+
 		}
 		if(goodsDiscount!=null){
 			try {
@@ -950,13 +1016,13 @@ public class BusOrderAction {
 				return bReslt;
 			}
 		}
-		
+
 		if(StringUtil.isEmpty(tableKey)){
 			bReslt.setSuccess(false);
 			bReslt.setMsg("操作失败，数据异常");
 			return bReslt;
 		}
-	
+
 		if(StringUtil.isEmpty(orderNo)){
 			bReslt.setSuccess(false);
 			bReslt.setMsg("操作失败，数据异常");
@@ -981,16 +1047,16 @@ public class BusOrderAction {
 				bReslt.setMsg(bMap.getMsg());
 				return bReslt;
 			}
-		
-		
+
+
 		bReslt.setSuccess(true);
 		return bReslt;
 	}
 	/**
-	 * 
+	 *
 	 * @description: 订单拆分
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年7月24日 
+	 * @createDate: 2017年7月24日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param session
@@ -1026,7 +1092,7 @@ public class BusOrderAction {
 			bReslt.setMsg("拆分总数量与原有总数量不符");
 			return bReslt;
 		}
-		
+
 		//将新订单对象的数据根据标识放入map里面
 		Map<String, List<TBusOrderVo>> orderMap = new HashMap<String,List<TBusOrderVo>>();
 		String temp;
@@ -1044,7 +1110,7 @@ public class BusOrderAction {
 		}
 		//这时map里面就有根据标识分成的订单（可能一个订单里面有N个 A商品或者N个B商品）遍历map获取里面的订单对象的集合
 		Iterator<List<TBusOrderVo>>  iter5=orderMap.values().iterator();
-		
+
 		//因为只需要获取值所以使用values遍历
 	       while (iter5.hasNext()){
 	    //订单跟踪待生成list
@@ -1117,7 +1183,7 @@ public class BusOrderAction {
 				bReslt.setSuccess(false);
 				bReslt.setMsg("生成订单失败");
 				return bReslt;
-			}  
+			}
 	      }
 	       Map<String, Object>param = new HashMap<>();
 	       param.put("splitStatus", OrderConstants.orderSplitYes);
@@ -1141,10 +1207,10 @@ public class BusOrderAction {
 	}
 	@RequestMapping("/getbygood")
 	public ModelAndView getbygood(String goodeNo){
-		
+
 		return new ModelAndView("applyIndent_split");
 	}
-	
+
 	@RequestMapping("/getById")
 	@ResponseBody
 	public BaseReslt<Object> getById(String orderNo){
@@ -1183,7 +1249,7 @@ public class BusOrderAction {
 			bReslt.setSuccess(false);
 			return bReslt;
 		}
-	
+
 	}
 	@RequestMapping("/adds")
 	@ResponseBody
@@ -1200,7 +1266,7 @@ public class BusOrderAction {
 			bReslt.setSuccess(true);
 			return bReslt;
 		}
-	
+
 	@RequestMapping("/deletes")
 	@ResponseBody
 	public BaseReslt<Object> delete(TUserBill tUserBill,HttpSession session){
@@ -1278,7 +1344,7 @@ public class BusOrderAction {
 			return bReslt;*/
 		return null;
 	}
-	
+
 	//发送物流信息
 	@RequestMapping("/sendlgtMsg")
 	@ResponseBody
@@ -1301,15 +1367,15 @@ public class BusOrderAction {
 	    	pw.flush();
 		}
 		else
-		{		
+		{
 		String host = "http://jisukdcx.market.alicloudapi.com";
 	    String path = "/express/query";
 	    String method = "GET";
 	    String appcode = "61fe88dd2009462dbd676ec3a325b7df";
 	    Map<String, String> headers = new HashMap<String, String>();
 	    //?????header?е???(?м????????)?Authorization:APPCODE 83359fd73fe94948385f570e3c139105
-	    
-	    headers.put("Authorization", "APPCODE " + appcode);    
+
+	    headers.put("Authorization", "APPCODE " + appcode);
 	    Map<String, String> querys =  new HashMap<String, String>();
 	    querys.put("number", lgtNums);
 	    querys.put("type", "auto");
@@ -1324,9 +1390,9 @@ public class BusOrderAction {
 			e.printStackTrace();
 		}
 		}
-	    
+
 	}
-	
-	
+
+
 }
 

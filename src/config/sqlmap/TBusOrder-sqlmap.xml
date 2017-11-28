@@ -318,6 +318,7 @@ where 1=1
        u.user_phone applyPhone,
        u.cust_no custNo,
          cp.brand brand,
+         cp.code code,
        SP.cust_name supperName,
        SP.user_phone supperPhone,
        TEMP.SUPPLY_NO supplyNo,

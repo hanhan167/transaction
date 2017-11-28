@@ -240,6 +240,17 @@ a {
     font-size: 1rem;
 }
 
+/*底部*/
+.footer {
+    width: 100%;
+    height: 49px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #cecece;
+    background-color: #FFFFFF;
+}
+
 /*地址*/
 
 .address-box {
@@ -303,7 +314,7 @@ a {
 
 .remark-com {
     width: 100%;
-    height: 26px;
+    height: auto;
     line-height: 26px;
 }
 
@@ -328,9 +339,9 @@ input[type="date"]::-webkit-clear-button {
 
 /*收货地址*/
 .address-lis {
-    width: 100%;
-    height: 100%;
-    background-color: #f3f3f3;
+   /*  width: 100%; 
+    height: 100%;*/
+    background-color: #CECECE;
 }
 
 .address-lis li {

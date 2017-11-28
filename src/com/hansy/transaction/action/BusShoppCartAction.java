@@ -80,6 +80,23 @@ public class BusShoppCartAction {
 		return view;
 	}
 
+	
+	/**
+	 * 跳转购物车页面App
+	 * 
+	 * @description: TODO
+	 * @creator: cj
+	 * @createDate: 2017年3月15日
+	 * @modifier:
+	 * @modifiedDate:
+	 * @return
+	 */
+	@RequestMapping("/toShoppCartApp")
+	public ModelAndView toShoppCartApp() {
+		ModelAndView view = new ModelAndView("buyerIndent_shoppingCarApp");
+		return view;
+	}
+	
 	/**
 	 * 获取购物车内容
 	 * 

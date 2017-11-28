@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hansy.transaction.common.BusinessMap;
+import com.hansy.transaction.common.utils.AllPager;
 import com.hansy.transaction.common.utils.Pager;
 import com.hansy.transaction.model.bo.Order;
 import com.hansy.transaction.model.vo.TBusOrderDetlVo;
@@ -15,7 +16,7 @@ import com.hansy.transaction.model.vo.TUserSupplyInfoVo;
 /**
  * 订单信息service
  * TODO javadoc for com.hansy.transaction.service.ITBusOrderService
- * @Copyright: 2017成都环赛信息技术有限公司 
+ * @Copyright: 2017成都环赛信息技术有限公司
  * @author: cj
  * @since: 2017年3月9日
  */
@@ -26,7 +27,7 @@ public interface ITBusOrderService {
 	 * 获取供方订单分页
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月10日 
+	 * @createDate: 2017年3月10日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param custNo
@@ -38,7 +39,7 @@ public interface ITBusOrderService {
 	 * 获取买方订单分页
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月14日 
+	 * @createDate: 2017年3月14日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param custNo
@@ -51,7 +52,7 @@ public interface ITBusOrderService {
 	 * 获取供方（全部，待发货，待确认，完成4种类型订单数量）
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -62,7 +63,7 @@ public interface ITBusOrderService {
 	 * 获取买方（全部，待付款，待收货，完成4种类型订单数量）
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月15日 
+	 * @createDate: 2017年3月15日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param param
@@ -74,19 +75,19 @@ public interface ITBusOrderService {
 	 * 逻辑删除
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月17日 
+	 * @createDate: 2017年3月17日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param orderNo
 	 * @return
 	 */
 	BusinessMap<Object> updateStatus(Map<String,Object> params);
-	
+
 	/**
 	 * 卖家逻辑删除
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月17日 
+	 * @createDate: 2017年3月17日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param orderNo
@@ -98,7 +99,7 @@ public interface ITBusOrderService {
 	 * 生成订单
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月23日 
+	 * @createDate: 2017年3月23日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param orderDetlList
@@ -110,31 +111,31 @@ public interface ITBusOrderService {
 	 * 根据id获取订单
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月23日 
+	 * @createDate: 2017年3月23日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param orderNo
 	 * @return
 	 */
 	List<TBusOrderVo> getById(String orderNo);
-	
+
 	/**
 	 * 更新订单状态
 	 * @description: TODO
 	 * @creator: cj
-	 * @createDate: 2017年3月23日 
+	 * @createDate: 2017年3月23日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param param
 	 * @return
 	 */
 	BusinessMap<Object> updateOrderStatus(Map<String, Object> param);
-	
+
 	/**
 	 * 新增订单
 	 * @description: TODO
 	 * @creator: tx
-	 * @createDate: 2017年7月9日 
+	 * @createDate: 2017年7月9日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param param
@@ -145,7 +146,7 @@ public interface ITBusOrderService {
 	 * 更新订单价格及折扣
 	 * @description: TODO
 	 * @creator: tx
-	 * @createDate: 2017年7月9日 
+	 * @createDate: 2017年7月9日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param param
@@ -158,7 +159,7 @@ public interface ITBusOrderService {
 	 * 再次下单获取原订单信息
 	 * @description: TODO
 	 * @creator: tx
-	 * @createDate: 2017年7月13日 
+	 * @createDate: 2017年7月13日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param orderNo
@@ -166,10 +167,10 @@ public interface ITBusOrderService {
 	 */
 	BusinessMap<Object> getOldById(Map<String, Object> map);
 	/**
-	 * 
+	 *
 	 * @description: 根据id产品编号查询数量
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年7月19日 
+	 * @createDate: 2017年7月19日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param goodsNo
@@ -178,10 +179,10 @@ public interface ITBusOrderService {
 	TBusOrderVo getByGoodNo(String goodsNo);
 	List<Order> getByidDteail(String orderNo);
 	/**
-	 * 
+	 *
 	 * @description:修改订单的拆分状态
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年7月20日 
+	 * @createDate: 2017年7月20日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param param
@@ -189,10 +190,10 @@ public interface ITBusOrderService {
 	 */
 	BusinessMap<Object> updateOrderSpiltStatus(Map<String, Object> param);
 	/**
-	 * 
+	 *
 	 * @description: 根据唯一主键查询订单
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年7月25日 
+	 * @createDate: 2017年7月25日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param tableKey
@@ -200,10 +201,10 @@ public interface ITBusOrderService {
 	 */
 	TBusOrderVo getByTableKey(String tableKey);
 	/**
-	 * 
+	 *
 	 * @description: 插入订单备注
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年7月25日 
+	 * @createDate: 2017年7月25日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param tBusOrderVo
@@ -214,16 +215,18 @@ public interface ITBusOrderService {
 	 * 根据custno查询详细数据
 	 * @description: TODO
 	 * @creator: 欧诗阳
-	 * @createDate: 2017年7月18日 
+	 * @createDate: 2017年7月18日
 	 * @modifier:
 	 * @modifiedDate:
 	 * @param custNo
 	 * @return
 	 */
 	TUserSupplyInfoVo getUserSupplyDetail(String custNo);
-	
+
 	public Pager productRank(Map<String, Object>map,Pager pager);
-	
+
 	public void lgtSend(TBusOrderVo busOrderVo);
+
+	BusinessMap<AllPager> selectBuyerOrders(Map<String, Object> param);
 }
 

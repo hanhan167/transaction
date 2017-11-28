@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.hansy.transaction.common.BusinessMap;
+import com.hansy.transaction.common.utils.AllPager;
 import com.hansy.transaction.common.utils.Pager;
 import com.hansy.transaction.model.bo.Order;
 import com.hansy.transaction.model.vo.GoodAlls;
@@ -82,6 +83,7 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 					"busOrder.selectBuyerPageOrders", param,
 					(pager.getPageNo() - 1) * pager.getPageSize(),
 					pager.getPageSize());
+			System.out.println(orderNoList.size());
 			if (orderNoList.size() == 0) {
 				param.put("orderNoList", null);
 			} else {
@@ -111,6 +113,54 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		pager.setTotal(count);
 		pager.setRows(list);
 		bMap.setInfoBody(pager);
+		bMap.setIsSucc(true);
+		return bMap;
+	}
+
+	/**
+	 * App专用
+	 */
+	@Override
+	public BusinessMap<AllPager> selectBuyerOrders(Map<String, Object> param) {
+		BusinessMap<AllPager> bMap = new BusinessMap<>();
+		AllPager allPager = new AllPager();
+		// 获取分页的list
+		List<Order> orderNoList = new ArrayList<>();
+		List list = new ArrayList<>();
+
+		try {
+			orderNoList = getSqlMapClientTemplate().queryForList(
+					"busOrder.selectBuyerPageOrders", param);
+			System.out.println(orderNoList.size());
+			if (orderNoList.size() == 0) {
+				param.put("orderNoList", null);
+			} else {
+				param.put("orderNoList", orderNoList);
+			}
+			list = getSqlMapClientTemplate().queryForList(
+					"busOrder.selectBuyerOrders1", param);
+
+		} catch (Exception e) {
+			bMap.setIsSucc(false);
+			bMap.setMsg("获取分页内容失败");
+			e.printStackTrace();
+			return bMap;
+		}
+
+		// 获取总记录数
+		int count = 0;
+		try {
+			count = (int) getSqlMapClientTemplate().queryForObject(
+					"busOrder.selectBuyerOrdersCount", param);
+		} catch (Exception e) {
+			bMap.setIsSucc(false);
+			bMap.setMsg("获取总记录数失败");
+			e.printStackTrace();
+			return bMap;
+		}
+		allPager.setCount(count);
+		allPager.setRows(list);
+		bMap.setInfoBody(allPager);
 		bMap.setIsSucc(true);
 		return bMap;
 	}
@@ -434,4 +484,6 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 			e.printStackTrace();
 		}
 	}
+
+
 }

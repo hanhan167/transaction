@@ -1,101 +1,54 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<base href="<%=basePath%>" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css"
-	href="frame/static/css/commonality.css" />
-<link rel="stylesheet" type="text/css" href="frame/layui/css/layui.css" />
-<link rel="stylesheet" type="text/css"
-	href="frame/static/css/indentIndent.css" />
-<title>买方订单</title>
-<style type="text/css">
-.uname {
-	color: blue;
-}
 
-.label {
-	display: inline-block;
-	text-align: right;
-	width: 100px;
-}
-</style>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+ <head>
+ <base href="<%=basePath%>" />
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>我的订单</title>
+    <link rel="stylesheet" type="text/css" href="frame/static/css/shopList.css">
+     <link rel="stylesheet" type="text/css" href="frame/static/css/shopwait.css">
 </head>
 <body>
+<div class="header" style="height: 43px">
+    <div class="header-box">
+        <div class="header-img fl"><img class="l-img returnShopCart"  style='padding-top:11px;' src="frame/static/picture/arrow-white.png"></div>
+        <div class="text-tit fl">我的订单</div>
+        <div class="clear-box"></div>
+    </div>
+    <div class="search-terms">
+        <div class="terms-box fl on-terms">全部</div>
+        <div class="terms-box fl wPayment">待付款</div>
+        <div class="terms-box fl">待收货</div>
+        <div class="terms-box fl">已完成</div>
+        <div class="terms-box fl" style="border-right: none">已取消</div>
+        <div class="clear-box"></div>
+    </div>
+</div>
 
-	<!--顶部-->
-	<div class="head">
-		<jsp:include page="head.jsp" flush="true" />
-	</div>
-
-	<!-- 中间的内容 -->
-	<div class="centre">
-		<div class="content">
-			<!-- 选项卡 -->
-			<div class="head_tab">
-				<ul>
-					<li class="choice"><a>全部（<span id="all"></span>）
-					</a></li>
-					<li><a>待确认（<span id="confirmed"></span>）
-					</a></li>
-					<li><a>待付款（<span id="payment"></span>）
-					</a></li>
-					<li><a>待发货（<span id="readyShip"></span>）
-					</a></li>
-					<li><a>待收货（<span id="readCollect"></span>）
-					</a></li>
-					<li><a>完成（<span id="complete"></span>）
-					</a></li>
-					<li><a>已取消（<span id="cancel"></span>）
-					</a></li>
-				</ul>
-				<!-- 搜索 -->
-				<div style="float:right">
-					<input type="text" placeholder="输入卖家昵称、电话或商品名称搜索订单"> <a
-						href="javascript:;"></a>
-				</div>
-				<div class="clear"></div>
-			</div>
-			<!-- 显示 -->
-			<div class="show">
-				<!-- 表头 -->
-				<div class="header">
-					<span class="buyerIndex_name">商品</span> <span class="indent_price">单价（元）</span>
-					<span class="indent_quantity">数量</span> <span
-						class="indent_aggregate">小计（元）</span> <span class="indent_type">类型</span>
-					<span class="indent_operation">交易状态</span>
-				</div>
-
-				<!-- 内容 -->
-				<div class="sheet">
-					<!-- 内容显示 -->
-
-				</div>
-				<div id="demo"></div>
-			</div>
+<div class="mains" style="top: 88px;bottom: 0;overflow-y: auto">
+<!-- content += "<div class='moudle'>"; -->
+	<div class='moudle'>
+		<div class='address-lis'>
+			<ul></ul>
 		</div>
 	</div>
-
-	<!--底部-->
-	<div class="base">
-		<jsp:include page="base.jsp" flush="true" />
-	</div>
-
+</div>
 </body>
 </html>
+
 <script type="text/javascript"
 	src="frame/static/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="frame/layui/layui.js"></script>
-<script type="text/javascript" src="frame/static/layer/layer.js"></script>
 <script type="text/javascript" src="frame/static/js/company.js"></script>
+<script type="text/javascript" src="frame/static/layer/mobile/layer.js"></script>
 <script type="text/javascript">
 	var curr;
 	$(function() {
@@ -108,51 +61,49 @@
 			,
 			base : 'frame/layui/' //设定扩展的Layui模块的所在目录，一般用于外部模块扩展
 		});
-		count();
+		//count();
 		curr = 1;
 		var pageNo = 1;
 		var orderStatus = "";
-		$(".head_tab>ul>li").click(function() {
-			$(".head_tab>ul>li").removeClass("choice");
-			$(this).addClass("choice");
+		$(".search-terms>div").click(function() {
+			$(".search-terms>div").removeClass("on-terms");
+			$(this).addClass("on-terms");
 		});
-		/* if($("#loginName0").text()!=""){demo(curr);} */
 		demo(curr);
-		$(".head_tab>ul>li:eq(0)>a").click(function() {//全部
+		$(".search-terms>div:eq(0)").click(function() {//全部
 			demo(curr);
 			orderStatus = "";
 		});
-		$(".head_tab>ul>li:eq(1)>a").click(function() {//待确认
+		/* $(".search-terms>div:eq(1)").click(function() {//待确认
 			stateLook(curr, "090001");
 			orderStatus = "090001";
-		});
-		$(".head_tab>ul>li:eq(2)>a").click(function() {//待付款
+		}); */
+		$(".search-terms>div:eq(1)").click(function() {//待付款
 			stateLook(curr, "090003");
 			orderStatus = "090003";
 		});
-		$(".head_tab>ul>li:eq(3)>a").click(function() {//待发货
+		/* $(".head_tab>ul>li:eq(3)>a").click(function() {//待发货
 			stateLook(curr, "090002");
 			orderStatus = "090002";
-		});
-		$(".head_tab>ul>li:eq(4)>a").click(function() {//待收货
+		}); */
+		$(".search-terms>div:eq(2)").click(function() {//待收货
 			stateLook(curr, "090004");
 			orderStatus = "090004";
 		});
-		$(".head_tab>ul>li:eq(5)>a").click(function() {//完成
+		$(".search-terms>div:eq(3)").click(function() {//完成
 			stateLook(curr, "090005");
 			orderStatus = "090005";
 		});
-		$(".head_tab>ul>li:eq(6)>a").click(function() {//已取消
+		$(".search-terms>div:eq(4)").click(function() {//已取消
 			stateLook(curr, "090006");
 			orderStatus = "090006";
 		});
-		//搜索
-		$(".head_tab>div>a").click(function() {
-			seek(pageNo, orderStatus);
-		});
+		
+		
 	});
 
-	function seek(pageNo, orderStatus) {
+	//查找
+	/* function seek(pageNo, orderStatus) {
 		var query = $(".head_tab>div>input").val();
 		$.ajax({
 			url : 'busOrder/getBuyerOrders.do',
@@ -163,7 +114,7 @@
 				orderStatus : orderStatus
 			},
 			beforeSend : function() {
-				$(".sheet").html("获取数据中");
+				$(".").html("获取数据中");
 			},
 			success : function(data) {
 				//搜索结果的显示
@@ -177,13 +128,21 @@
 				}
 			}
 		});
-	}
+	} */
 
 	function demo(curr) {
 		$.ajax({
-			url : 'busOrder/getBuyerOrders.do',
+			url : 'busOrder/getBuyerOrdersApp.do',
 			data : {
 				pageNo : curr || 1
+			},
+			beforeSend : function() {
+				$(".address-lis>ul").html(	 "<div class='warn-box'>"
+						+	"<div class='warn-infos'>"        
+						+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+						+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+						+	       " </div>"
+						+	    "</div>"		);
 			},
 			success : function(data) {
 				if (data.success) {
@@ -197,12 +156,22 @@
 			}
 		});
 	}
+	
 	function stateLook(curr, orderStatus) {
 		$.ajax({
-			url : 'busOrder/getBuyerOrders.do',
+			url : 'busOrder/getBuyerOrdersApp.do',
 			data : {
 				pageNo : curr || 1,
 				orderStatus : orderStatus
+			},
+			beforeSend : function() {
+				$(".address-lis>ul").html(	 
+						"<div class='warn-box'>"
+						+	"<div class='warn-infos'>"        
+						+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+						+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+						+	       " </div>"
+						+	    "</div>"		);
 			},
 			success : function(data) {
 				if (data.success) {
@@ -216,8 +185,9 @@
 			}
 		});
 	}
+	
 	function display(data, orderStatus, query) {
-		$(".sheet").empty();
+		$(".address-lis>ul").empty();
 		var Row = data.obj;
 		var supplyName = [];
 		var tmp = [];
@@ -244,8 +214,12 @@
 		}
 		var content = "";
 		if (data.obj.count == 0) {
-			content += "<div class='moudleNull'>";
-			content += "没有相应的订单";
+			content += "<div class='warn-box'>";
+			content += "<div class='warn-infos'>";
+			content += "<div class='order-img'><img src='frame/static/picture/order-img.png'></div>";
+			content += "<div class='warn-texts'>你还没有相关订单哦!</div>";
+			content += "<div class='href-btn'>去商城逛逛</div>";
+			content += "</div>";
 			content += "</div>";
 		}
 		for ( var i in tmpguan) {
@@ -253,165 +227,203 @@
 					Row.rows[tmpguan[i][1]].updateCustType);
 			var quantity = 0;
 			var price = parseInt(0);
-			content += "<div class='moudle'>";
-			content += "<div class='line'>";
-			content += "<span class='uname' onclick='vendor(\""
-					+ Row.rows[tmpguan[i][1]].supplyNo + "\")'>卖家："
-					+ Row.rows[tmpguan[i][1]].supperName + "</span>";
-			content += "<span class='utel'>"
-					+ Row.rows[tmpguan[i][1]].applyPhone + "</span>";
-			content += "<span class='udate right'>提交时间："
+			
+			//content += "<div class='address-lis'>";
+			//content += "<ul>";
+			content += "<li>";
+			content += "<div class='title-infos'>";
+			content += "<div class='tit-top'>"; 
+			content += "<p>"; 
+			content += "<span class='fl' onclick='vendor(\""
+					+ Row.rows[tmpguan[i][1]].supplyNo + "\")'>"
+					+ Row.rows[tmpguan[i][1]].supperName  +  "</span>";
+			
+			content += "<span class='fr' style='color: #b2191b'>"
+						+ tradeStus
+						+ "</span>";
+			content += "</p>"; 	
+			content += "<p>"; 	
+					/* content += "<span class='utel'>"
+					+ Row.rows[tmpguan[i][1]].applyPhone + "</span>"; */
+			content += "<span class='fl'>订单号:"
+						+ Row.rows[tmpguan[i][1]].orderNo + "</span>";
+			content += "<span class='fr'>"
 					+ new Date(Row.rows[tmpguan[i][1]].insertDate)
-							.Format("yyyy-MM-dd hh:mm:ss") + "</span>";
-			content += "<span class='uindent right'>订单编号："
-					+ Row.rows[tmpguan[i][1]].orderNo + "</span>";
+							.Format("yyyy-MM-dd") + "</span>";
+			content += "</p>"; 	
 			content += "</div>";
+			content += "<div class='tit-bottom'></div>"; 
+			content += "</div>";
+				content += "<div class='message infos-details'>";
 			for (var num = 1; num < tmpguan[i].length; num++) {
-				content += "<div class='message' data-brand='"+Row.rows[tmpguan[i][num]].goodsCode+"'>";
-				content += "<div class='buyerIndex_name'><p title='"+Row.rows[tmpguan[i][num]].goodsName+"'>"
+				content += "<div display='none' data-brand='"+Row.rows[tmpguan[i][num]].goodsCode+"'></div>";
+				if(Row.rows[tmpguan[i][num]].code==null || Row.rows[tmpguan[i][num]].code=="" || Row.rows[tmpguan[i][num]].code=="null")
+				{	
+				content += "<div class='li-img fl'>";
+				content += "<img>";
+				content += "</div>";
+				}else{
+					content += "<div class='li-img fl'>";
+					content += "<img src='http://new.cp2013.com.cn/File/B/"
+							+ ((Row.rows[tmpguan[i][num]].code)).substring((Row.rows[tmpguan[i][num]].code).indexOf("-"),(Row.rows[tmpguan[i][num]].code).length)+".jpg'>";
+					content += "</div>";
+				}
+				content +=	"<div class='li-texts fl' style='margin-left: 15px'>";
+				content += "<h5>"+Row.rows[tmpguan[i][num]].goodsName
 						+ (Row.rows[tmpguan[i][num]].goodsName != null ? Row.rows[tmpguan[i][num]].goodsName
-								: '') + "</p>";
-				content += "<p title='"+Row.rows[tmpguan[i][num]].par+"'>"
+								: '') + "</h5>";
+				content += "<p class='num-text' title='"+Row.rows[tmpguan[i][num]].par+"'>"
 						+ (Row.rows[tmpguan[i][num]].par != null ? Row.rows[tmpguan[i][num]].par
-								: '') + "</p></div>";
-				content += "<div class='indent_price'><span class='fs14 vertical-m'>"
+								: '') + "</p>";
+				content += " <p class='one-price'><span>"
 						+ Row.rows[tmpguan[i][num]].goodsPrice.toFixed(2)
-						+ "</span><br/>";
-				if (Row.rows[tmpguan[i][num]].goodsDiscount == 10) {
+						+ "</span>"; 
+				/* if (Row.rows[tmpguan[i][num]].goodsDiscount == 10) {
 					content += "<span class='fs12 vertical-m'>无折扣</span></div>";
 				} else {
 					content += "<span class='fs12 vertical-m'>"
 							+ Row.rows[tmpguan[i][num]].goodsDiscount
 							+ "折</span></div>";
-				}
+				} */
 				quantity += Row.rows[tmpguan[i][num]].goodsCount;
 				price += parseInt(Row.rows[tmpguan[i][num]].goodsMoney);
-				content += "<div class='indent_quantity'>"
-						+ Row.rows[tmpguan[i][num]].goodsCount + "</div>";
-				content += "<div class='indent_aggregate'>"
+				content += "<span>*</span>";
+				content += "<span>"
+						+ Row.rows[tmpguan[i][num]].goodsCount + "</span>";
+				content += "</p>";
+				content += "<p class='total-price'><span>合计:</span><span>"
 						+ parseInt(Row.rows[tmpguan[i][num]].goodsMoney)
-								.toFixed(2) + "</div>";
-				content += "<div class='indent_type'>"
+								.toFixed(2) + "</span></p>";
+				content +="</div>";		
+			/* 	content += "<div class='indent_type'>"
 						+ (Row.rows[tmpguan[i][num]].orderType == '091001' ? '试刀'
-								: '购买') + "</div>";
-				content += "<div class='indent_operation'><p class='fs14 margin-bottom-5'>"
-						+ tradeStus
-						+ "</p><a href='javascript:;' style='display:none;' class='fs12 margin-bottom-5'>订单详情</a><a style='display:none;' href='javascript:;' class='fs12'>查看物流</a></div>";
-				content += "</div>";
+								: '购买') + "</div>"; */
+				content +="<div class='clear-box'></div>";			
+				
+				
+			
 			}
-			content += "<div class='row'>";
-			content += "<span class='font-888'>期望到货时间："
-					+ Row.rows[tmpguan[i][1]].wishPayDt + "</span>";
-			content += "<span class='delivery_date font-888'>预期收货时间："
-					+ Row.rows[tmpguan[i][1]].defaultPayDt + "</span>";
-			content += "</div>";
-			content += "<div class='remark'>";
-			content += "<label>备注：</label><div class='left'>";
-			for (var j = 0; j < data.map[Row.rows[tmpguan[i][1]].orderNo].length; j++) {
-				if ((j + 1) % 2 != 0) {
-					content += "<span>"
-							+ new Date(
-									data.map[Row.rows[tmpguan[i][1]].orderNo][j].insertDate)
-									.Format("yyyy-MM-dd hh:mm:ss")
-							+ " "
-							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].status == 1 ? '客户状态'
-									: '供方状态')
-							+ "："
-							+ tradeStus
-							+ " "
-							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].status == 1 ? '客户备注'
-									: '供方备注')
-							+ "："
-							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark != null ? data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark
-									: '') + "</span><br>";
-				} else {
-					content += "<span>"
-							+ new Date(
-									data.map[Row.rows[tmpguan[i][1]].orderNo][j].insertDate)
-									.Format("yyyy-MM-dd hh:mm:ss")
-							+ " "
-							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].status == 0 ? '客户状态'
-									: '供方状态')
-							+ "："
-							+ tradeStus
-							+ " "
-							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].status == 0 ? '客户备注'
-									: '供方备注')
-							+ "："
-							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark != null ? data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark
-									: '') + "</span><br>";
-				}
-			}
-			if (Row.rows[tmpguan[i][1]].orderStatus == 090005
-					|| Row.rows[tmpguan[i][1]].orderStatus == 090002
-					|| Row.rows[tmpguan[i][1]].orderStatus == 090001) {
-			} else {
-				content += "<input type='text' maxlength='150'/>";
-			}
-			content += "</div><div class='clear'><input type='hidden' value="+Row.rows[tmpguan[i][1]].orderStatus+"></div></div>";
-			if (Row.rows[tmpguan[i][1]].orderStatus == '090001') {
-				content += "<div class='row text-bar-right'>";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='affirm_indent' onclick=cancelOrder(\'"
+			
+			content += "<div class='remark-box'>";
+			
+			content += "<div class='remark-com'>"; 
+			content += "<span class='fl'>默认收货时间:</span>"
+					+	"<span class='fr' style='margin-right: 2px'>" + Row.rows[tmpguan[i][1]].wishPayDt + "</span>" 
+					+ 	"<div class='clear-box'></div>"
+					+   "</div>";
+					
+			
+			content += "<div class='remark-com'>"; 
+			content += "<span class='fl'>期望收货时间:</span>"
+					+	"<span class='fr'>" + Row.rows[tmpguan[i][1]].defaultPayDt + "</span>"
+					+ 	"<div class='clear-box'></div>"
+					+ 	"</div>";
+			
+			/*备注*/
+			content += "<div class='remark-com'>";
+			content += "<span>备注:</span>";	
+			content += "<input  type='text' readonly='readonly' style='font-family:Microsoft YaHei; color:gray;' value=' "+(data.map[Row.rows[tmpguan[i][1]].orderNo][0].remark != null ? data.map[Row.rows[tmpguan[i][1]].orderNo][0].remark
+					: '')+"' />";
+		
+					if(Row.rows[tmpguan[i][1]].orderStatus == '090006'){
+						
+						
+						var remark = null;
+						if(data.map[Row.rows[tmpguan[i][1]].orderNo].length == 2){
+							remark=data.map[Row.rows[tmpguan[i][1]].orderNo][1].remark;
+						}
+						if(data.map[Row.rows[tmpguan[i][1]].orderNo].length == 3){
+							remark=data.map[Row.rows[tmpguan[i][1]].orderNo][2].remark;
+						}
+						if(remark != null){
+						var index = remark.indexOf('】');
+						var remarkSubstr1 = remark.substring(0,index+1);
+						var remarkSubstr2 = remark.substring(index+1);
+						content += "</br><span>取消原因:"+remarkSubstr1+"</span>";
+						content += "<input  type='text' readonly='readonly' style='font-family:Microsoft YaHei; color:gray;' value=' "+remarkSubstr2+"' />";
+						}
+						
+						
+					}	
+		
+		
+			
+			content+= "<div class='clear'><input type='hidden' value="+Row.rows[tmpguan[i][1]].orderStatus+"></div></div>"; 
+			content+= "<div class='clear-box'></div>";
+			content+="</div>";
+			content+= "<div class='clear-box'></div>";
+			content+="</div>";
+			
+			
+			if (Row.rows[tmpguan[i][1]].orderStatus == '090001') {//待确认
+				content += "<div class='btns-box'>";
+				content += "<div class='fr'>";
+				content += "<span style='margin-right: 12px;' onclick=cancelOrder(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
 						+ "\',\'"
 						+ Row.rows[tmpguan[i][1]].orderType
-						+ "\',this)>取消订单</button>";
+						+ "\',this)>取消订单</span>";
 				content += "</div>";
-			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090003') {
-				content += "<div class='row text-bar-right' data-supplyNo="+Row.rows[tmpguan[i][1]].supplyNo+">";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='cancel_indent' onclick=cancelOrder(\'"
+				content += "</div>";
+			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090003') {//待付款
+				content += "<div class='btns-box' data-supplyNo="+Row.rows[tmpguan[i][1]].supplyNo+">";
+				content += "<div class='fr'>";
+				content += "<span   onclick=cancelOrder(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
 						+ "\',\'"
 						+ Row.rows[tmpguan[i][1]].orderType
-						+ "\',this)>取消订单</button>";
-				content += "<button type='button' class='affirm_indent' onclick=invoice(\'"
+						+ "\',this)>取消订单</span>";
+				content += "<span class='on-red' onclick=invoice(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
 						+ "\',"
 						+ price
-						+ ",this)>确认付款</button>";
+						+ ",this)>确认付款</span>";
 				content += "</div>";
-			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090004') {
-				content += "<div class='row text-bar-right'>";
-				content += "<a class='my_link' herf='javascript:void(0)'  onclick=lookWlMsg(\'"
+				content += "</div>";
+			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090004') {//待收货
+				content += "<div class='btns-box'>";
+				content += "<div class='fr'>";
+				content += "<span class='my_link' style='color: #333333;'  onclick=lookWlMsg(\'"
 						+ Row.rows[tmpguan[i][1]].lgtNums
-						+ "\',this)>查看物流信息</a>";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='affirm_indent' onclick=operatorOrder(\'"
+						+ "\',this)>查看物流信息</span>"; 
+				content += "<span class='on-red'  onclick=operatorOrder(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "\',this)>确认收货</button>";
+						+ "\',this)>确认收货</span>";
+				content += "</div>";
 				content += "</div>";
 				content += "<div class='myLgtMsg' id=\'"+Row.rows[tmpguan[i][1]].orderNo+"\'></div>";
-			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090006') {
-				content += "<div class='row text-bar-right'>";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='cancel_indent' onclick=againPurchase('"
+			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090006') {//取消
+				content += "<div class='btns-box'>";
+				content += "<div class='fr'>";
+				content += "<span  onclick=againPurchase('"
 						+ Row.rows[tmpguan[i][1]].orderNo
 						+ "','"
 						+ Row.rows[tmpguan[i][1]].supplyNo
-						+ "',this)>继续购买</button>";
-				content += "<button type='button' class='affirm_indent' onclick=deleteOrder(\'"
+						+ "',this)>继续购买</span>";
+				content += "<span  class='on-red' onclick=deleteOrder(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "',this\)>删除订单</button>";
+						+ "',this\)>删除订单</span>";
 				content += "</div>";
-			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090005') {
-				content += "<div class='row text-bar-right'>";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='cancel_indent' onclick=againPurchase('"
+				content += "</div>";
+			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090005') {//完成
+				content += "<div class='btns-box'>";
+				content += "<div class='fr'>";
+				content += "<span  class='on-red' onclick=againPurchase('"
 						+ Row.rows[tmpguan[i][1]].orderNo
 						+ "','"
 						+ Row.rows[tmpguan[i][1]].supplyNo
-						+ "',this)>再次购买</button>";
+						+ "',this)>再次购买</span>";
+				content += "</div>";
 				content += "</div>";
 			}
-			content += "</div>";
+			//content += "</ul>";
+			//content += "</div>";
 		}
-		$(".sheet").append(content);
+		$(".address-lis>ul").append(content);
 
 		var totalPage = Math.ceil(eval(data.obj.total / data.obj.pageSize));
 		//显示分页
-		layui.use([ 'laypage', 'layer' ], function() {
+/* 		layui.use([ 'laypage', 'layer' ], function() {
 			var laypage = layui.laypage;
 			var layer = layui.layer;
 			laypage({
@@ -434,7 +446,7 @@
 					}
 				}
 			});
-		});
+		}); */ 
 	}
 	function count() {
 		$.ajax({
@@ -472,7 +484,7 @@
 		return tradeStus;
 	}
 	//填写发票信息
-	function invoiceInformation(orderNo, price, remark) {
+	/* function invoiceInformation(orderNo, price, remark) {
 		layer.open({
 			title : '发票信息',
 			type : 2,
@@ -480,15 +492,16 @@
 					+ '&billMoney=' + price + '&remark=' + remark,
 			area : [ '800px', '600px' ],
 		});
-	}
-	//付款
+	} */
+	
+	//确认付款
 	function invoice(orderNo, price, element) {
 		var remark;
-		$(element).parent().parent().find("input[type='text']").each(
+		$(element).parent().parent().parent().find("input[type='text']").each(
 				function() {
 					remark = $(this).val();
 				});
-		var supplyNo = $(element).parent().attr("data-supplyno");
+		var supplyNo = $(element).parent().parent().attr("data-supplyno");
 		$
 				.ajax({
 					url : 'busOrder/getUserSupplyDetail.do',
@@ -498,61 +511,37 @@
 					},
 					success : function(data) {
 						if (data.success) {
-							layer
-									.open({
-										title : '供方帐号信息',
-										content : "<div style='font-size:16px;line-height:26px;'><span class='label'>"
-												+ data.obj.baseAcctOrg
-												+ "：</span>"
-												+ data.obj.baseAcctNo
-												+ "</div>"
-												+ "<div style='font-size:16px;line-height:26px;'><span class='label'>开户户名：</span>"
-												+ data.obj.baseAcctName
-												+ "</div>",
-										btn : [ "填写发票信息", "不需要发票", "取消" ],
-										area : [ '340px', '260px' ],
-										yes : function() {
-											layer.close(layer.index);
-											invoiceInformation(orderNo, price,
-													remark);
-										},
-										btn2 : function() {
-											$
-													.ajax({
-														url : 'busOrder/orderOperator.do',
-														type : 'post',
-														data : {
-															"remark" : remark,
-															"orderNo" : orderNo
-														},
-														success : function(data) {
-															if (data.success) {
-																layer
-																		.msg(
-																				'操作成功',
-																				{
-																					icon : 1,
-																					time : 2000
-																				},
-																				function() {
-																					stateLook(
-																							curr,
-																							"090003");
-																					orderStatus = "090003";
-																					//location.reload();
-																					count();
-																				});
-															} else {
-																layer
-																		.open({
-																			title : '错误信息',
-																			content : data.msg
-																		});
-															}
-														}
-													});
+							$
+							.ajax({
+								url : 'busOrder/orderOperator.do',
+								type : 'post',
+								data : {
+									"remark" : remark,
+									"orderNo" : orderNo
+								},
+								success : function(data) {
+									if (data.success) {
+										layer.open(	
+										{
+											content:'操作成功',
+										    end:function() {
+												stateLook(
+														curr,
+														"090003");
+												orderStatus = "090003";
+												//location.reload();
+												count();
+											}
 										}
-									});
+										);	
+									}else {
+										layer.open({
+											title : '错误信息',
+											content : data.msg
+													});
+									}
+								}
+							});
 						}
 					}
 				});
@@ -561,7 +550,7 @@
 	//确认收货
 	function operatorOrder(orderNo, element) {
 		var remark;
-		$(element).parent().parent().find("input[type='text']").each(
+		$(element).parent().parent().parent().find("input[type='text']").each(
 				function() {
 					remark = $(this).val();
 				});
@@ -574,14 +563,16 @@
 			},
 			success : function(data) {
 				if (data.success) {
-					layer.msg('操作成功', {
-						icon : 1,
-						time : 2000
-					}, function() {
-						stateLook(curr, "090004");
-						orderStatus = "090004";
-						count();
-					});
+					layer.open(
+					{
+						content:'操作成功',
+						end:function() {
+							stateLook(curr, "090004");
+							orderStatus = "090004";
+							count();
+										}
+					}
+							)
 				} else {
 					layer.open({
 						title : '错误信息',
@@ -591,9 +582,10 @@
 			}
 		});
 	};
+	
 	//删除订单
 	function deleteOrder(orderNo, element) {
-		var orde = $(element).parent().prev().find(".clear>input").val();
+		var orde = $(element).parent().parent().prev().find(".clear>input").val();
 		layer.open({
 			title : '提示信息',
 			content : "是否删除已选中的订单?",
@@ -610,12 +602,14 @@
 					success : function(data) {
 						if (data.success) {
 							count();
-							layer.msg('操作成功', {
-								icon : 1,
-								time : 2000
-							}, function() {
-								stateLook(curr, orde);
-							});
+							layer.open(
+							{
+								content:'操作成功',
+								end:function(){
+									stateLook(curr, orde);
+											  }
+							}
+									)
 						} else {
 							layer.open({
 								title : '错误信息',
@@ -636,23 +630,22 @@
 	}
 	//取消订单
 	function cancelOrder(orderNo, orderType, element) {
-		var orde = $(element).parent().prev().find(".clear>input").val();
+		var orde = $(element).parent().parent().prev().find(".clear>input").val();
 		layer
 				.open({
-					title : '提示信息',
-					content : "是否取消已选中的订单?<br/><select class='cause'><option>协商取消订单</option><option>交期时间有问题</option><option>商品价格不符合预期</option><option>其他</option></select>"
+					title : '请填写取消原因',
+					content : "<select class='cause'><option>协商取消订单</option><option>交期时间有问题</option><option>商品价格不符合预期</option><option>其他</option></select>"
 							+ "<input class='cause' placeholder='请输入取消的原因' maxlength='150'>",
 					btn : [ '确认', '取消' ],
 					yes : function(index, layero) {
-						layer.close(index);
 						$.ajax({
 							url : 'busOrder/cancelOrder.do',
 							data : {
 								"orderNo" : orderNo,
 								"dealType" : "cancel",
 								"orderType" : orderType,
-								"remark" : $("select option:selected").text()
-										+ "" + $("input.cause").val(),
+								"remark" : "【" + $("select option:selected").text()
+										+ "】" + $("input.cause").val(),
 								"statusWay" : "0",
 							},
 							dataType : "json",
@@ -660,11 +653,11 @@
 							success : function(data) {
 								if (data.success) {
 									count();
-									layer.msg('操作成功', {
-										icon : 1,
-										time : 2000
-									}, function() {
-										stateLook(curr, orde);
+									layer.open({
+									 content:'操作成功',
+									 end:function(){
+										 stateLook(curr, orde);
+									 				}
 									});
 								} else {
 									layer.open({
@@ -681,10 +674,11 @@
 					closeBtn : 0
 				});
 	}
+	
 	//再次购买
 	function againPurchase(Row, supplyNo, element) {
 		var brands = "";
-		$(element).parents(".moudle").find(".message").each(function() {
+		$(element).parent().parent().prev().children("div[display='none']").each(function(){
 			brands += $(this).attr("data-brand") + ",";
 		});
 		$.ajax({
@@ -701,7 +695,7 @@
 						title : '',
 						content : data.msg
 					});
-					location.href = "busShoppCart/toShoppCart.do";
+					location.href = "busShoppCart/toShoppCartApp.do";
 				} else {
 					layer.open({
 						title : '错误信息',
@@ -711,6 +705,7 @@
 			}
 		});
 	}
+	
 	Date.prototype.Format = function(fmt) { //author: meizz 
 		var o = {
 			"M+" : this.getMonth() + 1, //月份 
@@ -738,8 +733,7 @@
 	function lookWlMsg(str, that) {
 		event.stopPropagation();
 		myDivId = $(that).parent().next().attr('id');
-		console.log(myDivId);	
-		console.log(str);
+		
 		$modal = $('#'+ myDivId);
 		$modal.show();
 		var $info = $('#info'), html = '';
@@ -751,7 +745,9 @@
 						"lgtNums" : str
 					},
 					beforeSend : function() {
-						$modal.html('加载中...');
+						$modal.html(
+						
+						);
 					},
 					success : function(dataStr) {
 					if (dataStr == 1) {
@@ -996,16 +992,17 @@
 	}
 	
 	$(document).on('click', '.my_link', function(e) {
-		e.stopPropagation()
+		e.stopPropagation();
 		$(that).parent().siblings('#'+ myDivId).show();
 	});
 	
+	
 	$(document).on('click', function() {
 		$('.myLgtMsg').hide();
-	})
+	});
 
 	$(document).on('click','.myLgtMsg',function(e) {
 	 e.stopPropagation();
-	 console.log('XXX')
-	 })
+	 });
+	
 </script>

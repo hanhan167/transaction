@@ -54,7 +54,7 @@ public class Order implements Serializable {
 	private String brand;
 	//更改部分
 	private String lgtNums;	//物流号
-	
+	private String code;
 	
 	public String getBrand() {
 		return brand;
@@ -311,5 +311,16 @@ public class Order implements Serializable {
 	public void setLgtNums(String lgtNums) {
 		this.lgtNums = lgtNums;
 	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	
+	
 }
 
