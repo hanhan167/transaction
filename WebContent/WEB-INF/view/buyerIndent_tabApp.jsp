@@ -732,15 +732,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var myDivId;
 	function lookWlMsg(str, that) {
 		event.stopPropagation();
-		myDivId = $(that).parent().next().attr('id');
-		
-		$modal = $('#'+ myDivId);
-		$modal.show();
-		var $info = $('#info'), html = '';
-		$
-				.ajax({
+		$.ajax({
 					type : 'GET',
-					url : "busOrder/sendlgtMsg.do",
+					url : "busOrder/sendlgtMsgApp.do",
 					data : {
 						"lgtNums" : str
 					},
