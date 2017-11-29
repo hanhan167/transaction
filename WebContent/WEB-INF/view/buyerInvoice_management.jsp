@@ -38,7 +38,7 @@
 	<!-- 中间的内容 -->
 	<div class="centre">
 		<div class="content">
-			<div class="head_tab" style="margin: -30px 0 31px 356px;">
+			<div class="head_tab" style="margin: -30px 0 31px 7px;">
 				<ul>	
 					<li><a style="width: 120px;">未开发票（<span id="complete"></span>）
 					</a></li>
