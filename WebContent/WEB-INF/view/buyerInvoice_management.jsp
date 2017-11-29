@@ -38,6 +38,16 @@
 	<!-- 中间的内容 -->
 	<div class="centre">
 		<div class="content">
+			<div class="head_tab" style="margin: -30px 0 31px 356px;">
+				<ul>	
+					<li><a style="width: 120px;">未开发票（<span id="complete"></span>）
+					</a></li>
+					<li><a>已开发票（<span id="cancel"></span>）
+					</a></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		
 			<div class="header" style="height: 50px;">
 				<label class="all_check"><input type="checkbox" style='margin-left: 2%;margin-top: 2%;'>全选</label>
 				<button type='button' class='cancel_indent' style=" float: right;margin-top: 5px;margin-right: 15px;background-color: #03a1a4;color: #FFFFFf;">开发票</button>

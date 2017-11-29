@@ -58,7 +58,7 @@ ul.heads>li>a{
 		</ul>
 		<ul id="loginOut">
 			<li>
-				<a>我的订单</a>
+				<a>发票管理</a>
 				<ul>
 					<li onclick="toBuyerInvoic()" id="buyerInvoic">买方发票</li>
 					<li onclick="toSupplyInvoic()" id="supplyInvoic">卖方发票</li>
