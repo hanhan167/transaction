@@ -1,0 +1,1070 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="goods">
+	<!-- 获取所有的商品列表 -->
+	<select id="getGoodsAll" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.GoodsAll">
+		select d.cpdm id,t.table_key tableKey,p.name goodsName,p.mun kc,d.guige guige,to_char(t.goods_price,'fm9999990.00') goodsPrice,t.goods_code goodsCode,t.status goodsStatus,t.goods_no cpdm,t.minkc minkc,t.default_pay_dt defaultPayDt,t.order_increment orderIncrement from 
+			data_cp d join t_pub_supply_goods t on t.goods_no=d.cpdm
+        		join data_cpmls p on d.code=p.code
+         			 where t.cust_no=#custNo#
+						<dynamic prepend="and">  
+				            <isNotEmpty property="goodsCode" prepend="and">  
+				                <![CDATA[ 
+				                    t.goods_code = #goodsCode# 
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="goodsStatus" prepend="and">  
+				                <![CDATA[ 
+				                    t.status = #goodsStatus# 
+				                ]]>  
+				            </isNotEmpty>    
+				            <isNotEmpty property="tableKey" prepend="and">  
+				                <![CDATA[ 
+				                    t.table_key = #tableKey# 
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="brand" prepend="and">  
+				                <![CDATA[ 
+				                    p.brand=#brand# 
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="goodsType" prepend="and">  
+				                <![CDATA[ 
+				                    t.goods_code like '$goodsType$%'
+				                ]]>  
+				            </isNotEmpty>   
+				            <isNotEmpty property="query" prepend="and">  
+				                <![CDATA[ 
+				                    (d.cpdm like '%$query$%' or d.guige like '%$query$%')
+				                ]]>  
+				            </isNotEmpty> 
+				        </dynamic>
+				        order by t.insert_date desc
+	</select>
+	
+	<!-- 获取所有的商品总记录数 -->
+	<select id="getGoodsAllCount" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(1) from
+			data_cp d join t_pub_supply_goods t on t.goods_no=d.cpdm
+        		join data_cpmls p on d.code=p.code
+         			 where t.cust_no=#custNo#
+						<dynamic prepend="and">  
+				            <isNotEmpty property="goodsCode" prepend="and">  
+				                <![CDATA[ 
+				                    t.goods_code = #goodsCode# 
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="brand" prepend="and">  
+				                <![CDATA[ 
+				                    p.brand=#brand# 
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="goodsStatus" prepend="and">  
+				                <![CDATA[ 
+				                    t.status = #goodsStatus# 
+				                ]]>  
+				            </isNotEmpty>    
+				            <isNotEmpty property="tableKey" prepend="and">  
+				                <![CDATA[ 
+				                    t.table_key = #tableKey# 
+				                ]]>  
+				            </isNotEmpty>    
+				            <isNotEmpty property="goodsType" prepend="and">  
+				                <![CDATA[ 
+				                    t.goods_code like '$goodsType$%'
+				                ]]>  
+				            </isNotEmpty>   
+				            <isNotEmpty property="query" prepend="and">  
+				                <![CDATA[ 
+				                     (d.cpdm like '%$query$%' or d.guige like '%$query$%')
+				                ]]>  
+				            </isNotEmpty> 
+				        </dynamic>
+	</select>
+	
+	<!-- 商品上架下架 -->
+	<update id="goodsShelf" parameterClass="java.util.HashMap" >
+		update t_pub_supply_goods t set t.status=#status#,t.update_date=#updateDate# where t.table_key=#tableKey#
+	</update>
+	
+	<select id="getGoodsCodes" resultClass="com.hansy.transaction.model.bo.GoodsAll">
+		select d.code goodsCode from data_cpmls d
+	</select>
+	
+	<select id="getGoodsNames" resultClass="com.hansy.transaction.model.bo.GoodsAll" parameterClass="java.lang.String">
+		select p.cpdm goodsNo,p.guige guige,m.name goodsName,m.brand brandName,m.miaoshu goodsDetail from data_cp p,data_cpmls m where p.code=#goodsCode#||'-' and m.code=#goodsCode#
+	</select>
+	
+	<select id="getAllGrades" resultClass="com.hansy.transaction.model.bo.UserGrades">
+		select t.grade_no gradesNo,t.grade_name gradesName from t_user_grade_code t order by t.grade_no asc
+	</select>
+	
+	<insert id="saveGoodsSupply" parameterClass="com.hansy.transaction.model.vo.TPubSupplyGoods">
+		insert into t_pub_supply_goods(table_key,goods_no,goods_name,cust_no,default_pay_dt,insert_date,status,goods_price) values
+			(#tableKey#,
+			 #goodsNo#,
+			 #goodsName#,
+			 #custNo#,
+			 #defaultPayDt#,
+			 #insertDate#,
+			 #status#,
+			 #goodsPrice#
+			)
+	</insert>
+	
+	<!-- 发布商品-新增商品 -->
+	<!-- orderIncrement、goodsCode、minkc -->
+	<insert id="saveGoodsSupplys" parameterClass="com.hansy.transaction.model.vo.TPubSupplyGoods">
+		insert into t_pub_supply_goods(table_key,goods_no,goods_name,cust_no,default_pay_dt,insert_date,status,goods_price,order_increment,goods_code,minkc) values
+			(#tableKey#,
+			 #goodsNo#,
+			 #goodsName#,
+			 #custNo#,
+			 #defaultPayDt#,
+			 #insertDate#,
+			 #status#,
+			 #goodsPrice#,
+			 #orderIncrement#,
+			 #goodsCode#,
+			 #minkc#
+			)
+	</insert>
+	
+	<select id="goodsSales" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.goodsSales">
+		select p.guige guige,t.goods_name goodsName,temp.sales sales,temp.goodsCount goodsCount from t_pub_supply_goods t  left join
+		  (select b.goods_no goodsNo,sum(b.goods_count*b.goods_discount*b.goods_price/10) sales,sum(b.goods_count) goodsCount from (select * from t_bus_order where order_status=#status#) b group by b.goods_no) temp
+		     on t.goods_no=temp.goodsNo
+		        left join data_cp p on t.goods_no=p.cpdm
+		           where t.cust_no=#custNo#
+	</select>
+	
+	<select id="goodsSalesCount" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(1) from t_pub_supply_goods t  left join
+		  (select b.goods_no goodsNo,sum(b.goods_count*b.goods_discount*b.goods_price/10) sales,sum(b.goods_count) goodsCount from (select * from t_bus_order where order_status=#status#) b group by b.goods_no) temp
+		     on t.goods_no=temp.goodsNo
+		        left join data_cp p on t.goods_no=p.cpdm
+		           where t.cust_no=#custNo#
+	</select>
+	
+	<select id="getPrice" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.GoodsAll">
+		select t.goods_no cpdm,t.cust_no custNo,to_char(t.goods_price,'fm9999990.00') goodsPrice from t_pub_supply_goods t where t.table_key=#tableKey#
+	</select>
+	
+	<select id="findIsExist" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(1) from t_pub_supply_goods t where t.cust_no=#custNo# and t.goods_no=#goodsNo#
+	</select>
+	
+	<update id="updatePrice" parameterClass="java.util.HashMap">
+		update t_pub_supply_goods t set t.goods_price=#goodsPrice# where t.table_key=#tableKey#
+	</update>
+	
+	<!-- 获取当前用户的所有goodsCode -->
+	<select id="getMyGoodsCode" parameterClass="java.util.Map" resultClass="java.lang.String">
+		select t.goods_code from t_pub_supply_goods t where t.cust_no=#custNo# 
+		<dynamic prepend="and"> 
+			<isNotEmpty property="goodsType" prepend="">  
+				 <![CDATA[ 
+					 t.goods_code like #goodsType#||'%'
+				 ]]>  
+			</isNotEmpty> 
+		</dynamic>
+		group by t.goods_code
+	</select>
+	
+	<select id="getGoodsSearch" resultClass="com.hansy.transaction.model.bo.DateCpmlsTypes">
+		select t.code,t.template,t.templatevalues from  DATA_CPMLS_TYPES t 
+		<dynamic prepend="where"> 
+			<isNotEmpty property="code" prepend="and">  
+				 <![CDATA[ 
+					 t.code = #code#
+				 ]]>  
+			</isNotEmpty> 
+			<isNotEmpty property="codes" prepend="and">  
+				 <![CDATA[ 
+					 t.code like '$codes$%'
+				 ]]>  
+			</isNotEmpty> 
+		</dynamic>
+	
+	</select>
+	
+	
+	<!-- 获取cutter类型菜单 -->
+	<select id="getCutterType" resultClass="com.hansy.transaction.model.vo.TSysCodeInfo">
+		select s.code_info_name codeinfoname,s.code_info_value codeinfovalue,s.code_type_id codetypeid from sys_code_info s where s.code_type_id='cutterType' 
+	</select>
+	
+	<!-- 根据goodsCode获取商品规格和tableKey-->
+	<select id="getByGoodsCode" resultClass="com.hansy.transaction.model.bo.GoodsAll" parameterClass="java.lang.String">
+		select t.table_key tableKey,t.goods_name guige from t_pub_supply_goods t where t.goods_code=#goodsCode#
+	</select>
+	
+	<!-- 根据类型获取商品-->
+	<select id="getGoodsByType" resultClass="com.hansy.transaction.model.bo.GoodsAll" parameterClass="java.lang.String">
+		select temp.code goodsCode,p.cpdm cpdm,p.guige guige,p.kc kc,p.minkc minkc,p.jiage goodsPrice from (select m.code from data_cpmls m where m.code like #type#||'%') temp 
+			left join 
+		  		data_cp p on temp.code||'-'=p.code
+	</select>
+	
+	<!-- 发布商品-获取产品品牌 -->
+	<select id="getGoodsBrand" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select t.brand from data_cpmls t  
+		<dynamic> 
+			<isNotEmpty property="goodsType">  
+				 <![CDATA[ 
+					 where t.code like #goodsType#||'%'
+				 ]]>  
+			</isNotEmpty> 
+		</dynamic>
+		group by t.brand
+	</select>
+	
+	<!-- 发布商品-根据产品品牌获取其他查询条件信息 -->
+	<select id="getGoodsInfo" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.DataCpmls">
+		select d.name name,d.gg gg,d.code code,d.pyname pyname from data_cpmls d where d.brand=#brand#
+	</select>
+	
+		<!-- 发布商品-根据产品品牌获取其他查询条件信息 -->
+	<select id="getGoodsInfoBy" resultClass="com.hansy.transaction.model.bo.DataCpmls">
+		select d.name name,d.gg gg,d.code code,d.pyname pyname from data_cpmls d where 1=1
+		<dynamic> 
+			<isNotEmpty property="name">  
+					 and t.name like '%$name$%'
+			</isNotEmpty> 
+			<isNotEmpty property="code">  
+				      and t.code = #code#
+			</isNotEmpty> 
+			<isNotEmpty property="gg">  
+				      and t.gg like '$gg$%'
+			</isNotEmpty> 
+			<isNotEmpty property="brand">  
+				      and t.brand = #brand#
+			</isNotEmpty> 
+		</dynamic>
+		order by t.code 
+	</select>
+	
+	
+	
+	<!-- 获取所有的商品列表 -->
+	<select id="getCommodityAlls" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.GoodsAll">
+		select  nvl((select table_key from t_pub_supply_goods where cust_no = #custNo# and goods_no = d.cpdm), '') tableKey,
+				d.id id,
+				nvl(p.name ||''|| d.product_property,'') goodsName,
+				nvl(p.mun,'0') kc,
+				nvl(d.guige ||''|| d.product_property,'') guige,
+				nvl(to_char(d.jiage,'fm9999990.00'),'0.00') goodsPrice,
+				nvl(d.code,'') goodsCode,
+				nvl((select status from t_pub_supply_goods where cust_no = #custNo#  and goods_no = d.cpdm),'') goodsStatus,
+				nvl(d.cpdm,'') cpdm,
+				nvl((select minkc from t_pub_supply_goods where cust_no = #custNo#  and goods_no = d.cpdm), '') minkc,
+		        nvl((select default_pay_dt from t_pub_supply_goods where cust_no = #custNo# and goods_no = d.cpdm), '') defaultPayDt,
+		        nvl((select order_increment from t_pub_supply_goods where cust_no = #custNo# and goods_no = d.cpdm), '') orderIncrement
+				 from 
+			data_cp d 
+        		left join data_cpmls p on d.code=p.code
+        		where d.cpdm not in (select goods_no from t_pub_supply_goods)
+						<dynamic prepend="">  
+				            <isNotEmpty property="brand" prepend="and">  
+				                <![CDATA[ 
+				                    p.brand=#brand# 
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="name" prepend="and">  
+				                <![CDATA[ 
+				                    p.name like '%$name$%' 
+				                ]]>  
+				            </isNotEmpty>    
+				            <isNotEmpty property="gg" prepend="and">  
+				                <![CDATA[ 
+				                    p.gg like '%$gg$%'
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="code" prepend="and">  
+				                <![CDATA[ 
+				                    d.code like '$code$%'
+				                ]]>  
+				            </isNotEmpty> 
+				            <isNotEmpty property="pyname" prepend="and">  
+				                <![CDATA[ 
+				                    p.pyname like '%$pyname$%' 
+				                ]]>  
+				            </isNotEmpty>   
+				            <isNotEmpty property="query" prepend="and">  
+				                <![CDATA[ 
+				                    (d.cpdm like '%$query$%' or d.guige like '%$query$%')
+				                ]]>  
+				            </isNotEmpty> 
+				        </dynamic>
+				        order by p.code desc
+	</select>
+	
+	<!-- 获取所有的商品总记录数 -->
+	<select id="getCommodityCount" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(1) from
+			data_cp d 
+        		left join data_cpmls p on d.code=p.code
+        		where d.cpdm not in (select goods_no from t_pub_supply_goods)
+						<dynamic prepend="">  
+				            <isNotEmpty property="brand" prepend="and">  
+				                <![CDATA[ 
+				                    p.brand=#brand# 
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="name" prepend="and">  
+				                <![CDATA[ 
+				                    p.name like '%$name$%' 
+				                ]]>  
+				            </isNotEmpty>    
+				            <isNotEmpty property="gg" prepend="and">  
+				                <![CDATA[ 
+				                    p.gg like '%$gg$%'
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="code" prepend="and">  
+				                <![CDATA[ 
+				                     d.code like '$code$%'
+				                ]]>  
+				            </isNotEmpty> 
+				            <isNotEmpty property="pyname" prepend="and">  
+				                <![CDATA[ 
+				                     p.pyname like '%$pyname$%' 
+				                ]]>  
+				            </isNotEmpty>   
+				            <isNotEmpty property="query" prepend="and">  
+				                <![CDATA[ 
+				                    (d.cpdm like '%$query$%' or d.guige like '%$query$%')
+				                ]]>  
+				            </isNotEmpty> 
+				        </dynamic>
+	</select>
+	
+	<insert id="insertPublishAll">
+	 <![CDATA[
+		insert into t_pub_supply_goods(
+		table_key,
+		goods_no,
+		goods_name,
+		cust_no,
+		default_pay_dt,
+		insert_date,
+		up_date,
+		status,
+		goods_price,
+		order_increment,
+		goods_code,
+		minkc
+		) 
+		select 
+		sys_guid() table_key, goods_no, goods_name, cust_no, default_pay_dt,insert_date, up_date, status, goods_price,order_increment,goods_code,minkc
+		 from (
+			select 
+			sys_guid() table_key,
+			d.cpdm goods_no,
+			nvl(p.name ||''|| d.product_property,'') goods_name,
+			'$custNo$' cust_no,
+			'$defaultPayDt$' default_pay_dt,
+			sysdate insert_date,
+			sysdate up_date,
+			'1' status,
+			nvl(to_char(d.jiage,'fm9999990.00'),'0.00') goods_price,
+			'$orderIncrement$' order_increment,
+			d.code goods_code,
+			'$minkc$' minkc
+			from data_cp d
+			 left join data_cpmls p on d.code = p.code
+			 where d.code in  ($codes$) 
+		) t where t.goods_no not in (select goods_no from t_pub_supply_goods where cust_no='$custNo$')
+			]]>   
+	</insert>
+	
+		<insert id="insertPublishChecked">
+		 <![CDATA[
+		insert into t_pub_supply_goods(
+		table_key,
+		goods_no,
+		goods_name,
+		cust_no,
+		default_pay_dt,
+		insert_date,
+		up_date,
+		status,
+		goods_price,
+		order_increment,
+		goods_code,
+		minkc
+		) 
+		select 
+		sys_guid() table_key, goods_no, goods_name, cust_no, default_pay_dt,insert_date, up_date, status, goods_price,order_increment,goods_code,minkc
+		 from (
+			select 
+			sys_guid() table_key,
+			d.cpdm goods_no,
+			nvl(p.name ||''|| d.product_property,'') goods_name,
+			$custNo$ cust_no,
+			$defaultPayDt$ default_pay_dt,
+			sysdate insert_date,
+			sysdate up_date,
+			'1' status,
+			nvl(to_char(d.jiage,'fm9999990.00'),'0.00') goods_price,
+			$orderIncrement$ order_increment,
+			d.code goods_code,
+			$minkc$ minkc
+			from data_cp d
+			 left join data_cpmls p on d.code = p.code
+			 where d.cpdm in ($checkIds$)) t
+			 where t.goods_no not in (select goods_no from t_pub_supply_goods where cust_no=$custNo$)
+
+		]]>  
+			
+	</insert>
+	
+	<insert id="insertgoodsDiscountAll">
+	 <![CDATA[
+		insert into t_pub_goods_discount (table_key,goods_no,cust_no,discount_object,distcount_rate,insert_date,update_date,discount_status)
+		select 
+		sys_guid() table_key, goods_no, cust_no, discount_object, distcount_rate,sysdate insert_date, update_date, discount_status 
+		 from (
+		select sys_guid() table_key,t.cpdm goods_no,'$custNo$' cust_no,'grade001' discount_object,'$grade001$' distcount_rate,sysdate insert_date,'' update_date,'1' discount_status 
+		from data_cp t  where t.code in  ($codes$) 
+		union  
+		select sys_guid() table_key,t.cpdm goods_no,'$custNo$' cust_no,'grade002' discount_object,'$grade002$' distcount_rate,sysdate insert_date,'' update_date,'1' discount_status 
+		from data_cp t  where t.code in  ($codes$) 
+		union  
+		select sys_guid() table_key,t.cpdm goods_no,'$custNo$' cust_no,'grade003' discount_object,'$grade003$' distcount_rate,sysdate insert_date,'' update_date,'1' discount_status 
+		from data_cp t  where t.code in  ($codes$) 
+		union  
+		select sys_guid() table_key,t.cpdm goods_no,'$custNo$' cust_no,'grade004' discount_object,'$grade004$' distcount_rate,sysdate insert_date,'' update_date,'1' discount_status 
+		from data_cp t  where t.code in  ($codes$) 
+		) t where t.goods_no not in (select goods_no from t_pub_goods_discount where cust_no='$custNo$')
+		]]>
+	</insert>
+	
+	<insert id="insertgoodsDiscountChecked">
+	 <![CDATA[
+		insert into t_pub_goods_discount (table_key,goods_no,cust_no,discount_object,distcount_rate,insert_date,update_date,discount_status)
+		select 
+		sys_guid() table_key, goods_no, cust_no, discount_object, distcount_rate,sysdate insert_date, update_date, discount_status 
+		 from (
+		select sys_guid() table_key,t.cpdm goods_no,$custNo$ cust_no,'grade001' discount_object,$grade001$ distcount_rate,sysdate insert_date,'' update_date,'1' discount_status 
+		from data_cp t where t.cpdm in ($checkIds$) 
+		union  
+		select sys_guid() table_key,t.cpdm goods_no,$custNo$ cust_no,'grade002' discount_object,$grade002$ distcount_rate,sysdate insert_date,'' update_date,'1' discount_status 
+		from data_cp t where t.cpdm in ($checkIds$) 
+		union  
+		select sys_guid() table_key,t.cpdm goods_no,$custNo$ cust_no,'grade003' discount_object,$grade003$ distcount_rate,sysdate insert_date,'' update_date,'1' discount_status 
+		from data_cp t where t.cpdm in ($checkIds$)  
+		union  
+		select sys_guid() table_key,t.cpdm goods_no,$custNo$ cust_no,'grade004' discount_object,$grade004$ distcount_rate,sysdate insert_date,'' update_date,'1' discount_status 
+		from data_cp t where t.cpdm in ($checkIds$)  
+		) t where t.goods_no not in (select goods_no from t_pub_goods_discount where cust_no=$custNo$)
+		]]>
+	</insert>
+	
+	<select id="getPubSupplyGoodsStatus" resultClass="java.lang.Integer">
+		select t.status from t_pub_supply_goods t where t.table_key = #tableKey#
+	</select>
+	
+	<update id="updateSupplyGoodsStatus">
+		update t_pub_supply_goods set status = #status# 
+			<isNotEmpty property="upDate" prepend=",">  
+				 <![CDATA[ 
+					 up_date = #upDate#
+				 ]]>  
+			</isNotEmpty> 
+					 ,down_date = #downDate#
+			 where table_key = #tableKey#
+	</update>
+	<select id = "getLeftMenuAndVoltage" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.DataCatalogManage">
+	<!-- 	SELECT DISTINCT T2.ID id,
+                T2.BUS_CODE busCode,
+                T2.CH_NAME chName,
+                T2.EN_CODE enCode,
+                T2.GRADE Grade,
+                T2.ON_LEVEL onLevel
+  FROM (SELECT SUBSTR(T.CODE, 1, 1) AS CODE
+          FROM DATA_CPMLS T
+         WHERE T.BRAND_ID in  (select distinct(br.BRAND_NO) from t_pub_supply_brand br where br.CUST_NO =#custNo# )) T1
+  LEFT JOIN (SELECT * FROM DATA_CATALOG_MANAGE WHERE GRADE = '396683') T2
+    ON T1.CODE = T2.EN_CODE
+ WHERE T2.EN_CODE IS NOT NULL -->
+ 
+ SELECT DISTINCT SUBSTR(AA,
+                       INSTR(AA, '/', 1, 2) + 1,
+                       INSTR(AA || '/', '/', 1, 3) - INSTR(AA, '/', 2, 1) - 1) AS chName,
+                SUBSTR(BB,
+                       INSTR(BB, '/', 1, 2) + 1,
+                       INSTR(BB || '/', '/', 1, 3) - INSTR(BB, '/', 2, 1) - 1) AS id
+
+  FROM (SELECT CONNECT_BY_ROOT CH_NAME AS CH_NAME1,
+               SYS_CONNECT_BY_PATH(CH_NAME, '/') AS AA,
+               SYS_CONNECT_BY_PATH(ID, '/') AS BB,
+               T.*
+          FROM DATA_CATALOG_MANAGE T
+         START WITH ID = '396683'
+        CONNECT BY PRIOR TO_CHAR(ID) = GRADE) T1
+ WHERE EXISTS
+ (SELECT DISTINCT CLASSTYPE_ID
+          FROM DATA_CPMLS T
+         WHERE T.BRAND_ID IN (SELECT DISTINCT (BR.BRAND_NO)
+                                FROM T_PUB_SUPPLY_BRAND BR
+                               WHERE BR.CUST_NO = #custNo#
+                                AND STATUS     = '0'
+AND (DOWN_DATE IS NULL
+OR DOWN_DATE    > SYSDATE)
+                               )
+           AND SUBSTR(BB, INSTR(BB, '/', 1, ON_LEVEL) + 1, LENGTH(BB)) =
+               T.CLASSTYPE_ID)
+ 
+	</select>
+	<select id = "getTopMenu2" parameterClass = "map" resultClass = "com.hansy.transaction.model.vo.TPubSupplyBrand">
+	select t1.brand_name brandName from T_PUB_SUPPLY_BRAND t1,DATA_CPMLS t2 where 
+t1.brand_no = t2.brand_id and t1.cust_no = #custNo#
+and t2.code=#code#
+and t1.status='0'
+and (t1.down_date     >sysdate or t1.down_date IS NULL)
+	</select>
+	<select id = "getTopMenu1" parameterClass = "map" resultClass = "com.hansy.transaction.model.vo.TPubSupplyBrand">
+	select t1.brand_name brandName from T_PUB_SUPPLY_BRAND t1,DATA_CPMLS t2 where 
+t1.brand_no = t2.brand_id and t1.cust_no = #custNo#
+and t2.code=#code#
+and t1.status='0'
+and (t1.down_date     >sysdate or t1.down_date IS NULL)
+	<!-- 
+	SELECT t.TABLE_KEY tableKey,
+  t.BRAND_NO brandNo,
+  t.BRAND_NAME brandName,
+  t.CUST_NO custNo,
+  t.STATUS status,
+  t.UP_DATE upDate1,
+  t.DOWN_DATE downDate,
+  t.INSERT_DATE insertDate,
+  t.UPDATE_DATE updateDate
+FROM t_pub_supply_brand t
+WHERE (t.down_date IS NULL
+     <dynamic prepend="and">  
+				            <isNotEmpty property="custNo" prepend="and">  
+				                <![CDATA[ 
+				                    t.CUST_NO = #custNo# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+				        AND t.status        ='0'
+				         <dynamic prepend="and">  
+				            <isNotEmpty property="brandName" prepend="and">  
+				                <![CDATA[ 
+				                    t.BRAND_NAME = #brandName# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+				        )or (t.down_date     >sysdate
+				          <dynamic prepend="and">  
+				            <isNotEmpty property="custNo" prepend="and">  
+				                <![CDATA[ 
+				                    t.CUST_NO = #custNo# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+				            AND t.status        ='0'
+				              <dynamic prepend="and">  
+				            <isNotEmpty property="brandName" prepend="and">  
+				                <![CDATA[ 
+				                    t.BRAND_NAME = #brandName# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+				        ) -->
+	
+	</select>
+	<select id = "getTopMenu" parameterClass = "map" resultClass = "com.hansy.transaction.model.vo.TPubSupplyBrand">
+	SELECT T.TABLE_KEY   TABLEKEY,
+       T.BRAND_NO    BRANDNO,
+       T.BRAND_NAME  BRANDNAME,
+       T.CUST_NO     CUSTNO,
+       T.STATUS      STATUS,
+       T.UP_DATE     UPDATE1,
+       T.DOWN_DATE   DOWNDATE,
+       T.INSERT_DATE INSERTDATE,
+       T.UPDATE_DATE UPDATEDATE
+  FROM T_PUB_SUPPLY_BRAND T
+ WHERE CUST_NO = #custNo#
+   AND STATUS = '0'
+   AND (DOWN_DATE IS NULL OR DOWN_DATE > SYSDATE) 
+   AND BRAND_NO IN
+       (SELECT DISTINCT T2.BRAND_ID
+          FROM (SELECT CONNECT_BY_ROOT CH_NAME AS CH_NAME1,
+                       SYS_CONNECT_BY_PATH(CH_NAME, '/') AS AA,
+                       SYS_CONNECT_BY_PATH(ID, '/') AS BB
+                  FROM DATA_CATALOG_MANAGE T
+                 START WITH ID = #id#
+                CONNECT BY PRIOR TO_CHAR(ID) = GRADE) T1
+          LEFT JOIN (SELECT DISTINCT T.BRAND, T.BRAND_ID, CLASSTYPE_ID
+                      FROM DATA_CPMLS T
+                     WHERE T.BRAND_ID IS NOT NULL
+                       AND T.CLASSTYPE_ID IS NOT NULL) T2
+            ON SUBSTR(BB,
+                      INSTR(BB,
+                            '/',
+                            1,
+                            LENGTH(BB) - LENGTH(REPLACE(BB, '/', ''))) + 1,
+                      LENGTH(BB)) = T2.CLASSTYPE_ID
+         WHERE T2.BRAND_ID IS NOT NULL)
+	
+	
+	
+	
+	
+	
+	
+	
+		<!-- SELECT t.TABLE_KEY tableKey,
+  t.BRAND_NO brandNo,
+  t.BRAND_NAME brandName,
+  t.CUST_NO custNo,
+  t.STATUS status,
+  t.UP_DATE upDate1,
+  t.DOWN_DATE downDate,
+  t.INSERT_DATE insertDate,
+  t.UPDATE_DATE updateDate
+FROM t_pub_supply_brand t
+WHERE (t.down_date IS NULL
+     <dynamic prepend="and">  
+				            <isNotEmpty property="custNo" prepend="and">  
+				                <![CDATA[ 
+				                    t.CUST_NO = #custNo# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+				        AND t.status        ='0'
+				         <dynamic prepend="and">  
+				            <isNotEmpty property="brandName" prepend="and">  
+				                <![CDATA[ 
+				                    t.BRAND_NAME = #brandName# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+				        )or (t.down_date     >sysdate
+				          <dynamic prepend="and">  
+				            <isNotEmpty property="custNo" prepend="and">  
+				                <![CDATA[ 
+				                    t.CUST_NO = #custNo# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+				            AND t.status        ='0'
+				              <dynamic prepend="and">  
+				            <isNotEmpty property="brandName" prepend="and">  
+				                <![CDATA[ 
+				                    t.BRAND_NAME = #brandName# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+				        ) -->
+	</select>
+	<select id = "getLeftMenuAndVoltageNum" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.DataCatalogManage">
+	<!-- SELECT DISTINCT T2.ID id,
+                T2.BUS_CODE busCode,
+                T2.CH_NAME chName,
+                T2.EN_CODE enCode,
+                T2.GRADE Grade,
+                T2.ON_LEVEL onLevel
+  FROM (SELECT SUBSTR(T.CODE, 1, 1) AS CODE
+          FROM DATA_CPMLS T
+         WHERE T.BRAND_ID in  (select distinct(br.BRAND_NO) from t_pub_supply_brand br where br.CUST_NO =#custNo# )) T1
+  LEFT JOIN (SELECT * FROM DATA_CATALOG_MANAGE WHERE GRADE = '396455') T2
+    ON T1.CODE = T2.EN_CODE
+ WHERE T2.EN_CODE IS NOT NULL -->
+ 
+ SELECT DISTINCT SUBSTR(AA,
+                       INSTR(AA, '/', 1, 2) + 1,
+                       INSTR(AA || '/', '/', 1, 3) - INSTR(AA, '/', 2, 1) - 1) AS chName,
+                SUBSTR(BB,
+                       INSTR(BB, '/', 1, 2) + 1,
+                       INSTR(BB || '/', '/', 1, 3) - INSTR(BB, '/', 2, 1) - 1) AS id
+
+  FROM (SELECT CONNECT_BY_ROOT CH_NAME AS CH_NAME1,
+               SYS_CONNECT_BY_PATH(CH_NAME, '/') AS AA,
+               SYS_CONNECT_BY_PATH(ID, '/') AS BB,
+               T.*
+          FROM DATA_CATALOG_MANAGE T
+         START WITH ID = '396455'
+        CONNECT BY PRIOR TO_CHAR(ID) = GRADE) T1
+ WHERE EXISTS
+ (SELECT DISTINCT CLASSTYPE_ID
+          FROM DATA_CPMLS T
+         WHERE T.BRAND_ID IN (SELECT DISTINCT (BR.BRAND_NO)
+    FROM T_PUB_SUPPLY_BRAND BR
+    WHERE (BR.CUST_NO = #custNo#
+    and br.status='0' 
+    and br.down_date is null
+    ) or(
+    BR.CUST_NO = #custNo#
+    and br.status='0' 
+    and br.down_date >sysdate
+    )
+                               )
+           AND SUBSTR(BB, INSTR(BB, '/', 1, ON_LEVEL) + 1, LENGTH(BB)) =
+               T.CLASSTYPE_ID)
+	</select>
+	<select id = "getByGrade" parameterClass = "map" resultClass = "com.hansy.transaction.model.bo.DataCatalogManage">
+	SELECT ID id,
+	 BUS_CODE busCode, 
+	 CH_NAME chName, 
+	 EN_CODE enCode, 
+	 GRADE grade, 
+	 ON_LEVEL onLevel
+  	FROM DATA_CATALOG_MANAGE
+ 	where 1=1  
+	<dynamic prepend="and">  
+				            <isNotEmpty property="grade" prepend="and">  
+				                <![CDATA[ 
+				                    GRADE = #grade# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+	</select>
+		<select id = "getByGradeAndBrand" parameterClass = "map" resultClass = "com.hansy.transaction.model.bo.DataCatalogManage">
+		<!-- SELECT 	DC.ID id,
+				  DC.BUS_CODE busCode,
+				  DC.CH_NAME chName,
+				  DC.EN_CODE enCode,
+				  DC.GRADE grade,
+				  DC.ON_LEVEL onLevel
+				FROM
+				  (SELECT * FROM DATA_CATALOG_MANAGE WHERE GRADE =#grade#
+				  ) DC
+				LEFT JOIN
+				  (SELECT DISTINCT T.CLASSTYPE_ID
+				  FROM DATA_CPMLS T
+				  WHERE T.BRAND_ID    = #brandId#
+				  AND T.CLASSTYPE_ID IS NOT NULL
+				  ) TR
+				ON DC.ID          = TR.CLASSTYPE_ID
+				WHERE GRADE       = #grade#
+				AND CLASSTYPE_ID IS NOT NULL -->
+				
+				SELECT  DISTINCT
+        SUBSTR(AA,
+               INSTR(AA, '/', 1, 2) + 1,
+               INSTR(AA || '/', '/', 1, 3) - INSTR(AA, '/', 2, 1) - 1) AS chName,
+        SUBSTR(BB,
+               INSTR(BB, '/', 1, 2) + 1,
+               INSTR(BB || '/', '/', 1, 3) - INSTR(BB, '/', 2, 1) - 1) AS id 
+ 
+   FROM (SELECT CONNECT_BY_ROOT CH_NAME AS CH_NAME1,
+                SYS_CONNECT_BY_PATH(CH_NAME, '/') AS AA,
+                SYS_CONNECT_BY_PATH(ID, '/') AS BB,
+                T.*
+           FROM DATA_CATALOG_MANAGE T
+          START WITH ID = #grade#
+         CONNECT BY PRIOR TO_CHAR(ID) = GRADE) T1
+  WHERE EXISTS
+  (SELECT DISTINCT CLASSTYPE_ID
+           FROM DATA_CPMLS T
+          WHERE T.BRAND_ID  IN (SELECT DISTINCT (BR.BRAND_NO)
+                                FROM T_PUB_SUPPLY_BRAND BR
+                               WHERE BR.CUST_NO = #custNo#   )
+            AND SUBSTR(BB, INSTR(BB, '/', 1, LENGTH(BB)-LENGTH(REPLACE(BB,'/',''))) + 1, LENGTH(BB))  = T.CLASSTYPE_ID)
+           <!--  AND T1.ON_LEVEL =3  -->
+            and SUBSTR(BB,
+               INSTR(BB, '/', 1, 2) + 1,
+               INSTR(BB || '/', '/', 1, 3) - INSTR(BB, '/', 2, 1) - 1) is not NULL
+   <!--  AND T1.GRADE =  #grade# -->
+    
+		</select>
+	<select id = "getDataCpmlss" parameterClass="map" resultClass="com.hansy.transaction.model.bo.DataCpmlss">
+		SELECT ID id,
+  BRAND brand,
+  CC cc,
+  CODE code,
+  CS cs,
+  GB gb,
+  GG gg,
+  JG jg,
+  MIAOSHU miaoshu,
+  MUN mun,
+  NAME name1,
+  PYNAME pyname,
+  TEMPLATE template1,
+  TYPEADD typeadd,
+  TYPEMORE typemore,
+  TYPEONE typeone,
+  ZH zh,
+  INITIAL_MONERY initialMonery,
+  PRODUCT_NUM productNum,
+  CLASSTYPE_ID classTypeId,
+  BRAND_ID brandId
+FROM Data_Cpmls
+WHERE 1          =1
+<dynamic prepend="and">  
+				            <isNotEmpty property="classTypeId" prepend="and">  
+				                <![CDATA[ 
+				                    classtype_id = #classTypeId# 
+				                ]]>  
+				            </isNotEmpty>
+				              <isNotEmpty property="brandNo" prepend="and">  
+				                <![CDATA[ 
+				                    BRAND_ID = #brandNo#
+				                ]]>
+				            </isNotEmpty>
+				             <isNotEmpty property="custNo" prepend="and">  
+				                <![CDATA[ 
+				                   BRAND_ID in  (SELECT t.BRAND_NO FROM t_pub_supply_brand t,T_PUB_SUPPLY_BRAND t2
+ 							where t2.BRAND_NO = t.BRAND_NO
+ 						and t2.CUST_NO =#custNo#)
+				                ]]>
+				            </isNotEmpty>
+				        </dynamic>
+	</select>
+	<select id = "getDataCpmlss11" parameterClass = "java.lang.String" resultClass="com.hansy.transaction.model.bo.DataCp">
+	 SELECT 
+			distinct(t1.BRAND) brand
+		  FROM data_cp t1
+		  join t_pub_supply_goods t2
+      	on t2.goods_no=t1.cpdm
+		   WHERE CODE = #code# 
+	</select>
+	<select id = "getDataCpmlss1" parameterClass="map" resultClass="com.hansy.transaction.model.bo.DataCp">
+		SELECT T1.cpdm 
+
+               ID,
+       T1.JIAGE            JIAGE1,
+       T1.CODE             CODE,
+       T1.GUIGE            GUIGE,
+       T1.CPDM             CPDM,
+       T1.KC               KC,
+       T1.C1               C1,
+       T1.C2               C2,
+       T1.C3               C3,
+       T1.C4               C4,
+       T1.C5               C5,
+       T1.DW               DW,
+       t1.CPDMBRAND        cpdmBrand,
+       T1.PRODUCT_PROPERTY PRODUCTPROPERTY,
+       T1.PRODUCT_STATE    PRODUCTSTATE,
+       t2.status status,
+       t2.MINKC minkc,
+			t2.TABLE_KEY tableKey,
+			t2.goods_price jiage,
+       T1.BRAND            BRAND
+  FROM (SELECT * FROM DATA_CP WHERE CODE = #code#) T1
+  LEFT JOIN (SELECT *
+               FROM T_PUB_SUPPLY_GOODS
+              WHERE CUST_NO = #custNo#) T2
+    ON T1.CPDM = T2.GOODS_NO
+ WHERE (T2.GOODS_NO IS not NULL
+  <dynamic prepend="and">  
+  <isNotEmpty property="isSell" prepend="and">  
+				                <![CDATA[ 
+				                  t2.status='1'
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="isSell" prepend="and">  
+				                <![CDATA[ 
+				                   t2.down_date is null
+				                ]]>  
+				            </isNotEmpty>
+   </dynamic>
+  )
+ or
+ (T2.GOODS_NO IS not NULL
+ 
+  <dynamic prepend="and">  
+  <isNotEmpty property="isSell" prepend="and">  
+				                <![CDATA[ 
+				                  t2.status='1'
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="isSell" prepend="and">  
+				                <![CDATA[ 
+				                   t2.down_date>sysdate
+				                ]]>  
+				            </isNotEmpty>
+   </dynamic>
+ )
+  <!-- and t2.status='1' -->
+ <!--  and (t2.down_date is null or t2.down_date>sysdate) -->
+  
+	</select>
+	<select id = "getDataCpmlss2" parameterClass="map" resultClass="com.hansy.transaction.model.bo.DataCp">
+SELECT T1.CPDM 
+
+               ID,
+       T1.JIAGE            JIAGE,
+       T1.CODE             CODE,
+       T1.GUIGE            GUIGE,
+       T1.KC               KC,
+       T1.C1               C1,
+       T1.C2               C2,
+       T1.C3               C3,
+       T1.C4               C4,
+       T1.C5               C5,
+       T1.DW               DW,
+       T1.PRODUCT_PROPERTY PRODUCTPROPERTY,
+       T1.PRODUCT_STATE    PRODUCTSTATE,
+       T1.BRAND            BRAND,
+       t1.CPDMBRAND        cpdmBrand,
+       t2.status status
+  FROM (SELECT * FROM DATA_CP WHERE CODE = #code#) T1
+  LEFT JOIN (SELECT *
+               FROM T_PUB_SUPPLY_GOODS
+              WHERE CUST_NO = #custNo#) T2
+    ON T1.CPDM = T2.GOODS_NO
+ WHERE T2.GOODS_NO IS NULL
+	
+ 
+	</select>
+		<select id = "getDataCpmlss2Total" parameterClass="map" resultClass = "java.lang.Integer">
+	SELECT count(1)
+  FROM (SELECT * FROM DATA_CP WHERE CODE = #code#) T1
+  LEFT JOIN (SELECT *
+               FROM T_PUB_SUPPLY_GOODS
+              WHERE CUST_NO = #custNo#) T2
+    ON T1.CPDM = T2.GOODS_NO
+ WHERE T2.GOODS_NO IS NULL
+	
+	</select>
+	<select id = "getDataCpmlss1Total" parameterClass="map" resultClass = "java.lang.Integer">
+	SELECT count(1)
+  FROM (SELECT * FROM DATA_CP WHERE CODE = #code#) T1
+  LEFT JOIN (SELECT *
+               FROM T_PUB_SUPPLY_GOODS
+              WHERE CUST_NO = #custNo#) T2
+    ON T1.CPDM = T2.GOODS_NO
+ WHERE (T2.GOODS_NO IS not NULL
+  <dynamic prepend="and">  
+  <isNotEmpty property="isSell" prepend="and">  
+				                <![CDATA[ 
+				                  t2.status='1'
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="isSell" prepend="and">  
+				                <![CDATA[ 
+				                  t2.down_date is null
+				                ]]>  
+				            </isNotEmpty>
+   </dynamic>
+  )
+ or
+ (T2.GOODS_NO IS not NULL
+ 
+  <dynamic prepend="and">  
+  <isNotEmpty property="isSell" prepend="and">  
+				                <![CDATA[ 
+				                  t2.status='1'
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="isSell" prepend="and">  
+				                <![CDATA[ 
+				                  t2.down_date>sysdate
+				                ]]>  
+				            </isNotEmpty>
+   </dynamic>
+ )
+	</select>
+
+	<select id = "getGoodDetal" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.DataCp">
+	select t.ID  id,
+	t.CODE code,
+	t.GUIGE guice,
+	t.JIAGE jiage,
+	t.CPDM cpdm,
+	t.KC kc,
+	t.C1 c1,
+	t.C2 c2,
+	t,C3 c3,
+	t.C4 c4,
+	t.C5 c5,
+	t.DW dw,
+	t.MINKC minkc,
+	t.PRODUCT_PROPERTY productProperty,
+	t.PRODUCT_STATE productState,
+	t.BRAND brand
+	from  DATA_cp t 
+	 where 1=1  
+	<dynamic prepend="and">  
+				            <isNotEmpty property="code" prepend="and">  
+				                <![CDATA[ 
+				                    t.code = #code# 
+				                ]]>  
+				            </isNotEmpty>
+				            <isNotEmpty property="guige" prepend="and">  
+				                <![CDATA[ 
+				                     t.guige = #guige# 
+				                ]]>  
+				            </isNotEmpty>    
+				             <isNotEmpty property="id" prepend="and">  
+				                <![CDATA[ 
+				                     t.id = #id# 
+				                ]]>  
+				            </isNotEmpty> 
+				        </dynamic>
+	</select>
+	<select id = "getByGuiGe" parameterClass="map" resultClass="com.hansy.transaction.model.bo.DataCp">
+	SELECT T2.ID id,
+			T2.CODE code,
+			T2.GUIGE guige,
+			T2.JIAGE jiage,
+			T2.CPDM cpdm,
+			T2.KC kc,
+			T2.C1 c1,
+			T2.C2 c2,
+			T2.C3 c3,
+			T2.C4 c4,
+			T2.C5 c5,
+			T2.DW c5,
+			T2.MINKC minkc,
+			T2.PRODUCT_PROPERTY productProperty,
+			T2.PRODUCT_STATE productState,
+			T2.BRAND brand
+  FROM (SELECT * FROM DATA_CPMLS WHERE CODE = #classTypeId#) T1
+  LEFT JOIN DATA_CP T2
+    ON T1.CODE = T2.CODE
+    where 1=1
+    	<dynamic prepend="and">  
+				            <isNotEmpty property="brand" prepend="and">  
+				                <![CDATA[ 
+				                    T2.BRAND = #brand# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+	</select>
+	<select id = "getByGuiGeTotal" parameterClass="map" resultClass="java.lang.Integer">
+	SELECT count(1)
+  FROM (SELECT * FROM DATA_CPMLS WHERE CODE = #classTypeId#) T1
+  LEFT JOIN DATA_CP T2
+    ON T1.CODE = T2.CODE
+        where 1=1
+    	<dynamic prepend="and">  
+				            <isNotEmpty property="brand" prepend="and">  
+				                <![CDATA[ 
+				                    T2.BRAND = #brand# 
+				                ]]>  
+				            </isNotEmpty>
+				        </dynamic>
+	</select>
+	
+	<update id="updateDis" parameterClass="map">
+	      UPDATE T_PUB_SUPPLY_GOODS DS
+SET DS.MINKC      = #dsMinkc#,
+  ORDER_INCREMENT =#orderIncrement# ,
+  DEFAULT_PAY_DT  = #defaultPayDat#
+WHERE EXISTS
+  (SELECT 1
+  FROM
+    (SELECT T1.GOODS_NO
+    FROM T_PUB_GOODS_DISCOUNT T1
+    JOIN
+      (SELECT TR.*
+      FROM DATA_CP TR
+      JOIN
+        (SELECT * FROM DATA_CPMLS WHERE CLASSTYPE_ID = #classTypeId#
+        ) TN
+      ON TR.CODE          = TN.CODE
+      ) T2 ON T1.GOODS_NO = T2.cpdm
+    ) TP
+  WHERE TP.GOODS_NO = DS.GOODS_NO
+  ) 
+	</update>
+</sqlMap>

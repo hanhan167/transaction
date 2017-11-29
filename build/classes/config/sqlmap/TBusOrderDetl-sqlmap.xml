@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="busOrderDetl">
+	<resultMap class="com.hansy.transaction.model.vo.TBusOrderDetlVo" id="busOrderDetlVoResultMap">
+		<result property="tableKey" column="TABLE_KEY"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="orderType" column="ORDER_TYPE"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="goodsNo" column="GOODS_NO"/>
+		<result property="status" column="STATUS"/>
+		<result property="remark" column="REMARK"/>		
+		<result property="insertDate" column="INSERT_DATE"/>
+		<result property="updateDate" column="UPDATE_DATE"/>
+	</resultMap>
+	<select id="selectByOrderNo" parameterClass="java.lang.String" resultMap="busOrderDetlVoResultMap">
+		select t.* from t_bus_order_detl t where t.order_no=#orderNo#  order by t.insert_date
+	</select>
+	
+	<sql id="allColumns">
+		TABLE_KEY,ORDER_NO,ORDER_TYPE,USER_NO,GOODS_NO,STATUS,INSERT_DATE,UPDATE_DATE,REMARK
+	</sql>
+	
+	<!-- 批量新增 -->
+	<insert id="saveOrderDetail" parameterClass="java.util.List">
+        insert all 
+         <iterate conjunction=" ">
+        	into t_bus_order_detl(<include refid="allColumns"/>) values 
+	           		  (#orderDetalList[].tableKey#,  
+	             	  #orderDetalList[].orderNo#,  
+	                  #orderDetalList[].orderType#,  
+	                  #orderDetalList[].userNo#,  
+	                  #orderDetalList[].goodsNo#,  
+	                  #orderDetalList[].status#,  
+	                  #orderDetalList[].insertDate#,  
+	                  #orderDetalList[].updateDate#,  
+	                  #orderDetalList[].remark#) 
+	      </iterate > 
+	       select * from dual 
+	</insert>
+	
+	<insert id="save" parameterClass="com.hansy.transaction.model.vo.TBusOrderDetlVo">
+		insert into t_bus_order_detl(<include refid="allColumns"/>) values
+			(#tableKey#,  
+	         #orderNo#,  
+	         #orderType#,  
+	         #userNo#,  
+	         #goodsNo#,  
+	         #status#,  
+	         #insertDate#,  
+	         #updateDate#,  
+	         #remark#) 
+	</insert>
+</sqlMap>

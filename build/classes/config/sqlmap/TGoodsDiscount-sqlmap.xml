@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="goodsDiscount">
+	<!-- 获取商品折扣 -->
+	<select id="getDiscountAll" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.GoodsDiscount">
+		select temp.table_key tableKey,g.grade_name discountObject,temp.distcount_rate discountRate from 
+    		(select * from t_pub_goods_discount t where t.cust_no=#custNo# and t.goods_no=#goodsNo# ) temp
+       			 left join t_user_grade_code g on g.grade_no=temp.discount_object
+       			 	order by g.grade_no asc
+	</select>
+	
+	<select id="getDiscount" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.GoodsDiscount">
+		select g.grade_no gradeNo,temp.table_key tableKey,g.grade_name discountObject,temp.distcount_rate discountRate from 
+    		(select * from t_pub_goods_discount t where t.cust_no=#custNo# and t.goods_no=#goodsNo# ) temp
+       			 right join t_user_grade_code g on temp.discount_object=g.grade_no
+       			  	order by g.grade_no asc
+	</select>
+	
+	<sql id="allColumns">
+		table_key,goods_no,cust_no,discount_object,distcount_rate,insert_date,discount_status
+	</sql>
+	
+	<!-- 批量新增 -->
+	<insert id="save" parameterClass="java.util.List">
+        insert all 
+         <iterate conjunction=" ">
+         	into t_pub_goods_discount(<include refid="allColumns"/>) values 
+	           		  (#param[].tableKey#,   
+	                  #param[].goodsNo#,  
+	                  #param[].custNo#,  
+	                  #param[].discountObject#,  
+	                  #param[].discountRate#,  
+	                  #param[].insertDate#,  
+	                  #param[].discountStatus#) 
+	      </iterate > 
+	       select * from dual 
+	</insert>
+	<!-- 批量修改商品一级 -->
+	<update id="updateDis1" parameterClass="map">
+	        	    UPDATE T_PUB_GOODS_DISCOUNT DS
+SET 
+ UPDATE_DATE            = SYSDATE,
+DS.DISTCOUNT_RATE    = #discountRate#
+ 
+WHERE DS.DISCOUNT_OBJECT =  'grade001'
+AND EXISTS
+  (SELECT 1
+  FROM
+    (SELECT T1.GOODS_NO
+    FROM T_PUB_GOODS_DISCOUNT T1
+    JOIN
+      (SELECT TR.*
+      FROM DATA_CP TR
+      JOIN
+        (SELECT * FROM DATA_CPMLS WHERE CLASSTYPE_ID = #classTypeId#
+        ) TN
+      ON TR.CODE          = TN.CODE
+      ) T2 ON T1.GOODS_NO = T2.cpdm
+    ) TP
+  WHERE TP.GOODS_NO = DS.GOODS_NO
+  ) 
+	</update>
+	<!-- 批量修改商品二级 -->
+	<update id="updateDis2" parameterClass="map">
+	        	    UPDATE T_PUB_GOODS_DISCOUNT DS
+SET 
+ UPDATE_DATE            = SYSDATE,
+DS.DISTCOUNT_RATE    = #discountRate#
+ 
+WHERE DS.DISCOUNT_OBJECT =  'grade002'
+AND EXISTS
+  (SELECT 1
+  FROM
+    (SELECT T1.GOODS_NO
+    FROM T_PUB_GOODS_DISCOUNT T1
+    JOIN
+      (SELECT TR.*
+      FROM DATA_CP TR
+      JOIN
+        (SELECT * FROM DATA_CPMLS WHERE CLASSTYPE_ID = #classTypeId#
+        ) TN
+      ON TR.CODE          = TN.CODE
+      ) T2 ON T1.GOODS_NO = T2.cpdm
+    ) TP
+  WHERE TP.GOODS_NO = DS.GOODS_NO
+  ) 
+	</update>
+	<!-- 批量修改商品三级 -->
+	<update id="updateDis3" parameterClass="map">
+	        	    UPDATE T_PUB_GOODS_DISCOUNT DS
+SET 
+ UPDATE_DATE            = SYSDATE,
+DS.DISTCOUNT_RATE    = #discountRate#
+ 
+WHERE DS.DISCOUNT_OBJECT = 'grade003'
+AND EXISTS
+  (SELECT 1
+  FROM
+    (SELECT T1.GOODS_NO
+    FROM T_PUB_GOODS_DISCOUNT T1
+    JOIN
+      (SELECT TR.*
+      FROM DATA_CP TR
+      JOIN
+        (SELECT * FROM DATA_CPMLS WHERE CLASSTYPE_ID = #classTypeId#
+        ) TN
+      ON TR.CODE          = TN.CODE
+      ) T2 ON T1.GOODS_NO = T2.cpdm
+    ) TP
+  WHERE TP.GOODS_NO = DS.GOODS_NO
+  ) 
+	</update>
+	<!-- 批量修改商品四级 -->
+	<update id="updateDis4" parameterClass="map">
+	        	    UPDATE T_PUB_GOODS_DISCOUNT DS
+SET 
+ UPDATE_DATE            = SYSDATE,
+DS.DISTCOUNT_RATE    = #discountRate#
+ 
+WHERE DS.DISCOUNT_OBJECT ='grade004'
+AND EXISTS
+  (SELECT 1
+  FROM
+    (SELECT T1.GOODS_NO
+    FROM T_PUB_GOODS_DISCOUNT T1
+    JOIN
+      (SELECT TR.*
+      FROM DATA_CP TR
+      JOIN
+        (SELECT * FROM DATA_CPMLS WHERE CLASSTYPE_ID = #classTypeId#
+        ) TN
+      ON TR.CODE          = TN.CODE
+      ) T2 ON T1.GOODS_NO = T2.cpdm
+    ) TP
+  WHERE TP.GOODS_NO = DS.GOODS_NO
+  ) 
+	</update>
+	
+	<!-- 批量更新 -->
+	<update id="update" parameterClass="java.util.List">
+	       begin
+	      	<iterate conjunction="">
+	        	update t_pub_goods_discount t set              
+	            	t.distcount_rate =#mapUpdate[].discount#
+	        	where t.table_key = #mapUpdate[].tableKey#;     
+	       </iterate>
+	      end;    
+	</update>
+	
+	<!-- 发布商品-获取商品折扣 -->
+	<select id="getDiscountAlls" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.GoodsDiscount">
+		select temp.table_key tableKey,g.grade_name discountObject,temp.distcount_rate discountRate from 
+    		(select * from t_pub_goods_discount t where t.goods_no=#goodsNo# and t.cust_no = #custNo# ) temp
+       			 left join t_user_grade_code g on g.grade_no=temp.discount_object
+       			 	order by g.grade_no asc
+	</select>
+</sqlMap>

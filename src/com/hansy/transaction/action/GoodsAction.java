@@ -1427,9 +1427,5 @@ public class GoodsAction {
 			return bReslt;
 		}
 	}
-	
-	public void test(){
-		System.out.println("..");
-	}
 }
 

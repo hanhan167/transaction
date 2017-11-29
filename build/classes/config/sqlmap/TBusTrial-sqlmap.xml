@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="busTrial">
+	<resultMap class="com.hansy.transaction.model.vo.TBusTrialVo" id="busTrialVoResultMap">
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="orderType" column="ORDER_TYPE"/>
+		<result property="custNo" column="CUST_NO"/>
+		<result property="goodsNo" column="GOODS_NO"/>
+		<result property="onTrialResult" column="ON_TRIAL_RESULT"/>
+		<result property="insertDate" column="INSERT_DATE"/>
+		<result property="updateDate" column="UPDATE_DATE"/>
+	</resultMap>
+</sqlMap>
