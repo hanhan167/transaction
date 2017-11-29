@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="shoppCart">
+	<resultMap class="com.hansy.transaction.model.vo.TBusShoppCartVo" id="busShoppCartVoResultMap">
+		<result property="tableKey" column="TABLE_KEY"/>
+		<result property="custNo" column="CUST_NO"/>
+		<result property="custName" column="CUST_NAME"/>
+		<result property="goodsNo" column="GOODS_NO"/>
+		<result property="goodsName" column="GOODS_NAME"/>
+		<result property="supplyNo" column="SUPPLY_NO"/>		
+		<result property="supplyName" column="APPLY_NAME"/>	
+		<result property="buyType" column="BUY_TYPE"/>
+		<result property="buyNum" column="BUY_NUM"/>
+		<result property="goodsPrice" column="GOODS_PRICE"/>
+		<result property="defaultPayDt" column="DEFAULT_PAY_DT"/>
+		<result property="channel" column="CHANNEL"/>
+		<result property="insertDate" column="INSERT_DATE"/>
+		<result property="updateDate" column="UPDATE_DATE"/>
+	</resultMap>
+	
+	<select id = "selectIsExist"  parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.ShoppCart">
+	select t.goods_no 
+FROM t_bus_shopp_cart t
+WHERE t.goods_no IN
+  (SELECT t.goods_no
+  FROM t_bus_shopp_cart t
+  JOIN t_pub_supply_goods g
+  ON t.supply_no=g.cust_no
+  AND t.goods_no=g.goods_no
+  AND g.status  ='0'
+	and  sysdate > g.DOWN_DATE 
+  )
+AND t.cust_no=#custNo#
+	</select>
+	<!-- 获取购物车所有 -->
+	<select id="selectAll" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.ShoppCart">
+			SELECT temp.goods_no, NVL(d.distcount_rate,'10') goodsDiscount,
+  temp.table_key tableKey,
+  p.brand,
+  p.code,
+  p.cpdm goodsCode,
+  u.user_phone supplyPhone,
+  temp.goods_name goodsName,
+  temp.supply_name supplyName,
+  temp.buy_type buyType,
+  temp.buy_num buyNum,
+  temp.goods_price goodsPrice,
+  temp.default_pay_dt defaultPayDt,
+  temp.supply_no supplyNo,
+  SUBSTR(p.c1,1,INSTR(p.c1,',',1,3)-1) par,
+  temp.goods_no goodsNo,
+gg.MINKC,
+gg.status,
+gg.DOWN_DATE,
+gg.goods_no
+FROM t_bus_shopp_cart temp
+JOIN data_cp p
+ON temp.goods_no = p.cpdm
+left join T_PUB_SUPPLY_GOODS gg
+on gg.goods_no = p.cpdm
+AND TEMP.SUPPLY_NO = GG.CUST_NO
+LEFT JOIN t_user_base_info u
+ON temp.supply_no = u.cust_no
+LEFT JOIN t_user_grade g
+ON temp.cust_no = g.cust_no
+LEFT JOIN t_pub_goods_discount d
+ON g.grade_no      = d.discount_object
+AND temp.goods_no  = d.goods_no
+AND d.cust_no      = temp.cust_no
+WHERE (gg.down_date IS NULL
+AND temp.CUST_NO       = #custNo#
+AND gg.status        ='1'
+and p.brand is not null
+)
+
+OR (gg.down_date     >sysdate
+AND temp.CUST_NO       =#custNo#
+AND gg.status        ='1'
+and p.brand is not null
+ ) 
+ ORDER BY temp.supply_no 
+	</select>
+	<select id = "getGoodsNo" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+	select count(1)
+FROM t_bus_shopp_cart temp
+JOIN data_cp p
+ON temp.goods_no = p.cpdm
+left join T_PUB_SUPPLY_GOODS gg
+on gg.goods_no = p.cpdm
+AND TEMP.SUPPLY_NO = GG.CUST_NO
+LEFT JOIN t_user_base_info u
+ON temp.supply_no = u.cust_no
+LEFT JOIN t_user_grade g
+ON temp.cust_no = g.cust_no
+LEFT JOIN t_pub_goods_discount d
+ON g.grade_no      = d.discount_object
+AND temp.goods_no  = d.goods_no
+AND d.cust_no      = temp.cust_no
+WHERE (gg.down_date IS NULL
+AND temp.CUST_NO       = #custNo#
+AND gg.status        ='1'
+and p.brand is not null
+)
+OR (gg.down_date     >sysdate
+AND temp.CUST_NO       =#custNo#
+AND gg.status        ='1'
+and p.brand is not null
+ ) 
+	</select>
+	<!-- 获取用户默认收货地址 -->
+	<select id="selectAddressByUserNo" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.UserAddress">
+		select t.table_key tableKey,t.addressee_name userName,t.telephone userPhone,t.address userAddress from t_user_address t where t.user_no=#custNo# and t.address_status='1' 
+	</select>
+	
+	<!-- 把原先默认地址改为非默认地址 -->
+	<update id="updateAddressNo" parameterClass="java.util.Map">
+		update t_user_address t set t.address_status=#statusNo# where t.table_key=(select a.table_key from t_user_address a where a.address_status=#status# and user_no=#custNo#)
+	</update>
+	
+	<!-- 设置默认地址 -->
+	<update id="updateAddress" parameterClass="java.util.Map">
+		update t_user_address t set t.address_status=#status# where t.table_key=#tableKey#
+	</update>
+	<!-- 批量删除 -->
+	<delete id="delete" parameterClass="java.util.List">
+		delete from t_bus_shopp_cart t where t.table_key in
+		 	<iterate conjunction="," open="(" close=")">
+		 		 #tableKey[]#
+			 </iterate>
+	</delete>
+	
+	<!-- 清空失效的商品 -->
+	<delete id="deleteInvalidGoods" parameterClass="java.util.HashMap">
+		delete from t_bus_shopp_cart t 
+			where 
+				t.goods_no in (select t.goods_no from t_bus_shopp_cart t join t_pub_supply_goods g on t.goods_no=g.goods_no and g.status='0' and  sysdate > g.DOWN_DATE )
+					and t.cust_no=#custNo#
+	
+	
+	</delete>
+	
+	<delete id = "deleteInvalidGoods1" parameterClass="java.util.HashMap">
+	<!-- delete from t_bus_shopp_cart t 
+			where 
+				t.goods_no in (select cpdm from data_cp where brand in (
+				select t1.brand_name brandName from T_PUB_SUPPLY_BRAND t1,DATA_CPMLS t2 where 
+t1.brand_no = t2.brand_id and t1.cust_no = #custNo#
+and t2.code=#code#
+and t1.status='1'
+and (t1.down_date     >sysdate or t1.down_date IS NULL))
+				and CUST_NO = #custNo# -->
+				
+				DELETE
+FROM t_bus_shopp_cart t
+WHERE
+ t.CUST_NO =#tcustNo# and
+t.goods_no IN
+  (SELECT cpdm
+  FROM data_cp
+  WHERE brand IN
+    (SELECT t2.brand
+    FROM T_PUB_SUPPLY_BRAND t1,
+      DATA_CPMLS t2
+    WHERE t1.brand_no = t2.brand_id
+    AND t1.cust_no    = #custNo# 
+    AND t2.code       =#code#
+    AND (sysdate      > t1.down_date
+    OR t1.down_date  IS NULL
+    OR t1.status      ='1' )
+    )
+  )
+	</delete>
+	<select id="getCreateOrder" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.CreateOrder">
+			  select 
+       nvl2(d.distcount_rate, d.distcount_rate, '10') goodsDiscount,
+       temp.goods_price goodsPrice,
+       temp.default_pay_dt defaultPayDt,
+       temp.cust_no custNo,
+       temp.supply_no supplyNo,
+       temp.goods_no goodsNo
+  from  t_bus_shopp_cart temp 
+  left join t_user_grade g 
+  on temp.cust_no = g.cust_no
+  left join t_pub_goods_discount d on
+   d.cust_no = temp.cust_no and 
+ d.discount_object = g.grade_no and 
+  d.goods_no = temp.goods_no
+    left join t_pub_supply_goods sg 
+    ON temp.goods_no     = sg.goods_no
+ and temp.supply_no = sg.cust_no
+  where temp.table_key = #tableKey#
+	</select>
+	
+	<select id="getUserAddress" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.UserAddress">
+			select t.post_code postCode,
+			t.province,
+			t.city,
+			t.area,
+			t.address_status status,
+			t.table_key tableKey,
+			t.addressee_name userName,
+			t.telephone userPhone,
+			t.address userAddress ,
+			t.INSERT_DATE insetDate,
+			t.UPDATE_DATE updateDate
+			from t_user_address t where t.user_no=#custNo#
+	</select>
+	
+	<select id="getCreateCart" parameterClass="map" resultClass="com.hansy.transaction.model.bo.CreateCart">
+	select temp.goods_no goodsNO,temp.goods_name goodsName,b.cust_name supplyName,temp.cust_no supplyNo,temp.goods_price goodsPrice,temp.default_pay_dt defaultPayDt from 
+	(select * from t_pub_supply_goods t where 
+    (t.down_date is null
+      and t.goods_no=#goodsNo#
+      and t.status='1'
+    )or(
+    t.down_date >sysdate
+     and t.goods_no=#goodsNo#
+      and t.status='1'
+    ))temp
+	join t_user_base_info b on temp.cust_no=b.cust_no 
+	<!-- and b.cust_no=#custNo# -->
+	</select>
+	
+	<insert id="insert" parameterClass="com.hansy.transaction.model.vo.TBusShoppCartVo">
+		insert into t_bus_shopp_cart
+		(table_key,		
+		 cust_no,			
+		 cust_name,		
+		 goods_no,			
+		 goods_name,		
+		 supply_no,		
+		 supply_name,	
+		 buy_type,			
+		 buy_num,			
+		 goods_price,	
+		 default_pay_dt,
+		 channel,			
+		 insert_date,	
+		 update_date	
+		)
+			values
+		(
+		 #tableKey#,			
+		 #custNo#,				
+		 #custName#,			
+		 #goodsNo#,				
+		 #goodsName#,			
+		 #supplyNo#,			
+		 #supplyName#,		
+		 #buyType#,				
+		 #buyNum#,				
+		 #goodsPrice#,		
+		 #defaultPayDt#,
+		 #channel#,				
+		 #insertDate#,			
+		 #updateDate#			
+		)
+	</insert>
+	
+	<!-- 获取购物车中选取的商品 -->
+	<select id="selectCartSelected" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.ShoppCart">
+		select nvl(d.distcount_rate,'10') goodsDiscount,
+       temp.table_key tableKey,
+       p.cpdm goodsCode,
+       p.code,
+       u.user_phone supplyPhone,
+       temp.goods_name goodsName,
+       temp.supply_name supplyName,
+       temp.buy_type buyType,
+       temp.buy_num buyNum,
+       temp.goods_price goodsPrice,
+       temp.default_pay_dt defaultPayDt,
+       temp.supply_no supplyNo,
+       temp.goods_no goodsNo
+	  from  t_bus_shopp_cart temp 
+	  join data_cp p
+	    on temp.goods_no = p.cpdm
+	  left join t_user_base_info u
+	    on temp.supply_no = u.cust_no
+	  left join t_user_grade g
+	    on temp.cust_no = g.cust_no
+	  left join t_pub_goods_discount d
+	    on g.grade_no = d.discount_object
+	   and temp.goods_no = d.goods_no and d.cust_no = temp.cust_no
+	   where temp.cust_no = #custNo# 
+	   and temp.table_key in
+	   	<iterate property="orderArray" conjunction="," open="(" close=")">
+			 		 #orderArray[]#
+		 </iterate> 
+	   order by temp.supply_no
+	</select>
+	
+	<!-- 更新购物车商品数量 -->
+	<update id="updateNum" parameterClass="java.util.List">
+	  begin
+	      	<iterate conjunction="">
+	        	update t_bus_shopp_cart t set              
+	            	t.buy_num =#mapUpdate[].num#
+	        	where t.table_key = #mapUpdate[].tableKey#;   
+	       </iterate>
+	      end;    
+	
+	</update>
+	
+	<!-- 批量新增 -->
+	<insert id="saveCart" parameterClass="java.util.List">
+        insert all 
+         <iterate conjunction=" ">
+         	into t_bus_shopp_cart(TABLE_KEY,		
+					 CUST_NO,			
+					 CUST_NAME,		
+					 GOODS_NO,			
+					 GOODS_NAME,		
+					 SUPPLY_NO,		
+					 SUPPLY_NAME,	
+					 BUY_TYPE,			
+					 BUY_NUM,			
+					 GOODS_PRICE,	
+					 DEFAULT_PAY_DT,
+					 CHANNEL,			
+					 INSERT_DATE,	
+					 UPDATE_DATE) values 
+	           		  (#shoppCartVo[].tableKey#,
+	           		  #shoppCartVo[].custNo#,
+	           		  #shoppCartVo[].custName#,  
+	             	  #shoppCartVo[].goodsNo#,  
+	                  #shoppCartVo[].goodsName#,  
+	                  #shoppCartVo[].supplyNo#,  
+	                  #shoppCartVo[].supplyName#,  
+	                  #shoppCartVo[].buyType#,  
+	                  #shoppCartVo[].buyNum#,  
+	                  #shoppCartVo[].goodsPrice#,  
+	                  #shoppCartVo[].defaultPayDt#,
+	                  #shoppCartVo[].channel#,  
+	                  #shoppCartVo[].insertDate#,  
+	                  #shoppCartVo[].updateDate#) 
+	      </iterate > 
+	       select * from dual 
+	       <iterate conjunction="">
+	       		
+	       </iterate>
+	</insert>
+	
+	<!-- 查询购物车中是否存在再次添加的商品 -->
+	<select id="isExist" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.vo.TBusShoppCartVo">
+		select t.TABLE_KEY tableKey,t.BUY_NUM buyNum from t_bus_shopp_cart t where t.CUST_NO = #custNo# and t.GOODS_NO = #goodsNo#
+	</select>
+</sqlMap>
+
+
