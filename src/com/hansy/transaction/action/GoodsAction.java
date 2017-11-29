@@ -1428,5 +1428,8 @@ public class GoodsAction {
 		}
 	}
 	
+	public void test(){
+		System.out.println("..");
+	}
 }
 
