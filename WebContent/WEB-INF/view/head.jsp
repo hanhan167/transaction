@@ -57,6 +57,7 @@ ul.heads>li>a{
 			<li><a target="_blank" href="sys/toTech.do">技术平台</a></li>
 		</ul>
 		<ul id="loginOut">
+			<li id="good"><a href="https://www.baidu.com/">发票管理</a></li>
 			<li id="goods"><a href="goods/toCommodity.do">商品管理</a></li>
 			<li>
 				<a>我的订单</a>

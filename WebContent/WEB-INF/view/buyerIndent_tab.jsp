@@ -483,11 +483,7 @@
 					+ '&billMoney=' + price + '&remark=' + remark,
 			area : [ '800px', '600px' ],
 		});
-<<<<<<< HEAD
 	} */
-=======
-	}
->>>>>>> branch 'master' of https://github.com/hanhan167/transaction.git
 	
 	//付款
 	function invoice(orderNo, price, element) {
@@ -750,12 +746,9 @@
 	function lookWlMsg(str, that) {
 		event.stopPropagation();
 		myDivId = $(that).parent().next().attr('id');
-<<<<<<< HEAD
 		alert(myDivId);
 		console.log(myDivId);	
 		console.log(str);
-=======
->>>>>>> branch 'master' of https://github.com/hanhan167/transaction.git
 		$modal = $('#'+ myDivId);
 		$modal.show();
 		var $info = $('#info'), html = '';
