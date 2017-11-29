@@ -184,7 +184,7 @@ public class GoodsAction {
 	 */
 	@RequestMapping("/toInvoicMgt")
 	public ModelAndView toInvoicMgts(){
-		return new ModelAndView("Invoice_management");
+		return new ModelAndView("buyerInvoice_management");
 	}
 	
 	
