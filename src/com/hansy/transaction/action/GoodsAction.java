@@ -174,10 +174,10 @@ public class GoodsAction {
 	}
 	
 	 /**
-	 * 跳转发票管理界面
+	 * 跳转买方发票管理界面
 	 * @description: TODO
-	 * @creator: cj
-	 * @createDate: 2017年3月17日 
+	 * @creator: zcy
+	 * @createDate: 2017年11月29日 
 	 * @modifier:
 	 * @modifiedDate:
 	 * @return
@@ -185,6 +185,20 @@ public class GoodsAction {
 	@RequestMapping("/toInvoicMgt")
 	public ModelAndView toInvoicMgts(){
 		return new ModelAndView("buyerInvoice_management");
+	}
+	
+	/**
+	 * 跳转供方发票管理界面
+	 * @description: TODO
+	 * @creator: zcb
+	 * @createDate: 2017年11月29日 
+	 * @modifier:
+	 * @modifiedDate:
+	 * @return
+	 */
+	@RequestMapping("/toSupplyInvoicMgt")
+	public ModelAndView toSupplyInvoicMgt(){
+		return new ModelAndView("supplyInvoice_management");
 	}
 	
 	

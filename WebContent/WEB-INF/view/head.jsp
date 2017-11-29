@@ -58,9 +58,10 @@ ul.heads>li>a{
 		</ul>
 		<ul id="loginOut">
 			<li>
-				<a>我的订单</a>
+				<a>发票管理</a>
 				<ul>
 					<li onclick="toBuyerInvoic()" id="buyerInvoic">买方发票</li>
+					
 					<li onclick="toSupplyInvoic()" id="supplyInvoic">卖方发票</li>
 				</ul>
 			</li>
@@ -118,6 +119,7 @@ $(function() {
             	if(data.obj.userType=='buyer'){
             		$("#supplyLi").css({"display":"none"});
             		$("#goods").css({"display":"none"});
+            		$("#supplyInvoic").css({"display":"none"});
             	}
             	$("#loginName0").text(splitStr(data.obj.loginName,4)).attr("title",data.obj.loginName);
             	$("#loginName1").text(splitStr(data.obj.loginName,6)).attr("title",data.obj.loginName);
@@ -168,6 +170,6 @@ function toBuyerInvoic(){
 	window.location.href="${basePath}goods/toInvoicMgt.do";
 }
 function toSupplyInvoic(){
-	
+	window.location.href="${basePath}goods/toSupplyInvoicMgt.do";
 }
 </script>
