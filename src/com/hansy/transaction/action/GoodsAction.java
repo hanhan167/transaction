@@ -173,7 +173,7 @@ public class GoodsAction {
 		return new ModelAndView("commodity");
 	}
 	
-	 /*
+	 /**
 	 * 跳转发票管理界面
 	 * @description: TODO
 	 * @creator: cj

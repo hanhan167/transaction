@@ -308,13 +308,6 @@
 		$.ajax({
 			url : 'busOrder/getBuyerOrderCount.do',
 			success : function(data) {
-				$("#payment").text(data.obj.payment);
-				$("#readCollect").text(data.obj.readCollect);
-				$("#complete").text(data.obj.complete);
-				$("#all").text(data.obj.all);
-				$("#cancel").text(data.obj.cancel);
-				$("#confirmed").text(data.obj.sure);
-				$("#readyShip").text(data.obj.post);
 			}
 		});
 	}
@@ -377,24 +370,19 @@
 								},
 								success : function(data) {
 									if (data.success) {
-										layer
-												.msg(
-														'操作成功',
+										layer.msg('操作成功',
 														{
 															icon : 1,
 															time : 2000
 														},
 														function() {
-															stateLook(
-																	curr,
-																	"090003");
+															stateLook(curr,"090003");
 															orderStatus = "090003";
 															//location.reload();
 															count();
 														});
 									} else {
-										layer
-												.open({
+										layer.open({
 													title : '错误信息',
 													content : data.msg
 												});
@@ -426,7 +414,6 @@
 						}
 					}
 				});
-		/*  */
 	}
 	//确认收货
 	function operatorOrder(orderNo, element) {
@@ -507,8 +494,7 @@
 	//取消订单
 	function cancelOrder(orderNo, orderType, element) {
 		var orde = $(element).parent().prev().find(".clear>input").val();
-		layer
-				.open({
+		layer.open({
 					title : '提示信息',
 					content : "是否取消已选中的订单?<br/><select class='cause'><option>协商取消订单</option><option>交期时间有问题</option><option>商品价格不符合预期</option><option>其他</option></select>"
 							+ "<input class='cause' placeholder='请输入取消的原因' maxlength='150'>",
