@@ -16,7 +16,7 @@
 <link rel="stylesheet" type="text/css" href="frame/layui/css/layui.css" />
 <link rel="stylesheet" type="text/css"
 	href="frame/static/css/indentIndent.css" />
-<title>买方订单</title>
+<title>发票管理</title>
 <style type="text/css">
 .uname {
 	color: blue;
@@ -30,10 +30,24 @@
 </style>
 </head>
 <body>
+	<!--顶部-->
+	<div class="head">
+		<jsp:include page="head.jsp" flush="true" />
+	</div>
 
 	<!-- 中间的内容 -->
 	<div class="centre">
 		<div class="content">
+			<div class="header" style="height: 50px;">
+				<label class="all_check"><input type="checkbox" style='margin-left: 2%;margin-top: 2%;'>全选</label>
+				<button type='button' class='cancel_indent' style=" float: right;margin-top: 5px;margin-right: 15px;background-color: #03a1a4;color: #FFFFFf;">开发票</button>
+			</div>	
+			<div class="header">
+					<span class="buyerIndex_name">商品</span> <span class="indent_price">单价（元）</span>
+					<span class="indent_quantity">数量</span> <span
+						class="indent_aggregate">小计（元）</span> <span class="indent_type">类型</span>
+					<span class="indent_operation">交易状态</span>
+			</div>
 			<!-- 显示 -->
 			<div class="show">
 			
@@ -116,6 +130,9 @@
 				pageNo : curr || 1,
 				orderStatus : orderStatus
 			},
+			beforeSend:function(){
+				$(".sheet").html("获取数据中");
+			},
 			success : function(data) {
 				if (data.success) {
 					display(data, orderStatus, "");
@@ -167,6 +184,7 @@
 			var price = parseInt(0);
 			content += "<div class='moudle'>";
 			content += "<div class='line'>";
+			content += "<input type='checkbox' class='vertical-m'>";
 			content += "<span class='uname' onclick='vendor(\""
 					+ Row.rows[tmpguan[i][1]].supplyNo + "\")'>卖家："
 					+ Row.rows[tmpguan[i][1]].supperName + "</span>";
@@ -266,11 +284,6 @@
 			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090005') {
 				content += "<div class='row text-bar-right'>";
 				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='cancel_indent' onclick=againPurchase('"
-						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "','"
-						+ Row.rows[tmpguan[i][1]].supplyNo
-						+ "',this)>再次购买</button>";
 				content += "</div>";
 			}
 			content += "</div>";
@@ -488,6 +501,16 @@
 			closeBtn : 0
 		});
 	};
+	/* 点击顶部全选 */
+	$(".header input[type=checkbox]").click(function(){command(this);});
+	/*点击全选选中取消全选*/
+	function command(place){
+		if($(place).is(':checked')){
+			$("input[type='checkbox']").prop("checked", true);
+		}else{
+			$("input[type='checkbox']").prop("checked", false);
+		}
+	}
 	function vendor(val) {
 		location.href = "/portal/commercial_particulars.jsp?key=" + val;
 	}
