@@ -117,9 +117,9 @@ ul#loginOut>li a{
     display: block;
     text-align: center;
 }
-ul#loginOut>li:nth-of-type(1)>a{background: url(../img/nav_huanli.png) no-repeat left center;}
-ul#loginOut>li:nth-of-type(2)>a{background: url(../img/nav_list.png) no-repeat left center;}
-ul#loginOut>li:nth-of-type(3)>a{background: url(../img/nav_gouwu.png) no-repeat left center;}
+ul#loginOut>li:nth-of-type(2)>a{background: url(../img/nav_huanli.png) no-repeat left center;}
+ul#loginOut>li:nth-of-type(3)>a{background: url(../img/nav_list.png) no-repeat left center;}
+ul#loginOut>li:nth-of-type(4)>a{background: url(../img/nav_gouwu.png) no-repeat left center;}
 .centre{/*濞戞搩鍙冨Λ锟�*/
     padding-top: 60px;
 	background-color: rgb(230,230,230);

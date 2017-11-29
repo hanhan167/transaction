@@ -173,6 +173,21 @@ public class GoodsAction {
 		return new ModelAndView("commodity");
 	}
 	
+	 /*
+	 * 跳转发票管理界面
+	 * @description: TODO
+	 * @creator: cj
+	 * @createDate: 2017年3月17日 
+	 * @modifier:
+	 * @modifiedDate:
+	 * @return
+	 */
+	@RequestMapping("/toInvoicMgt")
+	public ModelAndView toInvoicMgts(){
+		return new ModelAndView("Invoice_management");
+	}
+	
+	
 	/**
 	 * 跳转商品销售页面
 	 * @description: TODO
