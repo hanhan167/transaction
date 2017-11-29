@@ -436,6 +436,7 @@
 			});
 		});
 	}
+	
 	function count() {
 		$.ajax({
 			url : 'busOrder/getBuyerOrderCount.do',
@@ -450,6 +451,7 @@
 			}
 		});
 	}
+	
 	function getOrderStus(orderStatus, userType) {
 		var tradeStus;
 		if (orderStatus == 090005) {
@@ -471,6 +473,7 @@
 		}
 		return tradeStus;
 	}
+	
 	//填写发票信息
 	/* function invoiceInformation(orderNo, price, remark) {
 		layer.open({
@@ -480,7 +483,11 @@
 					+ '&billMoney=' + price + '&remark=' + remark,
 			area : [ '800px', '600px' ],
 		});
+<<<<<<< HEAD
 	} */
+=======
+	}
+>>>>>>> branch 'master' of https://github.com/hanhan167/transaction.git
 	
 	//付款
 	function invoice(orderNo, price, element) {
@@ -633,9 +640,11 @@
 			closeBtn : 0
 		});
 	};
+	
 	function vendor(val) {
 		location.href = "/portal/commercial_particulars.jsp?key=" + val;
 	}
+	
 	//取消订单
 	function cancelOrder(orderNo, orderType, element) {
 		var orde = $(element).parent().prev().find(".clear>input").val();
@@ -683,6 +692,7 @@
 					closeBtn : 0
 				});
 	}
+	
 	//再次购买
 	function againPurchase(Row, supplyNo, element) {
 		var brands = "";
@@ -740,9 +750,12 @@
 	function lookWlMsg(str, that) {
 		event.stopPropagation();
 		myDivId = $(that).parent().next().attr('id');
+<<<<<<< HEAD
 		alert(myDivId);
 		console.log(myDivId);	
 		console.log(str);
+=======
+>>>>>>> branch 'master' of https://github.com/hanhan167/transaction.git
 		$modal = $('#'+ myDivId);
 		$modal.show();
 		var $info = $('#info'), html = '';
