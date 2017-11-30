@@ -522,8 +522,10 @@ public class BusOrderAction {
 		}else{
 			status=OrderConstants.orderDetailSupply;
 		}
+		List<TBusOrderVo> list=busOrderService.getById(orderNo);
 		TBusOrderDetlVo tBusOrderDetlVo = new TBusOrderDetlVo();
 		tBusOrderDetlVo.setTableKey(UUIDUtil.getParseUUID());
+		tBusOrderDetlVo.setGoodsNo(list.get(0).getGoodsNo());
 		tBusOrderDetlVo.setOrderNo(orderNo);
 		tBusOrderDetlVo.setOrderType(orderType);
 		tBusOrderDetlVo.setUserNo((String)session.getAttribute("custNo"));
@@ -728,14 +730,19 @@ public class BusOrderAction {
 
 		if (list.get(0).getOrderStatus().equals(OrderConstants.orderStatusNoneConfirmed)) {
 			orderStatus=OrderConstants.orderStatusNonePayment;//卖方待确认
+			orderDetlVo.setStatus(OrderConstants.orderDetailSupply);//供应商备注
 		}else if(list.get(0).getOrderStatus().equals(OrderConstants.orderStatusReadyShip)){
 			orderStatus=OrderConstants.orderStatusReadCollect;//买方待收货
+			orderDetlVo.setStatus(OrderConstants.orderDetailSupply);//供应商发货备注
 		}else if (list.get(0).getOrderStatus().equals(OrderConstants.orderStatusNonePayment)) {
 			orderStatus=OrderConstants.orderStatusReadyShip;//卖方待发货
+			orderDetlVo.setStatus(OrderConstants.orderDetailCust);//客户付款备注
 		}else if (OrderConstants.orderTypeCancel.equals(list.get(0).getOrderStatus())){
 			orderStatus=OrderConstants.orderTypeCancel;//订单已取消
+			orderDetlVo.setStatus(OrderConstants.orderDetailSupply);
 		}else if (OrderConstants.orderStatusReadCollect.equals(list.get(0).getOrderStatus())){
 			orderStatus=OrderConstants.orderStatusComplete;//订单已完成
+			orderDetlVo.setStatus(OrderConstants.orderDetailCust);//客户收货备注
 		}else{
 			orderStatus=OrderConstants.orderTypeDel;//订单买方已删除
 		}
@@ -755,7 +762,7 @@ public class BusOrderAction {
 		}
 		orderDetlVo.setTableKey(UUIDUtil.getParseUUID());
 		orderDetlVo.setUserNo((String)session.getAttribute("custNo"));
-		orderDetlVo.setStatus(OrderConstants.orderDetailCust);
+		
 
 		BusinessMap<Object> bMap1=busOrderService.updateOrderStatus(param);
 		if (!bMap1.getIsSucc()) {

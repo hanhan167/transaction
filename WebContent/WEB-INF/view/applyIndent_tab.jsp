@@ -464,7 +464,7 @@ function display(data,orderStatus,query){
 			if((j+1)%2!=0){
 				content+="<span>"+new Date(data.map[Row.rows[tmpguan[i][1]].orderNo][j].insertDate).Format("yyyy-MM-dd hh:mm:ss")+" "+(data.map[Row.rows[tmpguan[i][1]].orderNo][j].status==1?'客户状态':'供方状态')+"："+tradeStus+" "+(data.map[Row.rows[tmpguan[i][1]].orderNo][j].status==1?'客户备注':'供方备注')+"："+(data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark!=null?data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark:'')+"</span><br>";
 			}else{
-				content+="<span>"+new Date(data.map[Row.rows[tmpguan[i][1]].orderNo][j].insertDate).Format("yyyy-MM-dd hh:mm:ss")+" "+(data.map[Row.rows[tmpguan[i][1]].orderNo][j].status==0?'客户状态':'供方状态')+"："+tradeStus+" "+(data.map[Row.rows[tmpguan[i][1]].orderNo][j].status==0?'客户备注':'供方备注')+"："+(data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark!=null?data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark:'')+"</span><br>";
+				content+="<span>"+new Date(data.map[Row.rows[tmpguan[i][1]].orderNo][j].insertDate).Format("yyyy-MM-dd hh:mm:ss")+" "+(data.map[Row.rows[tmpguan[i][1]].orderNo][j].status==1?'客户状态':'供方状态')+"："+tradeStus+" "+(data.map[Row.rows[tmpguan[i][1]].orderNo][j].status==1?'客户备注':'供方备注')+"："+(data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark!=null?data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark:'')+"</span><br>";
 			}
 		}
 		if(Row.rows.orderStatus=='090003'||Row.rows.orderStatus=='090004'||Row.rows.orderStatus=='090005'){
@@ -499,7 +499,7 @@ function display(data,orderStatus,query){
 				content += "<button type='button' class='cancel_indent' onclick=invoiceLook(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
 						+ "\')>查看发票信息</button>";
-				content += "<button type='button'  id='makeSure' class='affirm_indent' disabled='disabled'  onclick=operatorOrder(\'"
+				content += "<button type='button'  id='makeSure' class='affirm_indent' onclick=operatorOrder(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
 						+ "\',this)>确认发货</button>";
 						
@@ -631,7 +631,7 @@ function display(data,orderStatus,query){
 								"orderType" : orderType,
 								"remark" : $("select option:selected").text()
 										+ "" + $("input.cause").val(),
-								"statusWay" : "1",
+								"statusWay" : "0",
 							},
 							dataType : "json",
 							type : 'post',
@@ -703,10 +703,11 @@ function display(data,orderStatus,query){
 
 
 	function operatorOrder(orderNo, element) {
+		$(element).attr('disabled',true); 
 		var remark;
 		var lgtNums = $(element).closest('.row').find('.text-input').val();
 		
-		$(element).parent().parent().find("input[type='text']").each(
+		$(element).parent().parent().find(".remark input[type='text']").each(
 				function() {
 					remark = $(this).val();
 				});

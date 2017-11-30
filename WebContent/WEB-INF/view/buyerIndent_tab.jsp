@@ -330,12 +330,12 @@
 									data.map[Row.rows[tmpguan[i][1]].orderNo][j].insertDate)
 									.Format("yyyy-MM-dd hh:mm:ss")
 							+ " "
-							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].status == 0 ? '客户状态'
+							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].status == 1 ? '客户状态'
 									: '供方状态')
 							+ "："
 							+ tradeStus
 							+ " "
-							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].status == 0 ? '客户备注'
+							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].status == 1 ? '客户备注'
 									: '供方备注')
 							+ "："
 							+ (data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark != null ? data.map[Row.rows[tmpguan[i][1]].orderNo][j].remark
@@ -660,7 +660,7 @@
 								"orderType" : orderType,
 								"remark" : $("select option:selected").text()
 										+ "," + $("input.cause").val(),
-								"statusWay" : "0",
+								"statusWay" : "1",
 							},
 							dataType : "json",
 							type : 'post',

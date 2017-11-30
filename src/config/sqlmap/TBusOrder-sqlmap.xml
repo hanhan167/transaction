@@ -148,7 +148,7 @@ where 1=1
 		            </isNotEmpty>   
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
-     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' )
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
      				 	   ]]>
      				 </isNotEmpty>
      			order by temp.ORDER_NO desc
@@ -178,7 +178,7 @@ where 1=1
          D.TELEPHONE ADDRESSEEPHONE,
          D.ADDRESSEE_NAME ADDRESSEENAME,
          D.ADDRESS ADDRESS,
-         substr(CP.c1,1,INSTR(CP.c1,',',1,3)-1) par,
+         SUBSTR(CP.C1, 1, decode(INSTR(CP.C1, ',', 1, 3 ),0,LENGTH(CP.C1) ,INSTR(CP.C1, ',', 1, 3 )) - 1) PAR,
          TEMP.GOODS_NO GOODSNO
     FROM (SELECT ORDER_NO,
                  ORDER_TYPE,
@@ -226,10 +226,11 @@ where 1=1
 		                <![CDATA[ 
 		                    temp.supply_no = #custNo# 
 		                ]]>  
-		            </isNotEmpty>  
+		            </isNotEmpty> 
+		             
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
-     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' )
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
      				 	   ]]>
      				 </isNotEmpty>
 		        </dynamic>	 
@@ -297,7 +298,7 @@ where 1=1
 		            </isNotEmpty>   
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
-     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' )
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
      				 	   ]]>
      				 </isNotEmpty>
 	</select>
@@ -329,7 +330,7 @@ where 1=1
          D.TELEPHONE ADDRESSEEPHONE,
          D.ADDRESSEE_NAME ADDRESSEENAME,
          D.ADDRESS ADDRESS,
-         substr(CP.c1,1,INSTR(CP.c1,',',1,3)-1) par,
+         SUBSTR(CP.C1, 1, decode(INSTR(CP.C1, ',', 1, 3 ),0,LENGTH(CP.C1) ,INSTR(CP.C1, ',', 1, 3 )) - 1) PAR,
          TEMP.GOODS_NO GOODSNO
     FROM (SELECT ORDER_NO,
                  ORDER_TYPE,
@@ -380,7 +381,7 @@ where 1=1
 		            </isNotEmpty>  
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
-     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' )
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay#  )
      				 	   ]]>
      				 </isNotEmpty>
 		        </dynamic>	  
@@ -450,7 +451,7 @@ where 1=1
 		            </isNotEmpty>   
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
-     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' )
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
      				 	   ]]>
      				 </isNotEmpty>
 	</select>
@@ -505,7 +506,7 @@ where 1=1
 		            </isNotEmpty>   
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
-     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' )
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
      				 	   ]]>
      				 </isNotEmpty>
      			 order by temp.ORDER_NO desc
@@ -646,7 +647,7 @@ where 1=1
          D.TELEPHONE ADDRESSEEPHONE,
          D.ADDRESSEE_NAME ADDRESSEENAME,
          D.ADDRESS ADDRESS,
-         substr(CP.c1,1,INSTR(CP.c1,',',1,3)-1) par,
+         SUBSTR(CP.C1, 1, decode(INSTR(CP.C1, ',', 1, 3 ),0,LENGTH(CP.C1) ,INSTR(CP.C1, ',', 1, 3 )) - 1) PAR,
          TEMP.GOODS_NO GOODSNO FROM
 		 (SELECT ORDER_NO,
                  ORDER_TYPE,
