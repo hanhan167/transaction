@@ -217,7 +217,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			content += "<div class='warn-infos'>";
 			content += "<div class='order-img'><img src='frame/static/picture/order-img.png'></div>";
 			content += "<div class='warn-texts'>你还没有相关订单哦!</div>";
-			content += "<div class='href-btn onclick='goShop'>去商城逛逛</div>";
+			content += "<div class='href-btn' onclick='goShop()'>去商城逛逛</div>";
 			content += "</div>";
 			content += "</div>";
 		}
@@ -786,7 +786,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				});
 	} */
 	function goShop(){
-		
+		debugger;
+		var custNo = "${sessionScope.custNo}";
+		location.href="http://192.168.3.123:8080/WEBAPP/User_Action_UserLogin_Mobile/"+custNo;
 	}
 	
 	

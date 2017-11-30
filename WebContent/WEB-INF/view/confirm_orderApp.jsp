@@ -122,9 +122,9 @@
 					<div class="clear-box"></div>
 				</li>
 			</ul>
-		</div>
-		<div class="btn-order insert">确认</div>
-		<div class="btn-order update" style="display: none;">确认</div>
+			<div class="btn-order insert">确认</div>
+			<div class="btn-order update" style="display: none;">确认</div>
+		</div>	
 	</div>
 
 
