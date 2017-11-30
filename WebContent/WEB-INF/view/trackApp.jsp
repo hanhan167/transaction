@@ -63,23 +63,40 @@ request.setAttribute("basePath", basePath);
 
 			},
 			success:function(dataStr){
-				//debugger;
+				html ="<div class=\"detail-info\">";
+				html+="<div class=\"img-shop fl\">";
+		        html+="<img src=\"http://new.cp2013.com.cn/File/B/"+code.substring(code.indexOf("-"),code.length)+".jpg\">";
+		        html+="<div class=\"describe-shop\">共"+num+"件商品</div>";
+		        html+="</div>";
+		        html+="<div class=\"track-texts fl\">";
 				if (dataStr == 1) {
-					html = '<li style="color: red;">物流信息：' + '<span style="color: black;">客户亲自拿货' + '</span>'
-							+ '</li>';
+			        html+="<p style='color:red;'>物流状态:客户亲自拿货</p>";
+			        html+="<p>快递公司:无</p>";
+			        html+="<p>快递单号:无</p>";
+			        html+="</div>";
+			        html+="<div class=\"clear-box\"></div>";
+			        html+="</div>";
+			        html+="<ul class='time-lists'></ul>";
 				}else if (dataStr == 2) {
-					html =  '<li style="color: red;">物流信息：' + '<span style="color: black;">滴滴送货,一天内到达' + '</span>'
-							+ '</li>';
+			        html+="<p style='color:red;'>物流状态:滴滴送货,一天内到达</p>";
+			        html+=" <p>快递公司:无</p>";
+			        html+="<p>快递单号:无</p>";
+			        html+="</div>";
+			        html+="<div class=\"clear-box\"></div>";
+			        html+="</div>";
+			        html+="<ul class='time-lists'>"
+			        +"<div class='warn-box'>"
+					+	"<div class='warn-infos'>"      
+					+	"<div class='warn-texts'>无具体物流信息...</div>"
+					+	           "<div class='onload-img'><img src='frame/static/picture/order-img.png'></div>" 
+					+	       " </div>"
+					+	    "</div>"	
+					+"</ul>";
 				}else{
 					myData = JSON.parse(dataStr);
 					var data = JSON.parse(dataStr);
 					if (data.status === '0' && data.msg === 'ok') {
-						html ="<div class=\"detail-info\">";
-						html+="<div class=\"img-shop fl\">";
-				        html+="<img src=\"http://new.cp2013.com.cn/File/B/"+code.substring(code.indexOf("-"),code.length)+".jpg\">";
-				        html+="<div class=\"describe-shop\">共"+num+"件商品</div>";
-				        html+="</div>";
-				        html+="<div class=\"track-texts fl\">";
+						
 				        var r= data.result;
 				        if(r.issign === '1'){
 				        	

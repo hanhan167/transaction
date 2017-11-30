@@ -19,7 +19,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <div class="header" style="height: 43px">
     <div class="header-box">
-        <div class="header-img fl"><img class="l-img returnShopCart"  style='padding-top:11px;' src="frame/static/picture/arrow-white.png"></div>
         <div class="text-tit fl">我的订单</div>
         <div class="clear-box"></div>
     </div>
@@ -218,7 +217,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			content += "<div class='warn-infos'>";
 			content += "<div class='order-img'><img src='frame/static/picture/order-img.png'></div>";
 			content += "<div class='warn-texts'>你还没有相关订单哦!</div>";
-			content += "<div class='href-btn'>去商城逛逛</div>";
+			content += "<div class='href-btn onclick='goShop'>去商城逛逛</div>";
 			content += "</div>";
 			content += "</div>";
 		}
@@ -269,7 +268,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					content += "</div>";
 				}
 				content +=	"<div class='li-texts fl' style='margin-left: 15px'>";
-				content += "<h5>"+Row.rows[tmpguan[i][num]].goodsName
+				content += "<h5>"
 						+ (Row.rows[tmpguan[i][num]].goodsName != null ? Row.rows[tmpguan[i][num]].goodsName
 								: '') + "</h5>";
 				content += "<p class='num-text' title='"+Row.rows[tmpguan[i][num]].par+"'>"
@@ -786,7 +785,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 				});
 	} */
-
+	function goShop(){
+		
+	}
+	
+	
 	//显示所有物流信息	
 	function showAll(that) {
 		event.stopPropagation();
