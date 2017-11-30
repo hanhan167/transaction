@@ -33,6 +33,7 @@ request.setAttribute("basePath", basePath);
 <script>
 	$(function(){ 
 		
+		
 		var html = "";
 		var myData;
 		var lgtNum = GetQueryString("lgtNums");
