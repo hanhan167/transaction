@@ -31,10 +31,7 @@ request.setAttribute("basePath", basePath);
 <script type="text/javascript"
 	src="frame/static/js/jquery-1.11.1.min.js"></script>
 <script>
-	$(function(){  
-		
-		
-		
+	$(function(){
 		var html = "";
 		var myData;
 		var lgtNum = GetQueryString("lgtNums");
