@@ -563,6 +563,14 @@ $(function(){
 			url:"goods/toConfirmOrderApp.do",
 			type:"post",
 			data:{"orderArray":array},
+			boforeSend:function(){
+				$(".mains").html(	 "<div class='warn-box'>"
+						+	"<div class='warn-infos'>"        
+						+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+						+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+						+	       " </div>"
+						+	    "</div>"		);
+			},
 			success:function(data){
 				location.href="goods/toConfirmOrderApp.do";
 			}

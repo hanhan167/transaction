@@ -57,7 +57,14 @@ ul.heads>li>a{
 			<li><a target="_blank" href="sys/toTech.do">技术平台</a></li>
 		</ul>
 		<ul id="loginOut">
-			<li id="good"><a href="goods/toInvoicMgt.do">发票管理</a></li>
+			<li>
+				<a>发票管理</a>
+				<ul>
+					<li onclick="toBuyerInvoic()" id="buyerInvoic">买方发票</li>
+					
+					<li onclick="toSupplyInvoic()" id="supplyInvoic">卖方发票</li>
+				</ul>
+			</li>
 			<li id="goods"><a href="goods/toCommodity.do">商品管理</a></li>
 			<li>
 				<a>我的订单</a>
@@ -112,6 +119,7 @@ $(function() {
             	if(data.obj.userType=='buyer'){
             		$("#supplyLi").css({"display":"none"});
             		$("#goods").css({"display":"none"});
+            		$("#supplyInvoic").css({"display":"none"});
             	}
             	$("#loginName0").text(splitStr(data.obj.loginName,4)).attr("title",data.obj.loginName);
             	$("#loginName1").text(splitStr(data.obj.loginName,6)).attr("title",data.obj.loginName);
@@ -157,5 +165,11 @@ function toBuyer(){
 }
 function toSupply(){
 	location.href="${basePath}busOrder/toPage/applyIndent_tab.do";
+}
+function toBuyerInvoic(){
+	window.location.href="${basePath}goods/toInvoicMgt.do";
+}
+function toSupplyInvoic(){
+	window.location.href="${basePath}goods/toSupplyInvoicMgt.do";
 }
 </script>

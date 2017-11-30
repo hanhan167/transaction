@@ -40,10 +40,7 @@
 
 	<div class="addressTip-table mains"
 		style="height:100%;overflow-y: auto;">
-		<div class="geng-duo-di-zhi">更多地址 ></div>
-		<div class="arrow-box geng-duo-di-zhi-imge" style="display:none">
-			<img src="frame/static/picture/arrow.png">
-		</div>
+		
 	</div>
 
 
@@ -122,9 +119,9 @@
 					<div class="clear-box"></div>
 				</li>
 			</ul>
-		</div>
-		<div class="btn-order insert">确认</div>
-		<div class="btn-order update" style="display: none;">确认</div>
+			<div class="btn-order insert">确认</div>
+			<div class="btn-order update" style="display: none;">确认</div>
+		</div>	
 	</div>
 
 
@@ -150,7 +147,10 @@
 <script type="text/javascript" src="frame/static/layer/mobile/layer.js"></script>
 <script id="bd_t1" type="text/template">
 	
-
+	<div class="geng-duo-di-zhi" style="background-color: #c2c2c2;height: 27px;font-size: 18px;text-align: center;">更多地址</div>
+		<div class="arrow-box geng-duo-di-zhi-imge" style="display:none">
+			<img src="frame/static/picture/arrow.png">
+		</div>
 
 	<*for(var key in obj){*>
 		<*var list = obj[key]*>
@@ -215,7 +215,7 @@ var supplyName = [];
 	<*for(var key in tmp){*>
 		<*var list = shoppCart[tmpguan[key][1]]*>
 		
-		<div class="moudle" id="<*=key*>">
+		
 		<div class="lists-box">
 			<div style="background-color: #FFFFFF">
          	   <div class="tit-box">
@@ -271,7 +271,7 @@ var supplyName = [];
                 </div>
 			</li>
              </ul>
-    </div>			
+    		
 	<*}*>
 </script>
 
@@ -311,6 +311,7 @@ var supplyName = [];
 <*}*>
 	 </ul>
     </div>
+<div class="moudle" id="<*=key*>"></div>
 </script>
 <script type="text/javascript">
 	$(function() {
@@ -329,14 +330,7 @@ var supplyName = [];
 			}
 		}
 
-		//更多地址
-		$(".arrow-box").click(function() {
-			addressMore();
-		});
-
-		$(".geng-duo-di-zhi").click(function() {
-			addressMore();
-		});
+	
 
 		//返回
 		$(".address-more-close").click(function() {
@@ -521,8 +515,12 @@ var supplyName = [];
 										dataType : "json",
 										type : "post",
 										beforeSend : function() {
-											$("#createOrder").attr("disabled",
-													"disabled");
+											$(".address-lis>ul").html(	 "<div class='warn-box'>"
+													+	"<div class='warn-infos'>"        
+													+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+													+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+													+	       " </div>"
+													+	    "</div>"		);
 										},
 										success : function(data) {
 											if (data.success) {
@@ -554,12 +552,39 @@ var supplyName = [];
 		//收货地址
 		$.ajax({
 			url : "busShoppCart/getUserAddress.do",
+			boforeSend:function(){
+				$(".newLi").html(	
+						"<div class='warn-box'>"
+						+	"<div class='warn-infos'>"        
+						+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+						+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+						+	       " </div>"
+						+	    "</div>"		);
+			},
 			success : function(data) {
 				if (data.success) {
 					var html1 = baidu.template('bd_t1', data);
 					$(".addressTip-table").append(html1);
 					var html3 = baidu.template('bd_t3', data);
 					$(".addressTip-table").append(html3);
+					//判断地址是否为空，显示信息
+					if($(".address-lis ul li").length == 0){
+						$(".address-lis ul").html(
+						"<div class='warn-box'>"
+						+	"<div class='warn-infos'>"      
+						+	 "<div class='warn-texts'>无地址信息，请新增</div>"
+						+	 "<div class='onload-img'><img src='frame/static/picture/order-img.png'></div>" 
+						+	" </div>"
+						+"</div>");
+					}
+					//更多地址
+					$(".arrow-box").click(function() {
+						addressMore();
+					});
+
+					$(".geng-duo-di-zhi").click(function() {
+						addressMore();
+					});
 					var choose = $(".addressTip-table").children("li").length;
 					var vue = GetQueryString("vue");
 					var liatDate = [];
@@ -600,6 +625,13 @@ var supplyName = [];
 									.addClass("check-span");
 						}
 					}
+					$(".moudle").append(	
+							"<div class='warn-box newWB'>"
+							+	"<div class='warn-infos'>"        
+							+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+							+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+							+	       " </div>"
+							+	    "</div>"		);
 				} else {
 					layer.open({
 						title : '错误信息',
@@ -611,18 +643,11 @@ var supplyName = [];
 		//获取商品信息
 		$.ajax({
 			url : "busShoppCart/getOrderList.do",
-			boforeSend:function(){
-				$(".mains").html(	 "<div class='warn-box'>"
-						+	"<div class='warn-infos'>"        
-						+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
-						+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
-						+	       " </div>"
-						+	    "</div>"		);
-			},
 			success : function(data) {
 				if (data.success) {
+					$(".newWB").hide();
 					var html2 = baidu.template('bd_t2', data.map);
-					$(".addressTip-table").append(html2);
+					$(".moudle").append(html2);
 					total();
 					//进页面时跳地址页面
 					var vue = GetQueryString("vue");
