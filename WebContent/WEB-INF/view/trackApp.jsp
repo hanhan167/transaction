@@ -50,74 +50,93 @@ request.setAttribute("basePath", basePath);
 			type:'post',
 			url:'busOrder/sendlgtMsgApp.do',
 			data:{
-				"lgtNums":lgtNum		
+				"lgtNums":lgtNum,		
 			},
 			beforeSend:function(){
-				$(".mains").append( 
-								"<div class='warn-box'>"
-								+	"<div class='warn-infos'>"        
-								+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
-								+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
-								+	       " </div>"
-								+	    "</div>"		);
-	
+				$(".mains").html(	 
+						"<div class='warn-box'>"
+						+	"<div class='warn-infos'>"        
+						+	           "<div class='onload-img'><img src='frame/static/picture/onload.png'></div>" 
+						+	            "<div class='warn-texts'>正在努力为您加载!请耐心等待...</div>"
+						+	       " </div>"
+						+	    "</div>"		);
+
 			},
 			success:function(dataStr){
-			    html+= '<div class="detail-info">'
-		            +'<div class="img-shop fl">'
-		            +'<img src="http://new.cp2013.com.cn/File/B/' +  code.substring(code.indexOf('-'),code.length) +'.jpg">'
-		            +'<div class="describe-shop">共'+num+'件商品</div>'
-		        	+'</div>';
-		       myData = JSON.parse(dataStr);
-		       var data = JSON.parse(dataStr);
-		       if (data.status === '0' && data.msg === 'ok') {	
-		    	  var r = data.result, list = r.list, result = r.issign === '1' ? '已签收'
-							: '未签收';
-		    	   html+='<div class="track-texts fl">'
-		            +'<p>物流状态:'+result+'</p>'
-		            +'<p>快递公司:'+findSth(r.type)+'</p>'
-		            +'<p>快递单号:'+r.number+'</p>'
-		        	+'</div>';
-		        	html+='<div class="clear-box"></div>';
-		        	html+='</div>';
-		        	
-		        	html+='<div class="track-frames">';
-		        	html+='<ul class="time-lists">';
-		    
-		        	for (var i = 0; i < list.length ; i++) {
-					 html += '<li>';
-					 html +='<div class="fl time-describe">'
-					 	  +'<p>'+list[i].time+'</p>'
-					 	  +'<p></p>'
-						  +'</div>';
-					 html +=' <div class="fl circle-box">'
-					 	  +'<div class="circle-big-blue">';
-					 	  if(i==0){
-					 html +='<div class="circle-small-blue"></div>';
-					 	  }
-					 html +=' </div>'
-					 	  +'<div class="line-down"></div>'
-					 	  +' </div>';
-					 html +=' <div class="fl time-texts">'
-					 	  +'<p style="color: #b2191b">'+list[i].status+'</p>'
-					 	  +' </div>'
-					 	  +' <div class="clear-box"></div>';
-					 html +=' </li>';
-		        	}  
-		        	html+='</div>';
-		        	html+='</ul>';
-		       }
-		       else{
-		    	   html = '当前无信息';
-		       }
-		       html+='</div>';
-		       $(".mains").append(html);
-			 }
-	});
+				//debugger;
+				if (dataStr == 1) {
+					html = '<li style="color: red;">物流信息：' + '<span style="color: black;">客户亲自拿货' + '</span>'
+							+ '</li>';
+				}else if (dataStr == 2) {
+					html =  '<li style="color: red;">物流信息：' + '<span style="color: black;">滴滴送货,一天内到达' + '</span>'
+							+ '</li>';
+				}else{
+					myData = JSON.parse(dataStr);
+					var data = JSON.parse(dataStr);
+					if (data.status === '0' && data.msg === 'ok') {
+						html ="<div class=\"detail-info\">";
+						html+="<div class=\"img-shop fl\">";
+				        html+="<img src=\"http://new.cp2013.com.cn/File/B/"+code.substring(code.indexOf("-"),code.length)+".jpg\">";
+				        html+="<div class=\"describe-shop\">共"+num+"件商品</div>";
+				        html+="</div>";
+				        html+="<div class=\"track-texts fl\">";
+				        var r= data.result;
+				        if(r.issign === '1'){
+				        	
+				       		 html+="<p>物流状态:已签收</p>";
+				        }else{
+				       		 html+="<p>物流状态:运输中</p>";
+				        	
+				        }
+				        html+=" <p>快递公司:"+findSth(r.type)+"</p>";
+				        html+="<p>快递单号:"+r.number+"</p>";
+				        html+="</div>";
+				        html+="<div class=\"clear-box\"></div>";
+				        html+="</div>";
+				        html+="<div class=\"track-frames\">";
+				        html+="<ul class=\"time-lists\">";
+
+				        var list = r.list;
+						 for (var i = 0; i < list.length ; i++) {
+							 
+							 html +=" <li>";
+							 html +="<div class=\"fl time-describe\">";
+							 var index=list[i].time.indexOf(" ");
+							 
+							 
+							 html +="<p>"+(list[i].time).substring(index+1)+"</p>";
+							 html +="<p>"+(list[i].time).substring(0,index)+"</p>";
+							 html +="</div>";
+							 html +="<div class=\"fl circle-box\">";
+							 html +="<div class=\"circle-big-blue\">";
+							 if(i==0){
+								 html +="<div class=\"circle-small-blue\"></div>";
+							 }
+							 html +="</div>";
+							 html +="<div class=\"line-down\"></div>";
+							 html +="</div>";
+							 html +="<div class=\"fl time-texts\">";
+							 html +="<p style=\"color: #b2191b\">"+list[i].status +"</p>";
+							 html +="</div>";
+							 html +="<div class=\"clear-box\"></div>";
+							 html +="</li>";
+							}
+						    html+="</div>";
+					        html+="</ul>";
+
+					} else {
+						 html = "当前无信息";
+					}
+					 
+				}	
+				$(".mains").html(html);
+			}
+			
+		});
+
 	});
 	
 	$(".returnShopCart").click(function() {
-		var custNo = "${sessionScope.custNo}";
 		location.href = "busOrder/toPage/buyerIndent_tabApp.do";
 	});
 
