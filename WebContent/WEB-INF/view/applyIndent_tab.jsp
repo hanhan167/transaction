@@ -704,6 +704,8 @@ function display(data,orderStatus,query){
 
 	function operatorOrder(orderNo, element) {
 		$(element).attr('disabled',true); 
+		var orde = $(element).parent().prev().find(".clear>input").val();
+		console.log(orde);
 		var remark;
 		var lgtNums = $(element).closest('.row').find('.text-input').val();
 		
@@ -726,7 +728,7 @@ function display(data,orderStatus,query){
 						icon : 1,
 						time : 2000
 					},  function() {
-							location.reload();
+						stateLook("1", orde);
 						});
 				} else {
 					layer.open({
