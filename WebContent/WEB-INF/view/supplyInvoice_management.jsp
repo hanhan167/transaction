@@ -51,21 +51,22 @@
 	<div class="head">
 		<jsp:include page="head.jsp" flush="true" />
 	</div>
-
 	<!-- 中间的内容 -->
 	<div class="centre">
 		<div class="content">
-		<ul class="invoice">
-					<li ><a>未开发票（<span id="all"></span>）
+			<div class="head_tab" style="margin: -30px 0 31px 7px;">
+				<ul>	
+					<li><a style="width: 120px;">未开发票（<span id="complete"></span>）
 					</a></li>
-					<li><a>已开发票（<span id="confirmed"></span>）
+					<li><a>已开发票（<span id="cancel"></span>）
 					</a></li>
 					<li><a>开票
 					</a></li>
 					<li><a>设置
 					</a></li>
-					
-		</ul>
+				</ul>
+				<div class="clear"></div>
+			</div>
 			<div class="header" style="height: 50px;">
 				<label class="all_check"><input type="checkbox" style='margin-left: 2%;margin-top: 2%;'>全选</label>
 				<button type='button' class='cancel_indent' style=" float: right;margin-top: 5px;margin-right: 15px;background-color: #03a1a4;color: #FFFFFf;">开发票</button>

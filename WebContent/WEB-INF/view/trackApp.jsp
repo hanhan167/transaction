@@ -78,7 +78,14 @@ request.setAttribute("basePath", basePath);
 			        html+="</div>";
 			        html+="<div class=\"clear-box\"></div>";
 			        html+="</div>";
-			        html+="<ul class='time-lists'></ul>";
+			        html+="<ul class='time-lists'>"
+			        	 +"<div class='warn-box'>"
+							+	"<div class='warn-infos'>"      
+							+	"<div class='warn-texts'>无具体物流信息...</div>"
+							+	           "<div class='onload-img'><img src='frame/static/picture/order-img.png'></div>" 
+							+	       " </div>"
+							+	    "</div>"	
+							+"</ul>";
 				}else if (dataStr == 2) {
 			        html+="<p style='color:red;'>物流状态:滴滴送货,一天内到达</p>";
 			        html+=" <p>快递公司:无</p>";

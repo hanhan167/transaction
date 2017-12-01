@@ -1400,6 +1400,51 @@ public class BusOrderAction {
 
 	}
 
+			//发送物流信息App
+			@RequestMapping("/sendlgtMsgApp")
+			@ResponseBody
+			public void sendlgtMsgApp(String lgtNums,HttpServletResponse response) throws Exception
+			{
+				response.setCharacterEncoding("UTF-8");
+				//该单号表示客户自提
+				if(lgtNums.equals("0001001"))
+				{
+					PrintWriter pw = response.getWriter();
+					pw.print("1");
+			    	pw.flush();
+				}
+				//该单号表示滴滴配送
+				else if(lgtNums.equals("0002002"))
+				{
+					PrintWriter pw = response.getWriter();
+					pw.print("2");
+			    	pw.flush();
+				}
+				else
+				{
+				String host = "http://jisukdcx.market.alicloudapi.com";
+			    String path = "/express/query";
+			    String method = "GET";
+			    String appcode = "61fe88dd2009462dbd676ec3a325b7df";
+			    Map<String, String> headers = new HashMap<String, String>();
+
+			    headers.put("Authorization", "APPCODE " + appcode);
+			    Map<String, String> querys =  new HashMap<String, String>();
+			    querys.put("number", lgtNums);
+			    querys.put("type", "auto");
+			    try {
+					PrintWriter pw = response.getWriter();
+					HttpResponse response1 = HttpUtils.doGet(host, path, method, headers, querys);
+					String groupBuyerName=URLDecoder.decode(EntityUtils.toString(response1.getEntity()),"UTF-8");
+			    	pw.print(groupBuyerName);
+			    	pw.flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+
+			}
 
 }
 

@@ -319,7 +319,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					+ 	"</div>";
 			
 			/*备注*/
-			content += "<div class='remark-com'>";
+			content += "<div class='remark-com' style='height: auto;'>";
 			content += "<span>备注:</span>";	
 			content += "<input  type='text' readonly='readonly' style='font-family:Microsoft YaHei; color:gray;' value=' "+(data.map[Row.rows[tmpguan[i][1]].orderNo][0].remark != null ? data.map[Row.rows[tmpguan[i][1]].orderNo][0].remark
 					: '')+"' />";
@@ -627,55 +627,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			closeBtn : 0
 		});
 	};
+	
 	function vendor(val) {
 		location.href = "/portal/commercial_particulars.jsp?key=" + val;
 	}
+	
+	
 	//取消订单
 	function cancelOrder(orderNo, orderType, element) {
-		var orde = $(element).parent().parent().prev().find(".clear>input").val();
-		layer
-				.open({
-					title : '请填写取消原因',
-					content : "<select class='cause'><option>协商取消订单</option><option>交期时间有问题</option><option>商品价格不符合预期</option><option>其他</option></select>"
-							+ "<input class='cause' placeholder='请输入取消的原因' maxlength='150'>",
-					btn : [ '确认', '取消' ],
-					yes : function(index, layero) {
-						$.ajax({
-							url : 'busOrder/cancelOrder.do',
-							data : {
-								"orderNo" : orderNo,
-								"dealType" : "cancel",
-								"orderType" : orderType,
-								"remark" : "【" + $("select option:selected").text()
-										+ "】" + $("input.cause").val(),
-								"statusWay" : "0",
-							},
-							dataType : "json",
-							type : 'post',
-							success : function(data) {
-								if (data.success) {
-									count();
-									layer.open({
-									 content:'操作成功',
-									 time:2,
-									 end:function(){
-										 stateLook(curr, orde);
-									 				}
-									});
-								} else {
-									layer.open({
-										title : '错误信息',
-										content : data.msg
-									});
-								}
-							}
-						});
-					},
-					btn2 : function(index, layero) {
-						layer.close(index);
-					},
-					closeBtn : 0
-				});
+		location.href = "busOrder/toPage/cancelOrder.do?orderNo="+orderNo+"&orderType="+orderType;
 	}
 	
 	//再次购买

@@ -618,6 +618,8 @@ var supplyName = [];
 								"input[type=radio]").attr("checked")) {
 							$(".geng-duo-di-zhi").hide();
 							$(".geng-duo-di-zhi-imge").show();
+							$($(".address-lis li")[i]).find("input[type=radio]").parent().next().text("默认地址");
+
 						} else {
 							$($(".addressTip-table li")[i]).hide();
 							$($(".address-lis li")[i])
