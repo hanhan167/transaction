@@ -746,9 +746,7 @@
 	function lookWlMsg(str, that) {
 		event.stopPropagation();
 		myDivId = $(that).parent().next().attr('id');
-		alert(myDivId);
-		console.log(myDivId);	
-		console.log(str);
+		
 		$modal = $('#'+ myDivId);
 		$modal.show();
 		var $info = $('#info'), html = '';
