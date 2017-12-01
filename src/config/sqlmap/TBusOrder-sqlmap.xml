@@ -456,6 +456,61 @@ where 1=1
      				 </isNotEmpty>
 	</select>
 	
+	<!-- 获取买方未开发票的订单总条数 -->
+	<select id="selectBuyerOrdersCountInvoic" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(distinct TEMP.ORDER_NO)from
+		 (SELECT ORDER_NO,
+                 ORDER_TYPE,
+                 SPLIT_STATUS,
+                 CUST_NO,
+                 GOODS_NO,
+                 GOODS_PRICE,
+                 GOODS_DISCOUNT,
+                 DEFAULT_PAY_DT,
+                 WISH_PAY_DT,
+                 ORDER_STATUS,
+                 INSERT_DATE,
+                 UPDATE_DATE,
+                 SUPPLY_NO,
+                 GOODS_COUNT,
+                 ADDRESS,
+                 STATUS,
+                 UPDATE_CUST_TYPE,
+                 TABLE_KEY,
+                 goods_money,
+                 ORDER_STATUS_SEL
+            FROM T_BUS_ORDER TEMP
+           WHERE STATUS = '1'
+             AND SPLIT_STATUS in ('0','2')
+           ) TEMP 
+    LEFT JOIN DATA_CP CP
+      ON TEMP.GOODS_NO = CP.CPDM
+    LEFT JOIN DATA_CPMLS MLS
+      ON CP.CODE = MLS.CODE
+    LEFT JOIN T_USER_BASE_INFO U
+      ON TEMP.CUST_NO = U.CUST_NO
+     LEFT JOIN T_BUS_ADDRESS D
+      ON TEMP.ORDER_NO = D.ORDER_NO
+       left join T_USER_BASE_INFO SP
+      ON TEMP.SUPPLY_NO = SP.CUST_NO
+      where 1=1
+		            <isNotEmpty property="orderStatus" prepend="and">  
+		                <![CDATA[ 
+		                    temp.order_status = #orderStatus# 
+		                ]]>  
+		            </isNotEmpty>
+		             <isNotEmpty property="custNo" prepend="and">  
+		                <![CDATA[ 
+		                    temp.cust_no = #custNo# 
+		                ]]>  
+		            </isNotEmpty>   
+		            <isNotEmpty prepend="and" property="queryWay">
+     				 	<![CDATA[
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
+     				 	   ]]>
+     				 </isNotEmpty>
+	</select>
+	
 	
 	<select id="selectBuyerPageOrders" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.Order">
 		select distinct TEMP.ORDER_NO orderNo from

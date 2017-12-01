@@ -40,9 +40,9 @@
 		<div class="content">
 			<div class="head_tab" style="margin: -30px 0 31px 7px;">
 				<ul>	
-					<li><a style="width: 120px;">未开发票（<span id="complete"></span>）
+					<li><a style="width: 120px;">未开发票（<span id="buyerNoInvoice"></span>）
 					</a></li>
-					<li><a>已开发票（<span id="cancel"></span>）
+					<li><a style="width: 120px;">已开发票（<span id="buyerOpenInvoice"></span>）
 					</a></li>
 				</ul>
 				<div class="clear"></div>
@@ -329,15 +329,11 @@
 	}
 	function count() {
 		$.ajax({
-			url : 'busOrder/getBuyerOrderCount.do',
+			url : 'busOrder/getBuyerOrderCountInvoic.do',
 			success : function(data) {
-				$("#payment").text(data.obj.payment);
-				$("#readCollect").text(data.obj.readCollect);
-				$("#complete").text(data.obj.complete);
-				$("#all").text(data.obj.all);
-				$("#cancel").text(data.obj.cancel);
-				$("#confirmed").text(data.obj.sure);
-				$("#readyShip").text(data.obj.post);
+				$("#buyerNoInvoice").text(data.obj.buyerNoInvoice);
+				$("#buyerOpenInvoice").text(data.obj.buyerOpenInvoice);
+				//$("#readCollect").text(data.obj.readCollect);
 			}
 		});
 	}

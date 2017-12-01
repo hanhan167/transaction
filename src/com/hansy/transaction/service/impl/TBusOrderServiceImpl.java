@@ -485,5 +485,28 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		}
 	}
 
+	/**********************************新增发票信息**********************************/
+	
+	/**
+	 * 获取买方的未开发票订单以及已开发票订单的条数
+	 */
+	@Override
+	public BusinessMap<Object> getBuyerOrderCountInvoic(
+			Map<String, String> param) {
+		BusinessMap<Object> bMap = new BusinessMap<>();
+		// 获取的总记录数封装成map
+		Map<String, Integer> countMap = new HashMap<>();
+		// 获取买方未打印订单数量(完成订单数)
+		param.put("orderStatus", "090005");
+		Integer buyerNoInvoice = (int) getSqlMapClientTemplate().queryForObject(
+				"busOrder.selectBuyerOrdersCountInvoic", param);
+		countMap.put("buyerNoInvoice", buyerNoInvoice);
+		// 获取买方已打印订单数量
+
+		bMap.setIsSucc(true);
+		bMap.setInfoBody(countMap);
+		return bMap;
+	}
+
 
 }

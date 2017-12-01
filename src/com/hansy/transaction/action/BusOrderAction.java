@@ -1445,6 +1445,34 @@ public class BusOrderAction {
 				}
 
 			}
-
+			
+			
+		/*****************************************新增发票系统*******************************************/
+			/**
+			 * 获取买方（未开发票订单信息，以及已开发票订单）
+			 * @description: TODO
+			 * @creator: cj
+			 * @createDate: 2017年3月15日
+			 * @modifier:
+			 * @modifiedDate:
+			 * @return
+			 */
+			@RequestMapping("/getBuyerOrderCountInvoic")
+			@ResponseBody
+			public BaseReslt<Object> getBuyerOrderCountInvoic(HttpSession session){
+				BaseReslt<Object> bReslt=new BaseReslt<Object>();
+				String custNo=(String) session.getAttribute("custNo");
+				Map<String, String> param=new HashMap<String,String>();
+				param.put("custNo", custNo);
+				BusinessMap<Object> bMap=busOrderService.getBuyerOrderCountInvoic(param);
+				if (!bMap.getIsSucc()) {
+					bReslt.setSuccess(false);
+					bReslt.setMsg("获取订单数量失败");
+					return bReslt;
+				}
+				bReslt.setObj(bMap.getInfoBody());
+				bReslt.setSuccess(true);
+				return bReslt;
+			}	
 }
 

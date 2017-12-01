@@ -58,7 +58,7 @@
 				<ul>	
 					<li><a style="width: 120px;">未开发票（<span id="complete"></span>）
 					</a></li>
-					<li><a>已开发票（<span id="cancel"></span>）
+					<li><a style="width: 120px;">已开发票（<span id="cancel"></span>）
 					</a></li>
 					<li><a>开票
 					</a></li>

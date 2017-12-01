@@ -228,5 +228,19 @@ public interface ITBusOrderService {
 	public void lgtSend(TBusOrderVo busOrderVo);
 
 	BusinessMap<AllPager> selectBuyerOrders(Map<String, Object> param);
+	
+	
+	/**
+	 * 获取买方（未开发票订单，已开发票订单信息）
+	 * @description: TODO
+	 * @creator: cj
+	 * @createDate: 2017年3月15日
+	 * @modifier:
+	 * @modifiedDate:
+	 * @param param
+	 * @return
+	 */
+	BusinessMap<Object> getBuyerOrderCountInvoic(Map<String, String> param);
+	
 }
 
