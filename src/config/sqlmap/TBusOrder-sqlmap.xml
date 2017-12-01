@@ -396,6 +396,100 @@ where 1=1
            			 order by temp.UPDATE_DATE desc
 	</select>
 	
+	<!-- 获取买方未开发票订单分页list -->
+	<select id="selectBuyerOrders1Invoic" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.Order">
+		SELECT TEMP.ORDER_STATUS ORDERSTATUS,
+         TEMP.ORDER_NO ORDERNO,
+         TEMP.GOODS_PRICE GOODSPRICE,
+         TEMP.GOODS_COUNT GOODSCOUNT,
+         TEMP.GOODS_DISCOUNT GOODSDISCOUNT,
+         TEMP.INSERT_DATE INSERTDATE,
+         TEMP.ORDER_TYPE ORDERTYPE,
+         TEMP.TABLE_KEY TABLEKEY,
+         TEMP.SPLIT_STATUS splitStatus,
+         TEMP.goods_money goodsMoney,
+         TEMP.LGT_NUMS LGTNUMS,
+        u.cust_name applyName,
+       u.user_phone applyPhone,
+       u.cust_no custNo,
+         cp.brand brand,
+         cp.code code,
+       SP.cust_name supperName,
+       SP.user_phone supperPhone,
+       TEMP.SUPPLY_NO supplyNo,
+         MLS.NAME GOODSNAME,
+         MLS.CODE GOODSCODE,
+         TO_CHAR(TEMP.INSERT_DATE + TEMP.DEFAULT_PAY_DT, 'yyyy-mm-dd') DEFAULTPAYDT,
+         TO_CHAR(TEMP.INSERT_DATE + TEMP.WISH_PAY_DT, 'yyyy-mm-dd') WISHPAYDT,
+         D.TELEPHONE ADDRESSEEPHONE,
+         D.ADDRESSEE_NAME ADDRESSEENAME,
+         D.ADDRESS ADDRESS,
+         SUBSTR(CP.C1, 1, decode(INSTR(CP.C1, ',', 1, 3 ),0,LENGTH(CP.C1) ,INSTR(CP.C1, ',', 1, 3 )) - 1) PAR,
+         TEMP.GOODS_NO GOODSNO
+    FROM (SELECT ORDER_NO,
+                 ORDER_TYPE,
+                 SPLIT_STATUS,
+                 CUST_NO,
+                 GOODS_NO,
+                 GOODS_PRICE,
+                 GOODS_DISCOUNT,
+                 DEFAULT_PAY_DT,
+                 WISH_PAY_DT,
+                 ORDER_STATUS,
+                 INSERT_DATE,
+                 UPDATE_DATE,
+                 SUPPLY_NO,
+                 GOODS_COUNT,
+                 ADDRESS,
+                 STATUS,
+                 UPDATE_CUST_TYPE,
+                 TABLE_KEY,
+                 goods_money,
+                 LGT_NUMS,
+                 ORDER_STATUS_SEL
+            FROM T_BUS_ORDER TEMP
+           WHERE STATUS = '1'
+             AND SPLIT_STATUS in ('0','2')
+           ) TEMP 
+    LEFT JOIN DATA_CP CP
+      ON TEMP.GOODS_NO = CP.CPDM
+    LEFT JOIN DATA_CPMLS MLS
+      ON CP.CODE = MLS.CODE
+    LEFT JOIN T_USER_BASE_INFO U
+      ON TEMP.CUST_NO = U.CUST_NO
+   LEFT JOIN T_BUS_ADDRESS D
+      ON TEMP.ORDER_NO = D.ORDER_NO
+      left join T_USER_BASE_INFO SP
+      ON TEMP.SUPPLY_NO = SP.CUST_NO
+    where 1=1
+    		<dynamic prepend="">  
+		            <isNotEmpty property="orderStatus" prepend="and">  
+		                <![CDATA[ 
+		                    temp.order_status = #orderStatus# 
+		                ]]>  
+		            </isNotEmpty>
+		             <isNotEmpty property="custNo" prepend="and">  
+		                <![CDATA[ 
+		                    temp.cust_no = #custNo# 
+		                ]]>  
+		            </isNotEmpty>  
+		            <isNotEmpty prepend="and" property="queryWay">
+     				 	<![CDATA[
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay#  )
+     				 	   ]]>
+     				 </isNotEmpty>
+		        </dynamic>	  
+		          <dynamic prepend=" and ">  
+        <isNotNull property="orderNoList">  
+             TEMP.ORDER_NO in  
+            <iterate property="orderNoList" open="(" conjunction="," close=")">  
+                #orderNoList[].orderNo#  
+                    </iterate>                      
+        </isNotNull>  
+    </dynamic>  
+           			 order by temp.UPDATE_DATE desc
+	</select>
+	
 	<!-- 操作物流号 -->
 	<update id="updateLgt" parameterClass="com.hansy.transaction.model.vo.TBusOrderVo">
 		update t_bus_order set LGT_NUMS=#lgtNums# where ORDER_NO=#orderNo#
@@ -566,6 +660,63 @@ where 1=1
      				 </isNotEmpty>
      			 order by temp.ORDER_NO desc
 	</select>
+	
+	<!-- 拿到买方未开发票订单的分页数据 -->
+	<select id="selectBuyerPageOrdersInvoic" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.Order">
+		select distinct TEMP.ORDER_NO orderNo from
+		 (SELECT ORDER_NO,
+                 ORDER_TYPE,
+                 SPLIT_STATUS,
+                 CUST_NO,
+                 GOODS_NO,
+                 GOODS_PRICE,
+                 GOODS_DISCOUNT,
+                 DEFAULT_PAY_DT,
+                 WISH_PAY_DT,
+                 ORDER_STATUS,
+                 INSERT_DATE,
+                 UPDATE_DATE,
+                 SUPPLY_NO,
+                 GOODS_COUNT,
+                 ADDRESS,
+                 STATUS,
+                 UPDATE_CUST_TYPE,
+                 TABLE_KEY,
+                 goods_money,
+                 ORDER_STATUS_SEL
+            FROM T_BUS_ORDER TEMP
+           WHERE STATUS = '1'
+             AND SPLIT_STATUS in ('0','2')
+           ) TEMP 
+    LEFT JOIN DATA_CP CP
+      ON TEMP.GOODS_NO = CP.CPDM
+    LEFT JOIN DATA_CPMLS MLS
+      ON CP.CODE = MLS.CODE
+    LEFT JOIN T_USER_BASE_INFO U
+      ON TEMP.CUST_NO = U.CUST_NO
+     LEFT JOIN T_BUS_ADDRESS D
+      ON TEMP.ORDER_NO = D.ORDER_NO
+       left join T_USER_BASE_INFO SP
+      ON TEMP.SUPPLY_NO = SP.CUST_NO
+      where 1=1
+		            <isNotEmpty property="orderStatus" prepend="and">  
+		                <![CDATA[ 
+		                    temp.order_status = #orderStatus# 
+		                ]]>  
+		            </isNotEmpty>
+		             <isNotEmpty property="custNo" prepend="and">  
+		                <![CDATA[ 
+		                    temp.cust_no = #custNo# 
+		                ]]>  
+		            </isNotEmpty>   
+		            <isNotEmpty prepend="and" property="queryWay">
+     				 	<![CDATA[
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
+     				 	   ]]>
+     				 </isNotEmpty>
+     			 order by temp.ORDER_NO desc
+	</select>
+	
 	
 	
 	<!-- 逻辑删除 -->

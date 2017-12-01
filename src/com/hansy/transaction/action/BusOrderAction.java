@@ -1474,5 +1474,68 @@ public class BusOrderAction {
 				bReslt.setSuccess(true);
 				return bReslt;
 			}	
+			
+			
+			/**
+			 * 获取买方未开发票订单列表
+			 * @description: TODO
+			 * @creator: cj
+			 * @createDate: 2017年3月14日
+			 * @modifier:
+			 * @modifiedDate:
+			 * @param pageNo
+			 * @param session
+			 * @return
+			 */
+			@RequestMapping("/getBuyerOrdersInvoic")
+			@ResponseBody
+			public BaseReslt<Object> getBuyerOrdersInvoic(Integer pageNo,HttpSession session,String orderStatus,String query){
+				BaseReslt<Object> bReslt=new BaseReslt<Object>();
+				String custNo=(String) session.getAttribute("custNo");
+				//查询参数，第一个参数为custNo,第二个参数为orderStatus(可为空),
+				Map<String, Object> param=new HashMap<String,Object>();
+				param.put("custNo", custNo);
+				param.put("orderStatus", orderStatus);
+				param.put("queryWay", query);
+
+				//默认每页8条数据
+				int pageSize=8;
+				Pager pager=new Pager();
+				//初始化page对象
+				pager.setPageSize(pageSize);
+				pager.setPageNo(pageNo);
+				BusinessMap<Pager> bMap=busOrderService.selectBuyerOrdersInvoic(param,pager);
+				if (!bMap.getIsSucc()) {
+					bReslt.setSuccess(false);
+					bReslt.setMsg(bMap.getMsg());
+					return bReslt;
+				}
+
+				//循环遍历订单，获取备注消息
+				Pager resultPage=bMap.getInfoBody();
+				//获取订单list
+				List<Order> oList=resultPage.getRows();
+				//订单备注list
+				List<Object> dList=new ArrayList<>();
+				Map<String, String>map = new HashMap<>();
+
+				for (int i = 0; i < oList.size(); i++) {
+					map.put(oList.get(i).getOrderNo(), oList.get(i).getOrderNo());
+				}
+				Iterator<String> iter5=map.values().iterator();
+				Map<String, Object> map2 = new HashMap<>();
+				while (iter5.hasNext()){
+					String xObject =iter5.next();
+					BusinessMap<Object> bMap2=orderDetlService.getOrderDetl(xObject);
+					dList=(List<Object>) bMap2.getInfoBody();
+					map2.put(xObject, (List<Object>) bMap2.getInfoBody());
+				}
+				bReslt.setList(dList);
+				bReslt.setMap(map2);
+				resultPage.setRows(oList);
+				bReslt.setObj(resultPage);
+				bReslt.setSuccess(true);
+				return bReslt;
+			}
 }
 

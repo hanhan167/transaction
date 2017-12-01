@@ -114,28 +114,9 @@
 	});
 
 
-/* 	function demo(curr) {
-		$.ajax({
-			url : 'busOrder/getBuyerOrders.do',
-			data : {
-				pageNo : curr || 1
-			},
-			success : function(data) {
-				if (data.success) {
-					display(data, "", "");
-				} else {
-					layer.open({
-						title : '错误信息',
-						content : data.msg
-					});
-				}
-			}
-		});
-	} */
-	
 	function stateLook(curr, orderStatus) {
 		$.ajax({
-			url : 'busOrder/getBuyerOrders.do',
+			url : 'busOrder/getBuyerOrdersInvoic.do',
 			data : {
 				pageNo : curr || 1,
 				orderStatus : orderStatus
@@ -333,10 +314,10 @@
 			success : function(data) {
 				$("#buyerNoInvoice").text(data.obj.buyerNoInvoice);
 				$("#buyerOpenInvoice").text(data.obj.buyerOpenInvoice);
-				//$("#readCollect").text(data.obj.readCollect);
 			}
 		});
 	}
+	
 	function getOrderStus(orderStatus, userType) {
 		var tradeStus;
 		if (orderStatus == 090005) {

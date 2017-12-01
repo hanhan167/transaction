@@ -49,6 +49,19 @@ public interface ITBusOrderService {
 	BusinessMap<Pager> selectBuyerOrders(Map<String, Object> param, Pager pager);
 
 	/**
+	 * 获取买方未开发票订单信息
+	 * @description: TODO
+	 * @creator: cj
+	 * @createDate: 2017年3月14日
+	 * @modifier:
+	 * @modifiedDate:
+	 * @param custNo
+	 * @param pager
+	 * @return
+	 */
+	BusinessMap<Pager> selectBuyerOrdersInvoic(Map<String, Object> param, Pager pager);
+	
+	/**
 	 * 获取供方（全部，待发货，待确认，完成4种类型订单数量）
 	 * @description: TODO
 	 * @creator: cj

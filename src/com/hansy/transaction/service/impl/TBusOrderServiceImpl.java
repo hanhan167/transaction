@@ -117,6 +117,8 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		return bMap;
 	}
 
+	
+	
 	/**
 	 * App专用
 	 */
@@ -505,6 +507,53 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 
 		bMap.setIsSucc(true);
 		bMap.setInfoBody(countMap);
+		return bMap;
+	}
+
+	@Override
+	public BusinessMap<Pager> selectBuyerOrdersInvoic(
+			Map<String, Object> param, Pager pager) {
+		BusinessMap<Pager> bMap = new BusinessMap<>();
+		// 获取分页的list
+		List<Order> orderNoList = new ArrayList<>();
+		List list = new ArrayList<>();
+
+		try {
+			orderNoList = getSqlMapClientTemplate().queryForList(
+					"busOrder.selectBuyerPageOrdersInvoic", param,
+					(pager.getPageNo() - 1) * pager.getPageSize(),
+					pager.getPageSize());
+			System.out.println(orderNoList.size());
+			if (orderNoList.size() == 0) {
+				param.put("orderNoList", null);
+			} else {
+				param.put("orderNoList", orderNoList);
+			}
+			list = getSqlMapClientTemplate().queryForList(
+					"busOrder.selectBuyerOrders1Invoic", param);
+
+		} catch (Exception e) {
+			bMap.setIsSucc(false);
+			bMap.setMsg("获取分页内容失败");
+			e.printStackTrace();
+			return bMap;
+		}
+
+		// 获取总记录数
+		int count = 0;
+		try {
+			count = (int) getSqlMapClientTemplate().queryForObject(
+					"busOrder.selectBuyerOrdersCountInvoic", param);
+		} catch (Exception e) {
+			bMap.setIsSucc(false);
+			bMap.setMsg("获取总记录数失败");
+			e.printStackTrace();
+			return bMap;
+		}
+		pager.setTotal(count);
+		pager.setRows(list);
+		bMap.setInfoBody(pager);
+		bMap.setIsSucc(true);
 		return bMap;
 	}
 
