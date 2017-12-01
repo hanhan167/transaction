@@ -605,7 +605,7 @@ public class BusShoppCartAction {
 				return bReslt;
 			}
 		}
-		Map<String,Object> params=new HashMap<String,Object>();
+		/*Map<String,Object> params=new HashMap<String,Object>();
 		String userType=(String)session.getAttribute("userType");
 		params.put("custType", userType);
 		params.put("nowTime", new Date());
@@ -615,7 +615,7 @@ public class BusShoppCartAction {
 			bReslt.setSuccess(false);
 			bReslt.setMsg(bMap.getMsg());
 			return bReslt;
-		}
+		}*/
 		bReslt.setSuccess(true);
 		bReslt.setMsg("操作成功");
 		return bReslt;
