@@ -92,7 +92,6 @@ $(".makeSure").click(function(){
 	var orderNo = GetQueryString("orderNo");
 	var orderType = GetQueryString("orderType");
 	var tVal = $(".write-box").children().val();
-	alert(textVal);
 	$.ajax({
 		url : 'busOrder/cancelOrder.do',
 		data : {
