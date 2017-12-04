@@ -1491,7 +1491,7 @@ public class BusOrderAction {
 			 */
 			@RequestMapping("/getBuyerOrdersInvoic")
 			@ResponseBody
-			public BaseReslt<Object> getBuyerOrdersInvoic(Integer pageNo,HttpSession session,String orderStatus,String query){
+			public BaseReslt<Object> getBuyerOrdersInvoic(Integer pageNo,HttpSession session,String orderStatus,String query,String invoicStatus){
 				BaseReslt<Object> bReslt=new BaseReslt<Object>();
 				String custNo=(String) session.getAttribute("custNo");
 				//查询参数，第一个参数为custNo,第二个参数为orderStatus(可为空),
@@ -1499,7 +1499,10 @@ public class BusOrderAction {
 				param.put("custNo", custNo);
 				param.put("orderStatus", orderStatus);
 				param.put("queryWay", query);
-
+				if(invoicStatus!=null && invoicStatus!="")
+				{
+					param.put("invoicStatus", invoicStatus);
+				}
 				//默认每页8条数据
 				int pageSize=8;
 				Pager pager=new Pager();

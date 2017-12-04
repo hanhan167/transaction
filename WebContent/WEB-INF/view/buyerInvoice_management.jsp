@@ -106,8 +106,13 @@
 		/* if($("#loginName0").text()!=""){demo(curr);} */
 		stateLook(curr, "090005");
 	
-		$(".head_tab>ul>li:eq(5)>a").click(function() {//完成
+		$(".head_tab>ul>li:eq(0)>a").click(function() {//未打印订单
 			stateLook(curr, "090005");
+			orderStatus = "090005";
+		});
+		
+		$(".head_tab>ul>li:eq(1)>a").click(function() {//未打印订单
+			stateLook(curr, "090005","001");
 			orderStatus = "090005";
 		});
 		
@@ -136,6 +141,31 @@
 			}
 		});
 	}
+	
+	function stateLook(curr, orderStatus,invoicStatus) {
+		$.ajax({
+			url : 'busOrder/getBuyerOrdersInvoic.do',
+			data : {
+				pageNo : curr || 1,
+				orderStatus : orderStatus,
+				invoicStatus:invoicStatus
+			},
+			beforeSend:function(){
+				$(".sheet").html("获取数据中");
+			},
+			success : function(data) {
+				if (data.success) {
+					display(data, orderStatus, "");
+				} else {
+					layer.open({
+						title : '错误信息',
+						content : data.msg
+					});
+				}
+			}
+		});
+	}
+	
 	function display(data, orderStatus, query) {
 		$(".sheet").empty();
 		var Row = data.obj;
