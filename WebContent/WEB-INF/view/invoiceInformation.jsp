@@ -312,6 +312,7 @@ function save_Invoice(){
 	var billMoney;
 	var remark;
 	var iframeSrc = $(window.parent.document).contents().find("iframe").attr("src");
+	alert(iframeSrc);
 	if (iframeSrc.indexOf("?") != -1) {
 		var str = iframeSrc.substr(1);
 		strs = (str.split("?"))[1];
@@ -332,7 +333,7 @@ function save_Invoice(){
 			"billReceivePhone":$("[name='billReceivePhone']").val(),//收票人手机号
 			"billReceiveAddress":$("[name='billReceiveAddress']").val(),//收票人地址
 			"billStatus":$("[name='billStatus']").val(),//发票状态
-			"billMoney":billMoney,//发票总金额
+			"billMoney":billMoney, //发票总金额
 			"companyName":$("[name='companyName']").val(),//单位名称
 			"registerAddress":$("[name='registerAddress']").val(),//单位注册地址
 			"registerPhone":$("[name='registerPhone']").val(),//单位注册手机号码

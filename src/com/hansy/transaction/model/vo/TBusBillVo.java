@@ -4,7 +4,11 @@ package com.hansy.transaction.model.vo;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
+/**
+ * 
+ * @author Administrator
+ *
+ */
 public class TBusBillVo {
 	private String orderNo;//订单编号
 	private String billType;//发票类型普通发票,电子发票,增值税发票
@@ -155,6 +159,24 @@ public class TBusBillVo {
 	public void setBillMoney(Double billMoney) {
 		this.billMoney = billMoney;
 	}
+	@Override
+	public String toString() {
+		return "TBusBillVo [orderNo=" + orderNo + ", billType=" + billType
+				+ ", billTitle=" + billTitle + ", billReceipt=" + billReceipt
+				+ ", billContent=" + billContent + ", billReceivePhone="
+				+ billReceivePhone + ", billReceiveAddress="
+				+ billReceiveAddress + ", billStatus=" + billStatus
+				+ ", insertDate=" + insertDate + ", updateDate=" + updateDate
+				+ ", billMoney=" + billMoney + ", custNo=" + custNo
+				+ ", companyName=" + companyName + ", registerAddress="
+				+ registerAddress + ", registerPhone=" + registerPhone
+				+ ", openBand=" + openBand + ", bandCard=" + bandCard
+				+ ", billReceiveName=" + billReceiveName + ", billReceiveMail="
+				+ billReceiveMail + ", startTime=" + startTime + ", endTime="
+				+ endTime + "]";
+	}
+	
+	
 	
 }
 

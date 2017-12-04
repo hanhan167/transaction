@@ -25,6 +25,7 @@
 		<result property="updateCustType" column="UPDATE_CUST_TYPE"/>
 		<result property="goodsMoney" column="GOODS_MONEY"/>
 		<result property="lgtNums"  column="LGT_NUMS"/>
+		<result property="invoicStatus" column="invoicStatus"/>
 	</resultMap>
 	
 	<sql id="allColumns">

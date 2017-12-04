@@ -172,6 +172,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						+	       " </div>"
 						+	    "</div>"		);
 			},
+			/* (避免重复提交)complete: function () {
+				   //5.让登陆按钮重新有效
+				 alert("complete");
+				              }, */
 			success : function(data) {
 				if (data.success) {
 					display(data, orderStatus, "");

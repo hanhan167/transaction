@@ -43,7 +43,7 @@ public class TBusOrderVo implements Serializable {
 	private Double goodsMoney;//商品总价格
 	private String remark;
 	private String lgtNums;	//物流号
-	
+	private String invoicStatus;//开票状态  000:未开票  001:已开票
 	
 	public String getRemark() {
 		return remark;
@@ -242,5 +242,15 @@ public class TBusOrderVo implements Serializable {
 	public void setLgtNums(String lgtNums) {
 		this.lgtNums = lgtNums;
 	}
+
+	public String getInvoicStatus() {
+		return invoicStatus;
+	}
+
+	public void setInvoicStatus(String invoicStatus) {
+		this.invoicStatus = invoicStatus;
+	}
+	
+	
 }
 

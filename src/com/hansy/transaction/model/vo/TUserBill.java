@@ -3,6 +3,11 @@ package com.hansy.transaction.model.vo;
 
 import java.util.Date;
 
+/**
+ * 客户发票信息表
+ * @author Administrator
+ *
+ */
 public class TUserBill {
 	private String custNo;//商户编号
 	private String billType;//发票类型普通发票,电子发票,增值税发票
@@ -144,6 +149,23 @@ public class TUserBill {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
+	@Override
+	public String toString() {
+		return "TUserBill [custNo=" + custNo + ", billType=" + billType
+				+ ", billTitle=" + billTitle + ", billReceipt=" + billReceipt
+				+ ", billContent=" + billContent + ", billReceivePhone="
+				+ billReceivePhone + ", billReceiveAddress="
+				+ billReceiveAddress + ", billStatus=" + billStatus
+				+ ", insertDate=" + insertDate + ", updateDate=" + updateDate
+				+ ", billMoney=" + billMoney + ", companyName=" + companyName
+				+ ", registerAddress=" + registerAddress + ", registerPhone="
+				+ registerPhone + ", openBand=" + openBand + ", bandCard="
+				+ bandCard + ", billReceiveName=" + billReceiveName
+				+ ", billReceiveMail=" + billReceiveMail + ", startTime="
+				+ startTime + ", endTime=" + endTime + "]";
+	}
+	
+	
 	
 }
 

@@ -177,6 +177,7 @@ public class BusOrderAction {
 	@RequestMapping("/save")
 	@ResponseBody
 	public  BaseReslt<Object> save(HttpSession session,TBusBillVo tBusBillVo){
+		System.out.println(tBusBillVo.toString());
 		BaseReslt<Object> bReslt=new BaseReslt<Object>();
 		String custNo=(String) session.getAttribute("custNo");
 		tBusBillVo.setBillStatus("1");
