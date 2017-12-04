@@ -25,7 +25,7 @@
 		<result property="updateCustType" column="UPDATE_CUST_TYPE"/>
 		<result property="goodsMoney" column="GOODS_MONEY"/>
 		<result property="lgtNums"  column="LGT_NUMS"/>
-		<result property="invoicStatus" column="invoicStatus"/>
+		<result property="invoicStatus" column="INVOICSTATUS"/>
 	</resultMap>
 	
 	<sql id="allColumns">
@@ -573,6 +573,7 @@ where 1=1
                  UPDATE_CUST_TYPE,
                  TABLE_KEY,
                  goods_money,
+                 INVOICSTATUS,
                  ORDER_STATUS_SEL
             FROM T_BUS_ORDER TEMP
            WHERE STATUS = '1'
@@ -599,6 +600,11 @@ where 1=1
 		                    temp.cust_no = #custNo# 
 		                ]]>  
 		            </isNotEmpty>   
+		             <isNotEmpty property="invoicStatus" prepend="and">  
+		                <![CDATA[ 
+		                    temp.INVOICSTATUS = #invoicStatus# 
+		                ]]>  
+		            </isNotEmpty>  
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
      				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )

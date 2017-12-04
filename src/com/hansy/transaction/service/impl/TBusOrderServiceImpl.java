@@ -503,8 +503,11 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		Integer buyerNoInvoice = (int) getSqlMapClientTemplate().queryForObject(
 				"busOrder.selectBuyerOrdersCountInvoic", param);
 		countMap.put("buyerNoInvoice", buyerNoInvoice);
-		// 获取买方已打印订单数量
-
+		// 获取买方已打印订单数量(完成订单数)
+		param.put("invoicStatus", "001");
+		Integer buyerOpenInvoice = (int) getSqlMapClientTemplate().queryForObject(
+				"busOrder.selectBuyerOrdersCountInvoic", param);
+		countMap.put("buyerOpenInvoice", buyerOpenInvoice);
 		bMap.setIsSucc(true);
 		bMap.setInfoBody(countMap);
 		return bMap;
