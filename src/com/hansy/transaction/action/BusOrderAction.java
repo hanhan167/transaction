@@ -184,6 +184,7 @@ public class BusOrderAction {
 		tBusBillVo.setInsertDate(new Date());
 		tBusBillVo.setUpdateDate(new Date());
 		tBusBillVo.setCustNo(custNo);
+		System.out.println(tBusBillVo.toString());
 		BusinessMap<Object> bMap2=itBusBillService.save(tBusBillVo);
 		BusinessMap<Object> bMap1=itUserBillService.getById(custNo);
 		TUserBill bill = new TUserBill();
@@ -202,6 +203,7 @@ public class BusOrderAction {
 		bill.setBillType(tBusBillVo.getBillType());
 		bill.setBillStatus(tBusBillVo.getBillStatus());
 		bill.setBillContent(tBusBillVo.getBillContent());
+		System.out.println(bill.toString());
 		if(bMap1.getInfoBody()==null){
 			itUserBillService.save(bill);
 		}else{
@@ -1502,6 +1504,8 @@ public class BusOrderAction {
 				if(invoicStatus!=null && invoicStatus!="")
 				{
 					param.put("invoicStatus", invoicStatus);
+				}else{
+					param.put("invoicStatus", null);
 				}
 				//默认每页8条数据
 				int pageSize=8;

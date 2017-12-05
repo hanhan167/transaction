@@ -250,6 +250,24 @@ public class TBusOrderVo implements Serializable {
 	public void setInvoicStatus(String invoicStatus) {
 		this.invoicStatus = invoicStatus;
 	}
+
+	@Override
+	public String toString() {
+		return "TBusOrderVo [orderNo=" + orderNo + ", orderType=" + orderType
+				+ ", splitStatus=" + splitStatus + ", custNo=" + custNo
+				+ ", goodsNo=" + goodsNo + ", goodsPrice=" + goodsPrice
+				+ ", goodsDiscount=" + goodsDiscount + ", address=" + address
+				+ ", defaultPayDt=" + defaultPayDt + ", wishPayDt=" + wishPayDt
+				+ ", orderStatus=" + orderStatus + ", insertDate=" + insertDate
+				+ ", updateDate=" + updateDate + ", supplyNo=" + supplyNo
+				+ ", goodsCount=" + goodsCount + ", status=" + status
+				+ ", tableKey=" + tableKey + ", orderStatusSel="
+				+ orderStatusSel + ", updateCustsType=" + updateCustsType
+				+ ", identifying=" + identifying + ", upOrderNo=" + upOrderNo
+				+ ", updateCustType=" + updateCustType + ", goodsMoney="
+				+ goodsMoney + ", remark=" + remark + ", lgtNums=" + lgtNums
+				+ ", invoicStatus=" + invoicStatus + "]";
+	}
 	
 	
 }
