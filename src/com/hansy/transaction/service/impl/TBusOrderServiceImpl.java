@@ -307,6 +307,7 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 	public List<TBusOrderVo> getById(String orderNo) {
 		List<TBusOrderVo> orderVo = (List<TBusOrderVo>) getSqlMapClientTemplate()
 				.queryForList("busOrder.getById", orderNo);
+		System.out.println(orderVo.toString());
 		return orderVo;
 	}
 
@@ -522,6 +523,7 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		List list = new ArrayList<>();
 
 		try {
+			
 			orderNoList = getSqlMapClientTemplate().queryForList(
 					"busOrder.selectBuyerPageOrdersInvoic", param,
 					(pager.getPageNo() - 1) * pager.getPageSize(),

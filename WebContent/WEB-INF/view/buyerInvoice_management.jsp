@@ -40,9 +40,9 @@
 		<div class="content">
 			<div class="head_tab" style="margin: -30px 0 31px 7px;">
 				<ul>	
-					<li><a style="width: 120px;">未开发票（<span id="buyerNoInvoice"></span>）
+					<li><a style="width: 137px;">未开发票订单（<span id="buyerNoInvoice"></span>）
 					</a></li>
-					<li><a style="width: 120px;">已开发票（<span id="buyerOpenInvoice"></span>）
+					<li><a style="width: 137px;">已开发票订单（<span id="buyerOpenInvoice"></span>）
 					</a></li>
 				</ul>
 				<div class="clear"></div>
@@ -51,7 +51,7 @@
 		
 			<div class="header myOnlyheader" style="height: 50px;">
 				<label class="all_check"><input type="checkbox" style='margin-left: 2%;margin-top: 2%;'>全选</label>
-				<button type='button' class='cancel_indent' style=" float: right;margin-top: 5px;margin-right: 15px;background-color: #03a1a4;color: #FFFFFf;">开发票</button>
+				<button type='button' class='cancel_indent goDrawing' style=" float: right;margin-top: 5px;margin-right: 15px;background-color: #03a1a4;color: #FFFFFf;">开发票</button>
 			</div>	
 			
 			
@@ -214,7 +214,7 @@
 			content += "<div class='line'>";
 			if(Row.rows[tmpguan[i][1]].invoicStatus!='001')
 			{	
-			content += "<input type='checkbox' class='vertical-m'>";
+			content += "<input type='checkbox' class='vertical-m chooseGoOpen'>";
 			}
 			content += "<span class='uname' onclick='vendor(\""
 					+ Row.rows[tmpguan[i][1]].supplyNo + "\")'>卖家："
@@ -266,55 +266,9 @@
 			content += "<span class='delivery_date font-888'>预期收货时间："
 					+ Row.rows[tmpguan[i][1]].defaultPayDt + "</span>";
 			content += "</div>";
-			if (Row.rows[tmpguan[i][1]].orderStatus == '090001') {
+			if (Row.rows[tmpguan[i][1]].orderStatus == '090005') {
 				content += "<div class='row text-bar-right'>";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='affirm_indent' onclick=cancelOrder(\'"
-						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "\',\'"
-						+ Row.rows[tmpguan[i][1]].orderType
-						+ "\',this)>取消订单</button>";
-				content += "</div>";
-			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090003') {
-				content += "<div class='row text-bar-right' data-supplyNo="+Row.rows[tmpguan[i][1]].supplyNo+">";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='cancel_indent' onclick=cancelOrder(\'"
-						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "\',\'"
-						+ Row.rows[tmpguan[i][1]].orderType
-						+ "\',this)>取消订单</button>";
-				content += "<button type='button' class='affirm_indent' onclick=invoice(\'"
-						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "\',"
-						+ price
-						+ ",this)>确认付款</button>";
-				content += "</div>";
-			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090004') {
-				content += "<div class='row text-bar-right'>";
-				content += "<a class='my_link' herf='javascript:void(0)'  onclick=lookWlMsg(\'"
-						+ Row.rows[tmpguan[i][1]].lgtNums
-						+ "\',this)>查看物流信息</a>";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='affirm_indent' onclick=operatorOrder(\'"
-						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "\',this)>确认收货</button>";
-				content += "</div>";
-				content += "<div class='myLgtMsg' id=\'"+Row.rows[tmpguan[i][1]].orderNo+"\'></div>";
-			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090006') {
-				content += "<div class='row text-bar-right'>";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='cancel_indent' onclick=againPurchase('"
-						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "','"
-						+ Row.rows[tmpguan[i][1]].supplyNo
-						+ "',this)>继续购买</button>";
-				content += "<button type='button' class='affirm_indent' onclick=deleteOrder(\'"
-						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "',this\)>删除订单</button>";
-				content += "</div>";
-			} else if (Row.rows[tmpguan[i][1]].orderStatus == '090005') {
-				content += "<div class='row text-bar-right'>";
-				content += "<span>总计：<em>￥" + price + "</em></span>";
+				content += "<span>总计：<em class='myPrice'>￥" + price + "</em></span>";
 				content += "</div>";
 			}
 			content += "</div>";
@@ -708,6 +662,49 @@
 				});
 	}
 
+	//开发票操作
+	$(".goDrawing").click(function(){
+		//长度
+		var clength=$('.chooseGoOpen:checked').length;
+		//custNo长度
+		var custNoArr = new Array(clength);
+		//将custNo塞入其中
+		var i = 0;
+		$($('.chooseGoOpen:checked').siblings("span.uindent")).each(function(){
+			  var myVal =  ($(this).text()).substring(5);
+			  custNoArr[i] = myVal;
+			  i++;
+			});
+		
+		//将price塞入其中
+		var priceArr = new Array(clength);
+		var j = 0;
+		$($('.chooseGoOpen:checked').parent().siblings(".text-bar-right").find(".myPrice")).each(function(){
+			 var priceVal =  ($(this).text()).substring(1);
+			 priceArr[j] = priceVal;
+			 j++;
+			});
+		
+		
+		$.ajax({
+			url:"busOrder/save.do",
+			dataType : "json",
+			type : "post",
+			data:{
+				
+			},
+			success:function(dataStr){
+				
+			}
+		
+		
+		
+		});
+		
+		
+		
+	});
+	
 	//显示所有物流信息	
 	function showAll(that) {
 		event.stopPropagation();
