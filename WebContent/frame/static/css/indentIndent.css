@@ -349,3 +349,6 @@ body {
 .ugenre {
 	display: none;
 }
+
+#goTop{position: fixed;bottom:50px;right:50px;width:45px;height: 45px;background:url("../img/getTop.png") no-repeat 0 0;cursor: pointer;display: none}
+#goTop:hover{background-position: 0 -65px}

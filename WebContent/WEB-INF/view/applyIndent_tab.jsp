@@ -61,6 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	</div>
+	<div id="goTop"></div>
 	<!-- 底部  -->
 	<div class="base">
 		 <jsp:include page="base.jsp" flush="true"/>
@@ -1064,5 +1065,15 @@ function lookWlMsg(str, that) {
 		e.stopPropagation();
 	})
 	
-
+//返回到顶部
+$(window).scroll(function(){
+	if($(this).scrollTop() > 300){
+		$("#goTop").show();
+	}else{
+		$("#goTop").hide();
+	}
+});
+$("#goTop").click(function(){
+	$("body,html").stop().animate({"scrollTop":0+"px"},300);
+});
 </script>

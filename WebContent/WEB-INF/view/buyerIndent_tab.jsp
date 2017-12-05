@@ -70,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	</div> 
-	
+	<div id="goTop"></div>
 	<!--底部-->
 	<div class="base">
 		 <jsp:include page="base.jsp" flush="true"/>
@@ -586,5 +586,18 @@ Date.prototype.Format = function (fmt) { //author: meizz
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+//返回到顶部
+$(window).scroll(function(){
+	if($(this).scrollTop() > 300){
+		$("#goTop").show();
+	}else{
+		$("#goTop").hide();
+	}
+});
+$("#goTop").click(function(){
+	$("body,html").stop().animate({"scrollTop":0+"px"},300);
+});	
+
 
 </script>
