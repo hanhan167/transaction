@@ -559,6 +559,75 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		bMap.setIsSucc(true);
 		return bMap;
 	}
+	
+	/**
+	 * 获取供方方的未开发票订单以及已开发票订单的条数
+	 */
+	@Override
+	public BusinessMap<Object> getApplyOrderCountInvoice(Map<String, String> param) {
+		BusinessMap<Object> bMap = new BusinessMap<>();
+		// 获取的总记录数封装成map
+		Map<String, Integer> countMap = new HashMap<>();
+		// 获取供方未打印发票订单数量(完成订单数)
+		param.put("orderStatus", "090005");
+		Integer supplyNoInvoice = (int) getSqlMapClientTemplate().queryForObject(
+				"busOrder.selectSupplyOrdersCountInvoice", param);
+		countMap.put("supplyNoInvoice", supplyNoInvoice);
+		//获取供方已打印发票订单数量(完成订单数)
+		param.put("invoicStatus", "001");
+		Integer supplyOpenInvoice = (int) getSqlMapClientTemplate().queryForObject(
+				"busOrder.selectSupplyOrdersCountInvoice", param);
+		countMap.put("supplyOpenInvoice", supplyOpenInvoice);
+		bMap.setIsSucc(true);
+		bMap.setInfoBody(countMap);
+		return bMap;
+	}
 
+	@Override
+	public BusinessMap<Pager> selectSupplyOrdersInvoice(Map<String, Object> param,
+			Pager pager) {
+		BusinessMap<Pager> bMap = new BusinessMap<>();
+		// 获取分页的list
+		List<Order> orderNoList = new ArrayList<>();
+		List list = new ArrayList<>();
+
+		try {
+			orderNoList = getSqlMapClientTemplate().queryForList(
+					"busOrder.selectSupplyOrdersCountpageInvoice", param,
+					(pager.getPageNo() - 1) * pager.getPageSize(),
+					pager.getPageSize());
+			if (orderNoList.size() == 0) {
+				param.put("orderNoList", null);
+			} else {
+				param.put("orderNoList", orderNoList);
+			}
+
+			list = getSqlMapClientTemplate().queryForList(
+					"busOrder.selectSupplyOrders1Invoice", param);
+
+		} catch (Exception e) {
+			bMap.setIsSucc(false);
+			bMap.setMsg("获取分页内容失败");
+			e.printStackTrace();
+			return bMap;
+		}
+
+		// 获取总记录数
+		int count = 0;
+		try {
+			count = (int) getSqlMapClientTemplate().queryForObject(
+					"busOrder.selectSupplyOrdersCountInvoice", param);
+		} catch (Exception e) {
+			bMap.setIsSucc(false);
+			bMap.setMsg("获取总记录数失败");
+			e.printStackTrace();
+			return bMap;
+		}
+		pager.setTotal(count);
+		pager.setRows(list);
+		bMap.setInfoBody(pager);
+		bMap.setIsSucc(true);
+		return bMap;
+	}
 
 }

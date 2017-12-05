@@ -48,10 +48,13 @@
 				<div class="clear"></div>
 			</div>
 		
-			<div class="header" style="height: 50px;">
+		
+			<div class="header myOnlyheader" style="height: 50px;">
 				<label class="all_check"><input type="checkbox" style='margin-left: 2%;margin-top: 2%;'>全选</label>
 				<button type='button' class='cancel_indent' style=" float: right;margin-top: 5px;margin-right: 15px;background-color: #03a1a4;color: #FFFFFf;">开发票</button>
 			</div>	
+			
+			
 			<div class="header">
 					<span class="buyerIndex_name">商品</span> <span class="indent_price">单价（元）</span>
 					<span class="indent_quantity">数量</span> <span
@@ -107,14 +110,18 @@
 		stateLook(curr, "090005");
 	
 		$(".head_tab>ul>li:eq(0)>a").click(function() {//未打印订单
+			$('div.myOnlyheader').show();
 			stateLook(curr, "090005");
 			orderStatus = "090005";
 		});
 		
-		$(".head_tab>ul>li:eq(1)>a").click(function() {//未打印订单
+		$(".head_tab>ul>li:eq(1)>a").click(function() {//已打印订单
+			$('div.myOnlyheader').hide();
 			stateLook(curr, "090005","001");
 			orderStatus = "090005";
+			
 		});
+		
 		
 	});
 
@@ -205,7 +212,10 @@
 			var price = parseInt(0);
 			content += "<div class='moudle'>";
 			content += "<div class='line'>";
+			if(Row.rows[tmpguan[i][1]].invoicStatus!='001')
+			{	
 			content += "<input type='checkbox' class='vertical-m'>";
+			}
 			content += "<span class='uname' onclick='vendor(\""
 					+ Row.rows[tmpguan[i][1]].supplyNo + "\")'>卖家："
 					+ Row.rows[tmpguan[i][1]].supperName + "</span>";

@@ -11,7 +11,7 @@ import com.hansy.transaction.model.vo.TBusOrderDetlVo;
 /**
  * 订单
  * TODO javadoc for com.hansy.transaction.model.bo.Order
- * @Copyright: 2017成都环赛信息技术有限公司 
+ * @Copyright: 2017成都环赛信息技术有限公司
  * @author: cj
  * @since: 2017年3月10日
  */
@@ -55,7 +55,8 @@ public class Order implements Serializable {
 	//更改部分
 	private String lgtNums;	//物流号
 	private String code;
-	
+	private String invoicStatus;
+
 	public String getBrand() {
 		return brand;
 	}
@@ -131,151 +132,151 @@ public class Order implements Serializable {
 	public String getOrderNo() {
 		return orderNo;
 	}
-	
+
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
-	
+
 	public String getCustName() {
 		return custName;
 	}
-	
+
 	public void setCustName(String custName) {
 		this.custName = custName;
 	}
-	
+
 	public String getCustPhone() {
 		return custPhone;
 	}
-	
+
 	public void setCustPhone(String custPhone) {
 		this.custPhone = custPhone;
 	}
-	
+
 	public Double getGoodsPrice() {
 		return goodsPrice;
 	}
-	
+
 	public void setGoodsPrice(Double goodsPrice) {
 		this.goodsPrice = goodsPrice;
 	}
-	
+
 	public String getGoodsName() {
 		return goodsName;
 	}
-	
+
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
 	}
-	
+
 	public String getOrderType() {
 		return orderType;
 	}
-	
+
 	public void setOrderType(String orderType) {
 		this.orderType = orderType;
 	}
-	
+
 	public String getDefaultPayDt() {
 		return defaultPayDt;
 	}
-	
+
 	public void setDefaultPayDt(String defaultPayDt) {
 		this.defaultPayDt = defaultPayDt;
 	}
-	
+
 	public String getWishPayDt() {
 		return wishPayDt;
 	}
-	
+
 	public void setWishPayDt(String wishPayDt) {
 		this.wishPayDt = wishPayDt;
 	}
-	
+
 	public Date getInsertDate() {
 		return insertDate;
 	}
-	
+
 	public void setInsertDate(Date insertDate) {
 		this.insertDate = insertDate;
 	}
-	
+
 	public Integer getGoodsCount() {
 		return goodsCount;
 	}
-	
+
 	public void setGoodsCount(Integer goodsCount) {
 		this.goodsCount = goodsCount;
 	}
-	
+
 	public String getAddress() {
 		return address;
 	}
-	
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 	public String getAddresseeName() {
 		return addresseeName;
 	}
-	
+
 	public void setAddresseeName(String addresseeName) {
 		this.addresseeName = addresseeName;
 	}
-	
+
 	public String getAddresseePhone() {
 		return addresseePhone;
 	}
-	
+
 	public void setAddresseePhone(String addresseePhone) {
 		this.addresseePhone = addresseePhone;
 	}
-	
+
 	public String getApplyName() {
 		return applyName;
 	}
-	
+
 	public void setApplyName(String applyName) {
 		this.applyName = applyName;
 	}
-	
+
 	public String getApplyPhone() {
 		return applyPhone;
 	}
-	
+
 	public void setApplyPhone(String applyPhone) {
 		this.applyPhone = applyPhone;
 	}
-	
+
 	public String getOrderStatus() {
 		return orderStatus;
 	}
-	
+
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-	
+
 	public Double getGoodsDiscount() {
 		return goodsDiscount;
 	}
-	
+
 	public void setGoodsDiscount(Double goodsDiscount) {
 		this.goodsDiscount = goodsDiscount;
 	}
-	
+
 	public String getGoodsCode() {
 		return goodsCode;
 	}
-	
+
 	public void setGoodsCode(String goodsCode) {
 		this.goodsCode = goodsCode;
 	}
-	
+
 	public List<TBusOrderDetlVo> getList() {
 		return list;
 	}
-	
+
 	public void setList(List<TBusOrderDetlVo> list) {
 		this.list = list;
 	}
@@ -303,7 +304,7 @@ public class Order implements Serializable {
 	public void setUpdateCustType(String updateCustType) {
 		this.updateCustType = updateCustType;
 	}
-	
+
 	public String getLgtNums() {
 		return lgtNums;
 	}
@@ -319,8 +320,16 @@ public class Order implements Serializable {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	
-	
-	
+
+	public String getInvoicStatus() {
+		return invoicStatus;
+	}
+
+	public void setInvoicStatus(String invoicStatus) {
+		this.invoicStatus = invoicStatus;
+	}
+
+
+
 }
 

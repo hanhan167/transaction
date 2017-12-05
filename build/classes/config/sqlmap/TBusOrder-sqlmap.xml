@@ -122,7 +122,8 @@ where 1=1
                  UPDATE_CUST_TYPE,
                  TABLE_KEY,
                  ORDER_STATUS_SEL,
-                 LGT_NUMS
+                 LGT_NUMS,
+                 INVOICSTATUS
             FROM T_BUS_ORDER TEMP
            WHERE ORDER_STATUS_SEL = '1'
              AND SPLIT_STATUS in ('0','2') ) TEMP 
@@ -166,6 +167,7 @@ where 1=1
          TEMP.SPLIT_STATUS splitStatus,
          TEMP.goods_money goodsMoney,
          TEMP.LGT_NUMS LGTNUMS,
+         TEMP.INVOICSTATUS INVOICSTATUS,
          U.CUST_NAME CUSTNAME,
          U.USER_PHONE CUSTPHONE,
          U.CUST_NO CUSTNO,
@@ -201,7 +203,8 @@ where 1=1
                  TABLE_KEY,
                  goods_money,
                  ORDER_STATUS_SEL,
-                 LGT_NUMS
+                 LGT_NUMS,
+                 INVOICSTATUS
             FROM T_BUS_ORDER TEMP
            WHERE ORDER_STATUS_SEL = '1'
             AND SPLIT_STATUS in ('0','2')) TEMP 
@@ -245,11 +248,6 @@ where 1=1
     </dynamic>   
            			 order by temp.UPDATE_DATE desc
 	</select>
-	
-	
-	
-	<!-- 获取供方订单分页list -->
-	
 	<!-- 获取供方订单分页总条数 -->
 	<select id="selectSupplyOrdersCount" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
 		select count(distinct TEMP.ORDER_NO)from
@@ -303,6 +301,239 @@ where 1=1
      				 	   ]]>
      				 </isNotEmpty>
 	</select>
+	
+	<!-- 获取供方未开票订单分页数据 -->
+	<select id="selectSupplyOrdersCountpageInvoice" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.Order">
+		select distinct TEMP.ORDER_NO orderNo from
+		 (SELECT ORDER_NO,
+                 ORDER_TYPE,
+                 SPLIT_STATUS,
+                 CUST_NO,
+                 GOODS_NO,
+                 GOODS_PRICE,
+                 GOODS_DISCOUNT,
+                 DEFAULT_PAY_DT,
+                 WISH_PAY_DT,
+                 ORDER_STATUS,
+                 INSERT_DATE,
+                 UPDATE_DATE,
+                 SUPPLY_NO,
+                 GOODS_COUNT,
+                 ADDRESS,
+                 STATUS,
+                 goods_money,
+                 UPDATE_CUST_TYPE,
+                 TABLE_KEY,
+                 ORDER_STATUS_SEL,
+                 INVOICSTATUS,
+                 LGT_NUMS
+            FROM T_BUS_ORDER TEMP
+           WHERE ORDER_STATUS_SEL = '1'
+             AND SPLIT_STATUS in ('0','2') ) TEMP 
+    LEFT JOIN DATA_CP CP
+      ON TEMP.GOODS_NO = CP.CPDM
+    LEFT JOIN DATA_CPMLS MLS
+      ON CP.CODE = MLS.CODE
+    LEFT JOIN T_USER_BASE_INFO U
+      ON TEMP.CUST_NO = U.CUST_NO
+     LEFT JOIN T_BUS_ADDRESS D
+      ON TEMP.ORDER_NO = D.ORDER_NO
+       left join T_USER_BASE_INFO SP
+      ON TEMP.SUPPLY_NO = SP.CUST_NO
+      where 1=1
+		            <isNotEmpty property="orderStatus" prepend="and">  
+		                <![CDATA[ 
+		                    temp.order_status = #orderStatus# 
+		                ]]>  
+		            </isNotEmpty>
+		             <isNotEmpty property="custNo" prepend="and">  
+		                <![CDATA[ 
+		                    temp.supply_no = #custNo# 
+		                ]]>  
+		            </isNotEmpty>   
+		             <!-- equals -->
+		        	 <isNotNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus = '001'
+					</isNotNull>
+
+		            <isNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus is null
+					</isNull>
+			        
+		            <isNotEmpty prepend="and" property="queryWay">
+     				 	<![CDATA[
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
+     				 	   ]]>
+     				 </isNotEmpty>
+     			order by temp.ORDER_NO desc
+	</select>
+	<!-- 获取供方未开票订单分页list -->
+	<select id="selectSupplyOrders1Invoice" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.Order">
+		  SELECT TEMP.ORDER_STATUS ORDERSTATUS,
+         TEMP.ORDER_NO ORDERNO,
+         TEMP.GOODS_PRICE GOODSPRICE,
+         TEMP.GOODS_COUNT GOODSCOUNT,
+         TEMP.GOODS_DISCOUNT GOODSDISCOUNT,
+         TEMP.INSERT_DATE INSERTDATE,
+         TEMP.ORDER_TYPE ORDERTYPE,
+         TEMP.TABLE_KEY TABLEKEY,
+         TEMP.SPLIT_STATUS splitStatus,
+         TEMP.goods_money goodsMoney,
+         TEMP.LGT_NUMS LGTNUMS,
+         TEMP.INVOICSTATUS INVOICSTATUS,
+         U.CUST_NAME CUSTNAME,
+         U.USER_PHONE CUSTPHONE,
+         U.CUST_NO CUSTNO,
+           SP.cust_name supperName,
+       SP.user_phone supperPhone,
+       TEMP.SUPPLY_NO supplyNo,
+         MLS.NAME GOODSNAME,
+         MLS.CODE GOODSCODE,
+         TO_CHAR(TEMP.INSERT_DATE + TEMP.DEFAULT_PAY_DT, 'yyyy-mm-dd') DEFAULTPAYDT,
+         TO_CHAR(TEMP.INSERT_DATE + TEMP.WISH_PAY_DT, 'yyyy-mm-dd') WISHPAYDT,
+         D.TELEPHONE ADDRESSEEPHONE,
+         D.ADDRESSEE_NAME ADDRESSEENAME,
+         D.ADDRESS ADDRESS,
+         SUBSTR(CP.C1, 1, decode(INSTR(CP.C1, ',', 1, 3 ),0,LENGTH(CP.C1) ,INSTR(CP.C1, ',', 1, 3 )) - 1) PAR,
+         TEMP.GOODS_NO GOODSNO
+    FROM (SELECT ORDER_NO,
+                 ORDER_TYPE,
+                 SPLIT_STATUS,
+                 CUST_NO,
+                 GOODS_NO,
+                 GOODS_PRICE,
+                 GOODS_DISCOUNT,
+                 DEFAULT_PAY_DT,
+                 WISH_PAY_DT,
+                 ORDER_STATUS,
+                 INSERT_DATE,
+                 UPDATE_DATE,
+                 SUPPLY_NO,
+                 GOODS_COUNT,
+                 ADDRESS,
+                 STATUS,
+                 UPDATE_CUST_TYPE,
+                 TABLE_KEY,
+                 goods_money,
+                 ORDER_STATUS_SEL,
+                 INVOICSTATUS,
+                 LGT_NUMS
+            FROM T_BUS_ORDER TEMP
+           WHERE ORDER_STATUS_SEL = '1'
+            AND SPLIT_STATUS in ('0','2')) TEMP 
+    LEFT JOIN DATA_CP CP
+      ON TEMP.GOODS_NO = CP.CPDM
+    LEFT JOIN DATA_CPMLS MLS
+      ON CP.CODE = MLS.CODE
+    LEFT JOIN T_USER_BASE_INFO U
+      ON TEMP.CUST_NO = U.CUST_NO
+    LEFT JOIN T_BUS_ADDRESS D
+      ON TEMP.ORDER_NO = D.ORDER_NO
+       left join T_USER_BASE_INFO SP
+      ON TEMP.SUPPLY_NO = SP.CUST_NO
+     
+    where 1=1
+    		<dynamic prepend="">  
+		            <isNotEmpty property="orderStatus" prepend="and">  
+		                <![CDATA[ 
+		                    temp.order_status = #orderStatus# 
+		                ]]>  
+		            </isNotEmpty>
+		             <isNotEmpty property="custNo" prepend="and">  
+		                <![CDATA[ 
+		                    temp.supply_no = #custNo# 
+		                ]]>  
+		            </isNotEmpty> 
+		               <!-- equals -->
+		        	 <isNotNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus = '001'
+					</isNotNull>
+
+		            <isNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus is null
+					</isNull>
+		             
+		             
+		            <isNotEmpty prepend="and" property="queryWay">
+     				 	<![CDATA[
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
+     				 	   ]]>
+     				 </isNotEmpty>
+		        </dynamic>	 
+		         <dynamic prepend=" and ">  
+        <isNotNull property="orderNoList">  
+             TEMP.ORDER_NO in  
+            <iterate property="orderNoList" open="(" conjunction="," close=")">  
+                #orderNoList[].orderNo#  
+                    </iterate>                      
+        </isNotNull>  
+    </dynamic>   
+           			 order by temp.UPDATE_DATE desc
+	</select>
+	<!-- 获取供方发票订单分页总条数 -->
+	<select id="selectSupplyOrdersCountInvoice" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(distinct TEMP.ORDER_NO)from
+		 (SELECT ORDER_NO,
+                 ORDER_TYPE,
+                 SPLIT_STATUS,
+                 CUST_NO,
+                 GOODS_NO,
+                 GOODS_PRICE,
+                 GOODS_DISCOUNT,
+                 DEFAULT_PAY_DT,
+                 WISH_PAY_DT,
+                 ORDER_STATUS,
+                 INSERT_DATE,
+                 UPDATE_DATE,
+                 SUPPLY_NO,
+                 GOODS_COUNT,
+                 ADDRESS,
+                 STATUS,
+                 goods_money,
+                 UPDATE_CUST_TYPE,
+                 TABLE_KEY,
+                 INVOICSTATUS,
+                 ORDER_STATUS_SEL
+            FROM T_BUS_ORDER TEMP
+           WHERE ORDER_STATUS_SEL = '1'
+             AND SPLIT_STATUS in ('0','2') ) TEMP 
+    LEFT JOIN DATA_CP CP
+      ON TEMP.GOODS_NO = CP.CPDM
+    LEFT JOIN DATA_CPMLS MLS
+      ON CP.CODE = MLS.CODE
+    LEFT JOIN T_USER_BASE_INFO U
+      ON TEMP.CUST_NO = U.CUST_NO
+     LEFT JOIN T_BUS_ADDRESS D
+      ON TEMP.ORDER_NO = D.ORDER_NO
+       left join T_USER_BASE_INFO SP
+      ON TEMP.SUPPLY_NO = SP.CUST_NO
+      where 1=1
+		            <isNotEmpty property="orderStatus" prepend="and">  
+		                <![CDATA[ 
+		                    temp.order_status = #orderStatus# 
+		                ]]>  
+		            </isNotEmpty>
+		             <isNotEmpty property="custNo" prepend="and">  
+		                <![CDATA[ 
+		                    temp.supply_no = #custNo# 
+		                ]]>  
+		            </isNotEmpty>   
+		            
+		                <!-- equals -->
+		        	 <isNotNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus = '001'
+					</isNotNull>
+
+		            <isNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus is null
+					</isNull>
+		            
+		            <isNotEmpty prepend="and" property="queryWay">
+     				 	<![CDATA[
+     				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
+     				 	   ]]>
+     				 </isNotEmpty>
+	</select>
 	<!-- 获取买方订单分页list -->
 	<select id="selectBuyerOrders1" parameterClass="java.util.HashMap" resultClass="com.hansy.transaction.model.bo.Order">
 		SELECT TEMP.ORDER_STATUS ORDERSTATUS,
@@ -316,6 +547,7 @@ where 1=1
          TEMP.SPLIT_STATUS splitStatus,
          TEMP.goods_money goodsMoney,
          TEMP.LGT_NUMS LGTNUMS,
+         TEMP.INVOICSTATUS INVOICSTATUS,
         u.cust_name applyName,
        u.user_phone applyPhone,
        u.cust_no custNo,
@@ -353,6 +585,7 @@ where 1=1
                  TABLE_KEY,
                  goods_money,
                  LGT_NUMS,
+                 INVOICSTATUS,
                  ORDER_STATUS_SEL
             FROM T_BUS_ORDER TEMP
            WHERE STATUS = '1'
@@ -410,6 +643,7 @@ where 1=1
          TEMP.SPLIT_STATUS splitStatus,
          TEMP.goods_money goodsMoney,
          TEMP.LGT_NUMS LGTNUMS,
+         TEMP.INVOICSTATUS INVOICSTATUS,
         u.cust_name applyName,
        u.user_phone applyPhone,
        u.cust_no custNo,
@@ -446,8 +680,8 @@ where 1=1
                  UPDATE_CUST_TYPE,
                  TABLE_KEY,
                  goods_money,
-                 INVOICSTATUS,
                  LGT_NUMS,
+                 INVOICSTATUS,
                  ORDER_STATUS_SEL
             FROM T_BUS_ORDER TEMP
            WHERE STATUS = '1'
@@ -463,7 +697,7 @@ where 1=1
       ON TEMP.ORDER_NO = D.ORDER_NO
       left join T_USER_BASE_INFO SP
       ON TEMP.SUPPLY_NO = SP.CUST_NO
-    where 1=1
+    where 1=1 
     		<dynamic prepend="">  
 		            <isNotEmpty property="orderStatus" prepend="and">  
 		                <![CDATA[ 
@@ -475,11 +709,18 @@ where 1=1
 		                    temp.cust_no = #custNo# 
 		                ]]>  
 		            </isNotEmpty>  
-		             <isNotEmpty property="invoicStatus" prepend="and">  
-		                <![CDATA[ 
-		                    temp.INVOICSTATUS = #invoicStatus# 
-		                ]]>  
-		            </isNotEmpty> 
+		            
+		        	   <!-- equals -->
+		        	 <isNotNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus = '001'
+					</isNotNull>
+
+		            <isNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus is null
+					</isNull>
+
+		       
+		      
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
      				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay#  )
@@ -606,11 +847,18 @@ where 1=1
 		                    temp.cust_no = #custNo# 
 		                ]]>  
 		            </isNotEmpty>   
-		             <isNotEmpty property="invoicStatus" prepend="and">  
-		                <![CDATA[ 
-		                    temp.INVOICSTATUS = #invoicStatus# 
-		                ]]>  
-		            </isNotEmpty>  
+		            
+		            <!-- equals -->
+		         <isNotNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus = '001'
+					</isNotNull>
+
+		            <isNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus is null
+					</isNull>
+
+		            
+		            
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
      				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )
@@ -722,12 +970,20 @@ where 1=1
 		                <![CDATA[ 
 		                    temp.cust_no = #custNo# 
 		                ]]>  
-		            </isNotEmpty>   
-		              <isNotEmpty property="invoicStatus" prepend="and">  
-		                <![CDATA[ 
-		                    temp.INVOICSTATUS = #invoicStatus# 
-		                ]]>  
-		            </isNotEmpty>   
+		            </isNotEmpty>  
+		             
+		             <!-- equals -->
+		           <isNotNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus = '001'
+					</isNotNull>
+
+		            <isNull property="invoicStatus" prepend="and">  
+						temp.invoicStatus is null
+					</isNull>
+					
+					
+					
+ 
 		            <isNotEmpty prepend="and" property="queryWay">
      				 	<![CDATA[
      				 	  (  u.user_phone like '%$queryWay$%' or mls.name like '%$queryWay$%' or u.cust_name like '%$queryWay$%' or TEMP.ORDER_NO = #queryWay# )

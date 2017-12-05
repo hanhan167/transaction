@@ -254,6 +254,15 @@ public interface ITBusOrderService {
 	 * @return
 	 */
 	BusinessMap<Object> getBuyerOrderCountInvoic(Map<String, String> param);
+	/**
+	 * 获取供方（未开发票订单、发票数量）
+	 */
+	BusinessMap<Object> getApplyOrderCountInvoice(Map<String, String> param);
+	/**
+	 * 获取供方数据（未开发票订单、发票数量）
+	 */
+	BusinessMap<Pager> selectSupplyOrdersInvoice(Map<String, Object> param,
+			Pager pager);
 	
 }
 

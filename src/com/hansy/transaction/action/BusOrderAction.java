@@ -1502,6 +1502,8 @@ public class BusOrderAction {
 				if(invoicStatus!=null && invoicStatus!="")
 				{
 					param.put("invoicStatus", invoicStatus);
+				}else{
+					param.put("invoicStatus", null);
 				}
 				//默认每页8条数据
 				int pageSize=8;
@@ -1537,6 +1539,100 @@ public class BusOrderAction {
 				}
 				bReslt.setList(dList);
 				bReslt.setMap(map2);
+				resultPage.setRows(oList);
+				bReslt.setObj(resultPage);
+				bReslt.setSuccess(true);
+				return bReslt;
+			}
+			
+			/**
+			 * 获取供方（未开发票订单、发票数量）
+			 * @description: TODO
+			 * @creator: cj
+			 * @createDate: 2017年3月15日
+			 * @modifier:
+			 * @modifiedDate:
+			 * @return
+			 */
+			@RequestMapping("/getApplyOrderCountInvoice")
+			@ResponseBody
+			public BaseReslt<Object> getApplyOrderCountInvoice(HttpSession session){
+				BaseReslt<Object> bReslt=new BaseReslt<Object>();
+				String custNo=(String) session.getAttribute("custNo");
+				Map<String, String> param=new HashMap<String,String>();
+				param.put("custNo", custNo);
+				BusinessMap<Object> bMap=busOrderService.getApplyOrderCountInvoice(param);
+				if (!bMap.getIsSucc()) {
+					bReslt.setSuccess(false);
+					bReslt.setMsg("获取订单数量失败");
+					return bReslt;
+				}
+				bReslt.setObj(bMap.getInfoBody());
+				bReslt.setSuccess(true);
+				return bReslt;
+			}
+			/**
+			 * 获取供应方订单列表
+			 * @description: TODO
+			 * @creator: cj
+			 * @createDate: 2017年3月14日
+			 * @modifier:
+			 * @modifiedDate:
+			 * @param pageNo
+			 * @param session
+			 * @return
+			 */
+			@RequestMapping("/getSupplyOrdersInvoic")
+			@ResponseBody
+			public BaseReslt<Object> getSupplyOrdersInvoic(Integer pageNo,String invoiceStatus,HttpSession session,String query){
+				BaseReslt<Object> bReslt=new BaseReslt<Object>();
+				String custNo=(String) session.getAttribute("custNo");
+				//查询参数，第一个参数为custNo,第二个参数为invoicStatus(可为空),
+				Map<String, Object> param=new HashMap<String,Object>();
+				param.put("custNo", custNo);
+				param.put("orderStatus", "090005");
+				param.put("queryWay", query);
+				
+				if(invoiceStatus!=null && invoiceStatus!="" && invoiceStatus != "undefined")
+				{
+					param.put("invoicStatus", invoiceStatus);
+				}else{
+					param.put("invoicStatus", null);
+				}
+				
+				//默认每页1条数据
+				int pageSize=8;
+				Pager pager=new Pager();
+				//初始化page对象
+				pager.setPageSize(pageSize);
+				pager.setPageNo(pageNo);
+				BusinessMap<Pager> bMap=busOrderService.selectSupplyOrdersInvoice(param,pager);
+				if (!bMap.getIsSucc()) {
+					bReslt.setSuccess(false);
+					bReslt.setMsg(bMap.getMsg());
+					return bReslt;
+				}
+
+				//循环遍历订单，获取备注消息
+				Pager resultPage=bMap.getInfoBody();
+				//获取订单list
+						List<Order> oList=resultPage.getRows();
+						//订单备注list
+						List<Object> dList=new ArrayList<>();
+						Map<String, String>map = new HashMap<>();
+
+						for (int i = 0; i < oList.size(); i++) {
+							map.put(oList.get(i).getOrderNo(), oList.get(i).getOrderNo());
+						}
+						Iterator<String> iter5=map.values().iterator();
+						Map<String, Object> map2 = new HashMap<>();
+						while (iter5.hasNext()){
+							String xObject =iter5.next();
+							BusinessMap<Object> bMap2=orderDetlService.getOrderDetl(xObject);
+							dList=(List<Object>) bMap2.getInfoBody();
+							map2.put(xObject, (List<Object>) bMap2.getInfoBody());
+						}
+						bReslt.setMap(map2);
 				resultPage.setRows(oList);
 				bReslt.setObj(resultPage);
 				bReslt.setSuccess(true);
