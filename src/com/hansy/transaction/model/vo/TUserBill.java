@@ -29,6 +29,7 @@ public class TUserBill {
 	private String billReceiveMail;//收票人邮箱
 	private Date startTime;
 	private Date endTime;
+	private Date billNatrue;//发票状态 "0":"电子发票","1":"纸质发票"
 	public String getCustNo() {
 		return custNo;
 	}
@@ -149,6 +150,12 @@ public class TUserBill {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
+	public Date getBillNatrue() {
+		return billNatrue;
+	}
+	public void setBillNatrue(Date billNatrue) {
+		this.billNatrue = billNatrue;
+	}
 	@Override
 	public String toString() {
 		return "TUserBill [custNo=" + custNo + ", billType=" + billType
@@ -162,8 +169,10 @@ public class TUserBill {
 				+ registerPhone + ", openBand=" + openBand + ", bandCard="
 				+ bandCard + ", billReceiveName=" + billReceiveName
 				+ ", billReceiveMail=" + billReceiveMail + ", startTime="
-				+ startTime + ", endTime=" + endTime + "]";
+				+ startTime + ", endTime=" + endTime + ", billNatrue="
+				+ billNatrue + "]";
 	}
+
 	
 	
 	

@@ -326,8 +326,8 @@ function save_Invoice(){
 		type:"post",
 		data:{
 			"orderNo":orderNo,//订单编号
-			"billType":"3",//发票类型
-			"billTitle":"2",//发票抬头
+			"billType":"3",//发票类型 1.普通发票 2.电子发票 3.增票
+			"billTitle":"2",//发票抬头 1个人  2.公司
 			"billReceipt":$("[name='billReceipt']").val(),//纳税人识别号
 			"billContent":"产品明细",//发票内容
 			"billReceivePhone":$("[name='billReceivePhone']").val(),//收票人手机号

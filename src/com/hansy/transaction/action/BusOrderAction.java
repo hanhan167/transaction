@@ -730,7 +730,10 @@ public class BusOrderAction {
 		List<TBusOrderVo> list=busOrderService.getById(orderNo);
 		//TBusOrderVo orderVo=busOrderService.getById(orderNo);
 		//根据数据库里面orderStatus设置当前状态的下一个状态
-
+		/*for (int i = 0; i < list.size(); i++) {
+			
+		}*/
+		
 		if (list.get(0).getOrderStatus().equals(OrderConstants.orderStatusNoneConfirmed)) {
 			orderStatus=OrderConstants.orderStatusNonePayment;//卖方待确认
 			orderDetlVo.setStatus(OrderConstants.orderDetailSupply);//供应商备注
@@ -773,6 +776,7 @@ public class BusOrderAction {
 			bReslt.setMsg(bMap1.getMsg());
 			return bReslt;
 		}
+		
 		BusinessMap<Object> bMap2=orderDetlService.save(orderDetlVo);
 		if (!bMap2.getIsSucc()) {
 			bReslt.setSuccess(false);

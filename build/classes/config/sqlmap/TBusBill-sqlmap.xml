@@ -44,6 +44,7 @@ BILL_RECEIVE_NAME,
 BILL_RECEIVE_MAIL
 	
 	</sql>
+	
 	<insert id="save" parameterClass="com.hansy.transaction.model.vo.TBusBillVo">
 		insert into T_BUS_BILL(<include refid="allColumns"/>) values
 			(#orderNo#,  
