@@ -723,7 +723,7 @@ function display(data,orderStatus,query){
 			},
 			success : function(data) {		
 				if (data.success) {
-				
+					count();
 					layer.msg('操作成功', {
 						icon : 1,
 						time : 2000
