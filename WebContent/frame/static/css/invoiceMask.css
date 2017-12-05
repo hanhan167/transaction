@@ -1,0 +1,255 @@
+@charset "UTF-8";
+
+body {
+    font-family: "Microsoft YaHei";
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+html {
+    height: 100%;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clear-box {
+    clear: both;
+    zoom: 1;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+}
+
+body .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 99;
+    width: 100%;
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+    background-color: #000;
+    zoom: 1;
+    display: block;
+}
+
+.mask-contents {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    z-index: 100;
+    width: 800px;
+    background-color: #FFFFFF;
+    margin-left: -400px;
+    margin-bottom: 50px;
+}
+
+.mask1 {
+    display: block;
+}
+
+.mask2 {
+    display: none;
+}
+
+.mask3 {
+    display: none;
+}
+
+.tits-box {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    position: relative;
+    background-color: #26c4c7;
+    color: #FFFFFF;
+    font-size: 20px;
+}
+
+.tits-box img {
+    display: inline-block;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    height: 24px;
+}
+
+.inv-flow {
+    width: 90%;
+    height: 100px;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nums {
+    position: relative;
+}
+
+.inv-flow .textsNum {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    text-align: center;
+    line-height: 50px;
+    background-color: #cecece;
+    color: #666666;
+    font-size: 26px;
+}
+
+.nums .textsp {
+    position: absolute;
+    top: 56px;
+    height: 40px;
+    line-height: 40px;
+    left: -35%;
+    width: 180%;
+    display: inline-block;
+    font-size: 14px;
+    color: #666666;
+}
+
+.nums .textsNum.check-col {
+    color: #FFFFFF;
+    background-color: #26c4c7;
+    font-style: italic;
+}
+
+.nums .textsp.span-col {
+    color: #26c4c7;
+}
+
+.inv-flow .lines {
+    width: 36.5%;
+    height: 1px;
+    background-color: #cecece;
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.inv-flow .lines.check-line {
+    background-color: #26c4c7;
+}
+
+.select-box {
+    width: 90%;
+    margin: 0 auto;
+    height: 60px;
+    line-height: 60px;
+    border-bottom: 1px solid #cecece;
+    font-size: 14px;
+    color: #666666;
+}
+
+.select-box table {
+    width: 60%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.select-box .tab1 td {
+    width: 30%;
+    height: 60px;
+    text-align: center;
+}
+
+.tit-td span {
+    color: #d5090c;
+    padding-right: 5px;
+}
+
+.btn-td {
+    text-align: center;
+}
+
+.td-items span {
+    display: inline-block;
+    position: relative;
+    width: 118px;
+    height: 34px;
+    line-height: 34px;
+    border: 1px solid #cecece;
+    color: #666666;
+
+}
+
+.td-items span img {
+    position: absolute;
+    width: 101%;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    z-index: 10;
+}
+
+.btn-td span {
+    display: inline-block;
+    width: 118px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #26c4c7;
+    background-color: #26c4c7;
+    color: #FFFFFF;
+    margin: 0 10px;
+}
+
+.btn-td span:first-of-type {
+    border: 1px solid #cecece;
+    background-color: #f3f3f3;
+    color: #666666;
+}
+
+.td-items span:hover {
+    cursor: pointer;
+}
+
+.btn-td span:hover {
+    cursor: pointer;
+}
+
+.tits-sel span {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.select-box .tab2 .tit-td {
+    height: 60px;
+    width: 25%;
+    text-align: right;
+}
+
+.select-box .tab2 .td-items {
+    height: 60px;
+    text-align: center;
+}
+
+.tab2 .td-items input {
+    width: 90%;
+    height: 34px;
+    line-height: 36px;
+    margin: 0 auto;
+    display: inline-block;
+    border: 1px solid #cecece;
+    font-size: 14px;
+    color: #333333;
+    text-indent: 5px;
+}
+
+.tab2 .td-items input::-webkit-input-placeholder {
+    color: #999999;
+}
+
+.tab2 .td-items input:focus {
+    border-color: #26c4c7;
+}
