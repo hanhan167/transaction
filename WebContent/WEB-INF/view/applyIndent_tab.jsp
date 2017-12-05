@@ -472,7 +472,7 @@ function display(data,orderStatus,query){
 		
 			content+="<input type='text'  maxlength='150'/>";  
 		}
-	   	content+="</div><div class='clear'></div></div>";/* div.remark */
+	   	content+="</div><div class='clear'><input type='hidden' value="+Row.rows[tmpguan[i][1]].orderStatus+"></div></div>";/* div.remark */
 	   	content+="<div class='row site'>";
 	   	content+="<span>收货地址</span><span>"+(Row.rows[tmpguan[i][1]].addresseeName!=null?Row.rows[tmpguan[i][1]].addresseeName:'')+"</span><span>"+(Row.rows[tmpguan[i][1]].addresseePhone!=null?Row.rows[tmpguan[i][1]].addresseePhone:'')+"</span><span>"+(Row.rows[tmpguan[i][1]].address!=null?Row.rows[tmpguan[i][1]].address:'')+"</span>";
 	   	content+="</div>";/* div.row */
@@ -661,7 +661,7 @@ function display(data,orderStatus,query){
 	}
 	//删除订单
 	function deleteOrder(orderNo, element) {
-		var orde = $(element).parent().prev().find(".clear>input").val();
+		var orde = $(element).parent().prev().prev().find(".clear>input").val();
 		layer.open({
 			title : '提示信息',
 			content : "是否删除已选中的订单?",
@@ -704,8 +704,7 @@ function display(data,orderStatus,query){
 
 	function operatorOrder(orderNo, element) {
 		$(element).attr('disabled',true); 
-		var orde = $(element).parent().prev().find(".clear>input").val();
-		console.log(orde);
+		var orde = $(element).parent().prev().prev().find(".clear>input").val();
 		var remark;
 		var lgtNums = $(element).closest('.row').find('.text-input').val();
 		
