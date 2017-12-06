@@ -1660,47 +1660,6 @@ public class BusOrderAction {
 			@RequestMapping( value = "/getBuyerInvoicArr",method=RequestMethod.POST)
 			@ResponseBody
 			public BaseReslt<Object> getBuyerInvoicArr(HttpSession session ,String[] priceArr,String[] nameArr){
-		/*		Map<String , Object> map = new HashMap<>();
-				for (int i = 0; i < nameArr.length; i++) {
-					map.put(nameArr[i], 0);
-				}
-				Set<String> keySet = map.keySet();
-			
-				Set<String> mySet = new HashSet<>();
-				for (int i = 0; i < nameArr.length; i++) {
-					mySet.add(nameArr[i]);
-				}
-				
-				
-				for (String string : mySet) {
-					List<Object> intList = new ArrayList<>();
-					System.out.println(string);
-					intList.add(string);
-					for (int i = 0; i < nameArr.length; i++) {
-						if(nameArr[i].equals(string))
-						{
-							intList.add(i);
-						}
-					}
-					
-					for (String s : keySet) {
-						System.out.println(keySet.size());
-						if(intList.get(0).equals(s))
-						{
-							map.put(s, intList);
-						}
-					}
-					
-				}
-				
-				
-				
-				for (String ms : mySet) {
-					List list = (List) map.get(ms);
-					for (Object object : list) {
-						System.out.println(object);
-					}
-				}*/
 				Map<String, Object> map = new HashMap<>();
 				for (int i = 0; i < nameArr.length; i++) {
 					map.put(nameArr[i], 0);
@@ -1727,11 +1686,11 @@ public class BusOrderAction {
 					
 				}
 				
+				//根据键来找出数据库中对应的金额，来进行比较
+				Map<String,String> param = new HashMap<>();
 				for (String string : keySet) {
-					System.out.println(string +":"+map.get(string));
+					param.put("supply", string);
 				}
-				
-				
 				
 				
 				return new BaseReslt<Object>();

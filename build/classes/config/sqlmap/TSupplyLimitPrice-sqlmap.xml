@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	<sqlMap namespace="supplyLP">
+	<resultMap class="com.hansy.transaction.model.bo.SupplyLimitPrice" id="supplyLPResultMap">
+		<result property="tableKey" column="TABLE_KEY"/>
+		<result property="supplyName" column="SUPPLY_NAME"/>
+		<result property="limitPrice" column="LIMIT_PRICE"/>
+		<result property="custNo" column="CUST_NO"/>
+	</resultMap>
+	
+	<sql id="allColumns">
+		TABLE_KEY,
+	SUPPLY_NAME,
+	LIMIT_PRICE,
+	CUST_NO
+	</sql>
+	
+	<!-- 新增下限金额 -->
+	<insert id="insert">
+			insert into SUPPLY_LIMITPRICE(<include refid="allColumns"/>) values
+			( #tableKey#,  
+	         #supplyName#,  
+	         #limitPrice#,  
+	         #custNo#
+	         ) 
+	</insert>
+
+	<!-- 更新下限金额 -->
+	<update id="update" parameterClass="com.hansy.transaction.model.bo.SupplyLimitPrice">
+		update SUPPLY_LIMITPRICE s
+		<dynamic prepend="set">  
+            <isNotEmpty property="supplyName" prepend=",">  
+                <![CDATA[  
+                    s.SUPPLY_NAME = #supplyName# 
+                ]]>  
+            </isNotEmpty>  
+            <isNotEmpty property="limitPrice" prepend=",">  
+                <![CDATA[  
+                    s.LIMIT_PRICE = #limitPrice# 
+                ]]>  
+            </isNotEmpty>  
+            <isNotEmpty property="custNo" prepend=",">  
+                <![CDATA[  
+                    s.CUST_NO = #custNo# 
+                ]]>  
+            </isNotEmpty>  
+        </dynamic> 
+        <dynamic prepend="WHERE">  
+        	  s.SUPPLY_NAME = #supplyName#  
+   		 </dynamic> 
+	</update>
+	
+	<!-- 供应商使用根据custNo查询 -->
+	<select id="getLimitPriceSupply" parameterClass="string" resultMap="string">
+		select LIMIT_PRICE
+		from SUPPLY_LIMITPRICE s where t.CUST_NO=#custNo# 
+	</select>	
+	
+	<!-- 客户使用根据custNo查询 -->
+	<select id="getLimitPriceCust" parameterClass="string" resultMap="string">
+		select LIMIT_PRICE
+		from SUPPLY_LIMITPRICE s where  s.SUPPLY_NAME = #supplyName#   
+	</select>	
+		
+
+</sqlMap>
