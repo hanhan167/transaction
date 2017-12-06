@@ -13,6 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css"
 	href="frame/static/css/commonality.css" />
+<link rel="stylesheet" type="text/css" href="frame/static/css/invoiceMask.css">
 <link rel="stylesheet" type="text/css" href="frame/layui/css/layui.css" />
 <link rel="stylesheet" type="text/css"
 	href="frame/static/css/indentIndent.css" />
@@ -34,6 +35,131 @@
 	<div class="head">
 		<jsp:include page="head.jsp" flush="true" />
 	</div>
+
+	<div class="mask"></div>
+	
+<!--1-->
+<div class="mask-contents mask1" style="display:none">
+    <div class="tits-box">开发票
+        <img src="frame/static/picture/shut.png">
+    </div>
+    <div class="inv-flow">
+        <div class="nums fl"><span class="textsNum check-col">1</span><span class="textsp span-col">设置发票类型</span></div>
+        <div class="lines fl"></div>
+        <div class="nums fl"><span class="textsNum">2</span><span class="textsp">填写发票信息</span></div>
+        <div class="lines fl"></div>
+        <div class="nums fl"><span class="textsNum">3</span><span class="textsp">填写收票地址</span></div>
+    </div>
+    <div class="select-box">
+        <div class="tits-sel">设置发票类型(以下均为必填项)</div>
+        <table cellpadding="0" cellspacing="0" class="fl tab1">
+            <tr>
+                <td class="tit-td"><span>*</span>发票设置:</td>
+                <td class="td-items"><span>纸质发票<img src="frame/static/picture/select-frame.png"></span></td>
+                <td class="td-items"><span>电子发票</span></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>发票类型:</td>
+                <td class="td-items"><span>普通发票</span></td>
+                <td class="td-items"><span>增值税发票</span></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>发票抬头:</td>
+                <td class="td-items"><span>个人</span></td>
+                <td class="td-items"><span>单位</span></td>
+            </tr>
+            <tr>
+                <td colspan="3" class="btn-td"><span id="btn-next1">下一步</span></td>
+            </tr>
+        </table>
+        <div class="clear-box"></div>
+    </div>
+</div>
+<!--2-->
+<div class="mask-contents mask2" style="display:none">
+    <div class="tits-box">开发票
+        <img src="frame/static/picture/shut.png">
+    </div>
+    <div class="inv-flow">
+        <div class="nums fl"><span class="textsNum check-col">1</span><span class="textsp span-col">设置发票类型</span></div>
+        <div class="lines fl check-line"></div>
+        <div class="nums fl"><span class="textsNum check-col">2</span><span class="textsp span-col">填写发票信息</span></div>
+        <div class="lines fl"></div>
+        <div class="nums fl"><span class="textsNum">3</span><span class="textsp">填写收票地址</span></div>
+    </div>
+    <div class="select-box">
+        <div class="tits-sel">填写发票信息(带<span style="color: #d5090c">*</span>号为必填项)</div>
+        <table cellpadding="0" cellspacing="0" class="fl tab2">
+            <tr>
+                <td class="tit-td"><span>*</span>单位名称:</td>
+                <td class="td-items"><input type="text" placeholder="请输入单位名称"></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>纳税人识别号:</td>
+                <td class="td-items"><input type="text" placeholder="请输入纳税人识别号"></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>注册地址:</td>
+                <td class="td-items"><input type="text" placeholder="请输入详细地址"></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>注册电话:</td>
+                <td class="td-items"><input type="text" placeholder="请输入注册电话"></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>开户银行:</td>
+                <td class="td-items"><input type="text" placeholder="请输入开户银行"></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>银行账户:</td>
+                <td class="td-items"><input type="text" placeholder="请输入银行账户"></td>
+            </tr>
+            <tr>
+                <td colspan="3" class="btn-td"><span id="btn-back1">上一步</span><span id="btn-next2">下一步</span></td>
+            </tr>
+        </table>
+        <div class="clear-box"></div>
+    </div>
+</div>
+<!--3-->
+<div class="mask-contents mask3" style="display:none">
+    <div class="tits-box">开发票
+        <img src="frame/static/picture/shut.png">
+    </div>
+    <div class="inv-flow">
+        <div class="nums fl"><span class="textsNum check-col">1</span><span class="textsp span-col">设置发票类型</span></div>
+        <div class="lines fl check-line"></div>
+        <div class="nums fl"><span class="textsNum check-col">2</span><span class="textsp span-col">填写发票信息</span></div>
+        <div class="lines fl check-line"></div>
+        <div class="nums fl"><span class="textsNum check-col">3</span><span class="textsp span-col">填写收票地址</span></div>
+    </div>
+    <div class="select-box">
+        <div class="tits-sel">填写收藏地址(带<span style="color: #d5090c">*</span>号为必填项)</div>
+        <table cellpadding="0" cellspacing="0" class="fl tab2">
+            <tr>
+                <td class="tit-td"><span>*</span>收款人姓名:</td>
+                <td class="td-items"><input type="text" placeholder="请输入收款人姓名"></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>收票人手机:</td>
+                <td class="td-items"><input type="text" placeholder="请输入收票人手机"></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>收票人邮箱:</td>
+                <td class="td-items"><input type="text" placeholder="请输入收票人邮箱"></td>
+            </tr>
+            <tr>
+                <td class="tit-td"><span>*</span>详细地址:</td>
+                <td class="td-items"><input type="text" placeholder="请输入详细地址"></td>
+            </tr>
+            <tr>
+                <td colspan="3" class="btn-td"><span id="btn-back2">上一步</span><span id="btn-sumit">提交</span></td>
+            </tr>
+        </table>
+        <div class="clear-box"></div>
+    </div>
+</div>
+
 
 	<!-- 中间的内容 -->
 	<div class="centre">
@@ -86,9 +212,60 @@
 <script type="text/javascript" src="frame/layui/layui.js"></script>
 <script type="text/javascript" src="frame/static/layer/layer.js"></script>
 <script type="text/javascript" src="frame/static/js/company.js"></script>
+
+<script>
+    $(window).scroll(function () {
+        var scrollht = $(document).scrollTop();
+        var curht = $(window).height();
+        var curmaskHt = scrollht + curht;
+        if (curmaskHt > curht) {
+            $(".mask").css("height", curmaskHt);
+        }
+        else {
+            $(".mask").css("height", "100%");
+        }
+    });
+
+    $(".tits-box img").click(function () {
+        $(".mask").hide();
+        $(".mask-contents").hide();
+    });
+
+    $("#btn-back1").click(function () {
+        $(".mask1").show();
+        $(".mask2").hide();
+        $(".mask3").hide();
+    });
+
+    $("#btn-back2").click(function () {
+        $(".mask2").show();
+        $(".mask1").hide();
+        $(".mask3").hide();
+    });
+
+    $('#btn-next1').click(function () {
+        $(".mask2").show();
+        $(".mask1").hide();
+        $(".mask3").hide();
+    });
+    
+    $('#btn-next2').click(function () {
+        $(".mask3").show();
+        $(".mask1").hide();
+        $(".mask2").hide();
+    });
+    
+    $('#btn-sumit').click(function () {
+        alert("提交");
+    });
+
+</script>
+
 <script type="text/javascript">
 	var curr;
 	$(function() {
+		/* $(".mask").hide();
+	    $(".mask-contents").hide(); */
 		layui.config({
 			dir : 'frame/layui/' //layui.js 所在路径（注意，如果是script单独引入layui.js，无需设定该参数。），一般情况下可以无视
 			,
@@ -662,6 +839,18 @@
 				});
 	}
 
+	//显示对应的开发票信息
+	function showGoDrawing(){
+		/* $("body").not(".mask").css("opacity","0.3"); 
+		$("body").not(".mask").css("background","#000");
+		$(".mask-contents").css("z-index","100");
+		$(".mask-contents").css("background-color","#FFFFFF"); */
+		$(".mask").show();
+		$(".mask1").show();
+		
+	}
+	
+	
 	//开发票操作
 	$(".goDrawing").click(function(){
 		//长度
@@ -686,20 +875,7 @@
 			});
 		
 		
-		$.ajax({
-			url:"busOrder/save.do",
-			dataType : "json",
-			type : "post",
-			data:{
-				
-			},
-			success:function(dataStr){
-				
-			}
-		
-		
-		
-		});
+		showGoDrawing();
 		
 		
 		
@@ -725,7 +901,7 @@
 			} else {
 			html = "当前无信息";
 		}
-		$modal.html(html)
+		$modal.html(html);
 	}
 
 	//翻译英文

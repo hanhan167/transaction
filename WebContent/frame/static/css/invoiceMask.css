@@ -39,7 +39,7 @@ body .mask {
     filter: alpha(opacity=30);
     background-color: #000;
     zoom: 1;
-    display: block;
+    display: none;
 }
 
 .mask-contents {
@@ -54,7 +54,7 @@ body .mask {
 }
 
 .mask1 {
-    display: block;
+    display: none;
 }
 
 .mask2 {
