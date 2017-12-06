@@ -60,6 +60,7 @@ import com.hansy.transaction.service.ITBusOrderDetlService;
 import com.hansy.transaction.service.ITBusOrderService;
 import com.hansy.transaction.service.ITBusOrderSplitService;
 import com.hansy.transaction.service.ITBusShoppCartService;
+import com.hansy.transaction.service.ITSupplyLimtPriceService;
 import com.hansy.transaction.service.ITUserAddressService;
 import com.hansy.transaction.service.ITUserBillService;
 import com.hansy.transaction.util.HttpUtils;
@@ -91,6 +92,8 @@ public class BusOrderAction {
 	private ITBusAddressService itBusAddressService;
 	@Resource
 	private ITUserAddressService addressService;
+	@Resource
+	private ITSupplyLimtPriceService priceService;
 
 	@RequestMapping("/productRank")
 	@ResponseBody
