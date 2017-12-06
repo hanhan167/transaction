@@ -108,6 +108,29 @@ public class SystemAction {
 		
 		return view;
 	} 
+	/**
+	 * app我的订单
+	 * @param custNo
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/loginIndentApp", method=RequestMethod.GET)
+	public ModelAndView loginIndentApp(String custNo,HttpSession session){
+		//根据custNo获取用户
+		System.out.println("custNo:"+custNo);
+		BusinessMap<TUserBaseInfoBo> bMap=baseInfoService.getUser(custNo);
+		if (!bMap.getIsSucc()) {
+			return new ModelAndView("error");
+		}
+		session.setAttribute("custNo", custNo);
+		if(StringUtil.isEmpty(session.getAttribute("custNo")+"")){
+			session.setAttribute("custNo", custNo);
+		}
+		String turnAddress="buyerIndent_tabApp";
+		ModelAndView view = new ModelAndView(turnAddress);
+		
+		return view;
+	} 
 	
 	
 	
