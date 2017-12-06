@@ -12,8 +12,9 @@
     <sqlMap resource="config/sqlmap/TUserAddress-sqlmap.xml" /> 
     <sqlMap resource="config/sqlmap/TBusOrderSplit-sqlmap.xml"/> 
     <sqlMap resource="config/sqlmap/TBusBill-sqlmap.xml"/> 
-     <sqlMap resource="config/sqlmap/TUserBill-sqlmap.xml"/> 
-     <sqlMap resource="config/sqlmap/TBusAddress-sqlmap.xml"/> 
+    <sqlMap resource="config/sqlmap/TUserBill-sqlmap.xml"/> 
+    <sqlMap resource="config/sqlmap/TBusAddress-sqlmap.xml"/> 
+    <sqlMap resource="config/sqlmap/TSupplyLimitPrice-sqlmap.xml"/> 
 </sqlMapConfig>
 
 

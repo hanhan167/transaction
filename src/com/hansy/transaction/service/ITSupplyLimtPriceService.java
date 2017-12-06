@@ -2,6 +2,7 @@
 package com.hansy.transaction.service;
 
 import java.util.Map;
+import java.util.Set;
 
 import com.hansy.transaction.common.BusinessMap;
 import com.hansy.transaction.model.bo.SupplyLimitPrice;
@@ -15,6 +16,6 @@ public interface ITSupplyLimtPriceService {
 	//查询  供应商
 	String selectLimitPriceSupply(String custNo);
 	//查询  客户
-	String selectLimitPriceCust(String supplyName);
+	StringBuilder selectLimitPriceCust(Set<String> set,Map map);
 }
 
