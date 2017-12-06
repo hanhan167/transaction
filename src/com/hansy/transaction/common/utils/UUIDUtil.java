@@ -2,6 +2,7 @@ package com.hansy.transaction.common.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -71,5 +72,15 @@ public class UUIDUtil {
 	 
 	public static void main(String[] args) {
 		System.out.println(getFixLength(11));
+	}
+	
+	//map集合比较--判断发票金额
+	public static boolean compare(List<Object> list, int i){
+		for (int j = 0; j < list.size(); j++) {
+			if(i == (int) list.get(j)){
+				return true;
+			}
+		}
+		return false;
 	}
 }

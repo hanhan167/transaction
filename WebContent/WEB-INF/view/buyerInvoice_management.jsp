@@ -855,9 +855,9 @@
 	$(".goDrawing").click(function(){
 		//长度
 		var clength=$('.chooseGoOpen:checked').length;
-		//custNo长度
+		//custNoArr长度
 		var custNoArr = new Array(clength);
-		//将custNo塞入其中
+		//将custNoArr塞入其中
 		var i = 0;
 		$($('.chooseGoOpen:checked').siblings("span.uindent")).each(function(){
 			  var myVal =  ($(this).text()).substring(5);
@@ -873,6 +873,31 @@
 			 priceArr[j] = priceVal;
 			 j++;
 			});
+		
+		//姓名
+		var nameArr = new Array(clength);
+		var z = 0;
+		$($('.chooseGoOpen:checked').siblings('.uname')).each(function(){
+			var nameVal = ($(this).text()).substring(3);
+			nameArr[z] = nameVal;
+			z++;
+		});
+		
+	    $.ajax({
+	    	url:"busOrder/getBuyerInvoicArr.do",
+	    	type:"post",
+	    	dataType: "json", 
+	    	async : false,
+	        cache : false,
+	        traditional: true,
+	    	data:{
+	    		 priceArr :priceArr,
+	    		 nameArr :nameArr,
+	    	},
+	    	success:function(data){
+	    		
+	    	},
+	    });
 		
 		
 		showGoDrawing();
