@@ -10,8 +10,8 @@ import java.util.Date;
  */
 public class TUserBill {
 	private String custNo;//商户编号
-	private String billType;//发票类型普通发票,电子发票,增值税发票
-	private String billTitle;//发票抬头,个人，公司
+	private String billType;//发票类型:01普通发票,02增值税发票
+	private String billTitle;//发票抬头,001个人，002公司
 	private String billReceipt;//纳税人识别号
 	private String billContent;//发票内容
 	private String billReceivePhone;//收票人手机号
@@ -29,7 +29,8 @@ public class TUserBill {
 	private String billReceiveMail;//收票人邮箱
 	private Date startTime;
 	private Date endTime;
-	private Date billNatrue;//发票状态 "0":"电子发票","1":"纸质发票"
+	private String billNatrue;//发票状态 "0":"电子发票","1":"纸质发票"
+	
 	public String getCustNo() {
 		return custNo;
 	}
@@ -150,10 +151,11 @@ public class TUserBill {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-	public Date getBillNatrue() {
+	
+	public String getBillNatrue() {
 		return billNatrue;
 	}
-	public void setBillNatrue(Date billNatrue) {
+	public void setBillNatrue(String billNatrue) {
 		this.billNatrue = billNatrue;
 	}
 	@Override
