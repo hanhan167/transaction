@@ -463,7 +463,12 @@
 		},
 		success:function(data){
 			if(data.success){
-				window.location.href="${basePath}goods/toInvoicMgt.do";
+				layer.msg('操作成功', {
+					icon: 1,
+					time: 1500,
+				}, function(){
+					window.location.href="${basePath}goods/toInvoicMgt.do";
+				});			
 			}else{
 				layer.open({
 					 title: '错误信息'
