@@ -1318,10 +1318,14 @@ public class BusOrderAction {
 	
 	@RequestMapping("/getByIds")
 	@ResponseBody
-	public BaseReslt<Object> getById(TUserBill tUserBill,HttpSession session){
+	public BaseReslt<Object> getById(TUserBill tUserBill,HttpSession session,HttpServletRequest request){
 		BaseReslt<Object> bReslt=new BaseReslt<Object>();
 		//根据custNo获取用户
-		String custNo = (String) session.getAttribute("custNo");
+		String custNo = null;
+		custNo = request.getParameter("custNo");
+		if(custNo == null){
+			custNo = (String) session.getAttribute("custNo");
+		}
 		BusinessMap<Object> bMap1=itUserBillService.getById(custNo);
 			if (bMap1.getIsSucc()==false) {
 				bReslt.setMsg(bMap1.getMsg());
@@ -1735,7 +1739,6 @@ public class BusOrderAction {
 				String supplyCustNo = (String) session.getAttribute("custNo");
 				BusinessMap<Object> priceSupply = priceService.selectLimitPriceSupply(supplyCustNo);
 				
-				StringBuffer msg = new StringBuffer();
 				if(priceSupply.getIsSucc()){
 					Double price = (Double) priceSupply.getInfoBody();
 					//根据键来找出数据库中对应的金额，来进行比较
@@ -1744,11 +1747,10 @@ public class BusOrderAction {
 							
 						}else{
 							baseReslt.setSuccess(false);
-							msg.append("【"+name+"】订单金额不足</br>");
+							baseReslt.setMsg("【"+name+"】订单金额不足</br>");
 							
 						}
 					}
-					baseReslt.setMsg(msg.toString());
 					
 				}else{
 					baseReslt.setSuccess(false);

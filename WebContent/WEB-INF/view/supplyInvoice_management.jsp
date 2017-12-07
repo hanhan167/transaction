@@ -55,20 +55,20 @@
     <div class="select-box">
         <div class="tits-sel">设置发票类型(以下均为必填项)</div>
         <table cellpadding="0" cellspacing="0" class="fl tab1">
-            <tr>
+            <tr class="fpsz">
                 <td class="tit-td"><span>*</span>发票设置:</td>
-                <td class="td-items"><span>纸质发票<img src="frame/static/picture/select-frame.png"></span></td>
-                <td class="td-items"><span>电子发票</span></td>
+                <td class="td-items zzfp"><span>纸质发票<img src="frame/static/picture/select-frame.png"></span></td>
+                <td class="td-items dzfp"><span>电子发票</span></td>
             </tr>
-            <tr>
+            <tr class="fplx">
                 <td class="tit-td"><span>*</span>发票类型:</td>
-                <td class="td-items"><span>普通发票</span></td>
-                <td class="td-items"><span>增值税发票</span></td>
+                <td class="td-items ptfp"><span>普通发票</span></td>
+                <td class="td-items zzsfp"><span>增值税发票</span></td>
             </tr>
-            <tr>
+            <tr class="fptt">
                 <td class="tit-td"><span>*</span>发票抬头:</td>
-                <td class="td-items"><span>个人</span></td>
-                <td class="td-items"><span>单位</span></td>
+                <td class="td-items gr"><span>个人</span></td>
+                <td class="td-items dw"><span>单位</span></td>
             </tr>
             <tr>
                 <td colspan="3" class="btn-td"><span id="btn-next1">下一步</span></td>
@@ -94,27 +94,27 @@
         <table cellpadding="0" cellspacing="0" class="fl tab2">
             <tr>
                 <td class="tit-td"><span>*</span>单位名称:</td>
-                <td class="td-items"><input type="text" placeholder="请输入单位名称"></td>
+                <td class="td-items"><input type="text" name="companyName" placeholder="请输入单位名称"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>纳税人识别号:</td>
-                <td class="td-items"><input type="text" placeholder="请输入纳税人识别号"></td>
+                <td class="td-items"><input type="text" name="billReceipt" placeholder="请输入纳税人识别号"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>注册地址:</td>
-                <td class="td-items"><input type="text" placeholder="请输入详细地址"></td>
+                <td class="td-items"><input type="text" name="registerAddress" placeholder="请输入详细地址"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>注册电话:</td>
-                <td class="td-items"><input type="text" placeholder="请输入注册电话"></td>
+                <td class="td-items"><input type="text" name="registerPhone" placeholder="请输入注册电话"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>开户银行:</td>
-                <td class="td-items"><input type="text" placeholder="请输入开户银行"></td>
+                <td class="td-items"><input type="text" name="openBand" placeholder="请输入开户银行"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>银行账户:</td>
-                <td class="td-items"><input type="text" placeholder="请输入银行账户"></td>
+                <td class="td-items"><input type="text" name="bandCard" placeholder="请输入银行账户"></td>
             </tr>
             <tr>
                 <td colspan="3" class="btn-td"><span id="btn-back1">上一步</span><span id="btn-next2">下一步</span></td>
@@ -139,20 +139,20 @@
         <div class="tits-sel">填写收藏地址(带<span style="color: #d5090c">*</span>号为必填项)</div>
         <table cellpadding="0" cellspacing="0" class="fl tab2">
             <tr>
-                <td class="tit-td"><span>*</span>收款人姓名:</td>
-                <td class="td-items"><input type="text" placeholder="请输入收款人姓名"></td>
+                <td class="tit-td"><span>*</span>收票人姓名:</td>
+                <td class="td-items"><input type="text" name="billReceiveName" placeholder="请输入收款人姓名"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>收票人手机:</td>
-                <td class="td-items"><input type="text" placeholder="请输入收票人手机"></td>
+                <td class="td-items"><input type="text" name="billReceivePhone" placeholder="请输入收票人手机"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>收票人邮箱:</td>
-                <td class="td-items"><input type="text" placeholder="请输入收票人邮箱"></td>
+                <td class="td-items"><input type="text" name="billReceiveMail"  placeholder="请输入收票人邮箱"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>详细地址:</td>
-                <td class="td-items"><input type="text" placeholder="请输入详细地址"></td>
+                <td class="td-items"><input type="text" name="billReceiveAddress" placeholder="请输入详细地址"></td>
             </tr>
             <tr>
                 <td colspan="3" class="btn-td"><span id="btn-back2">上一步</span><span id="btn-sumit">提交</span></td>
@@ -213,55 +213,6 @@
 <script type="text/javascript" src="frame/static/layer/layer.js"></script>
 <script type="text/javascript" src="frame/static/js/company.js"></script>
 <script type="text/javascript" src="frame/static/js/jQuery-jcDate.js"></script>
-
-<script>
-    $(window).scroll(function () {
-        var scrollht = $(document).scrollTop();
-        var curht = $(window).height();
-        var curmaskHt = scrollht + curht;
-        if (curmaskHt > curht) {
-            $(".mask").css("height", curmaskHt);
-        }
-        else {
-            $(".mask").css("height", "100%");
-        }
-    });
-
-    $(".tits-box img").click(function () {
-        $(".mask").hide();
-        $(".mask-contents").hide();
-    });
-
-    $("#btn-back1").click(function () {
-        $(".mask1").show();
-        $(".mask2").hide();
-        $(".mask3").hide();
-    });
-
-    $("#btn-back2").click(function () {
-        $(".mask2").show();
-        $(".mask1").hide();
-        $(".mask3").hide();
-    });
-
-    $('#btn-next1').click(function () {
-        $(".mask2").show();
-        $(".mask1").hide();
-        $(".mask3").hide();
-    });
-    
-    $('#btn-next2').click(function () {
-        $(".mask3").show();
-        $(".mask1").hide();
-        $(".mask2").hide();
-    });
-    
-    $('#btn-sumit').click(function () {
-        alert("提交");
-    });
-
-</script>
-
 <script type="text/javascript">
 	var curr;
 	$(function() {
@@ -371,8 +322,6 @@
 			content+="<input type='hidden' value='"+Row.rows[tmpguan[i][1]].custNo+"'>";
 			content+="<span class='uname'>买家："+Row.rows[tmpguan[i][1]].custName+"</span>";
 			content+="<span class='utel'>"+Row.rows[tmpguan[i][1]].custPhone+"</span>";		
-			content += "<span class='utel'>"
-					+ Row.rows[tmpguan[i][1]].applyPhone + "</span>";
 			content += "<span class='udate right'>下单时间："
 					+ new Date(Row.rows[tmpguan[i][1]].insertDate).Format("yyyy-MM-dd hh:mm:ss")
 							 + "</span>";
@@ -439,7 +388,7 @@
 				skin : '#03A1A4',
 				groups : 5,
 				prev : "<",
-		  	  next:">",
+		  	 	next:">",
 				jump : function(obj, first) { //触发分页后的回调
 					if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
 						if ((orderStatus == "") && (query == "")) {
@@ -474,42 +423,38 @@
 	
 	//开发票操作
 	$(".goDrawing").click(function(){
-	
-		
-		
-		
 		//长度
 		var clength=$('.chooseGoOpen:checked').length;
-		//custNo长度
-	/* 	var custNoArr = new Array(clength);
-		//将custNo塞入其中
-		var i = 0;
-		$($('.chooseGoOpen:checked').siblings("span.uindent")).each(function(){
-			  var myVal =  ($(this).text()).substring(5);
-			  custNoArr[i] = myVal;
-			  i++;
-			});
-		
-		//将price塞入其中
-		var priceArr = new Array(clength);
-		var j = 0;
-		$($('.chooseGoOpen:checked').parent().siblings(".text-bar-right").find(".myPrice")).each(function(){
-			 var priceVal =  ($(this).text()).substring(1);
-			 priceArr[j] = priceVal;
-			 j++;
-			}); */
 		var nameArr = new Array(clength);
 		var	priceArr = new Array(clength);
 		var z = 0;
+		var custNo = null;
 		$($('.chooseGoOpen:checked').siblings(".uname")).each(function(){
-			
+			custNo = $(this).prev().val();
 			nameArr[z] = $(this).text().substring(3);
 			
 			priceArr[z] = $(this).parent().parent().find("em").text().substring(1);
 			z++;
 		});
-		
-		
+		//没有选择买家
+		if(clength == 0){
+			layer.msg('请选择买家', {
+				icon: 2,
+				time: 1500
+			});
+			return;
+		}
+		//选择多个买家
+		for (var int = 1; int < nameArr.length; int++) {
+			if(nameArr[0] != nameArr[int]){
+				layer.msg('请选择相同买家</br>已选择：</br>【'+nameArr[0]+'】</br>【'+nameArr[int]+'】', {
+					icon: 2,
+					time: 3000
+				});
+				return;
+			}
+		}
+		//判断已选择订单的金额
 		 $.ajax({
 		    	url:"busOrder/getSupplyInvoicArr.do",
 		    	type:"post",
@@ -525,14 +470,38 @@
 		    		if(data.success){
 						showGoDrawing();
 		    		}else{
-		    			layer.msg(data.msg, {
-							icon: 1,
-							time: 2000
-						});
+		    			layer.open({
+		    				title:'提示'
+		    				,content:data.msg+'</br> 是否继续'
+		    				,btn:['继续','取消']
+		    				,yes:function(index,layero){
+		    					layer.close(index);
+		    					showGoDrawing();
+		    				}
+		    			});
 		    		}
 		    		
 		    	},
 		    });
+		
+		 $.ajax({
+				url:'busOrder/getByIds.do?custNo='+custNo,
+				success:function(data){
+					if(data.success&&data.obj!=null){
+						$("[name='billReceipt']").val(data.obj.billReceipt);//纳税人识别号
+						$("[name='billReceivePhone']").val(data.obj.billReceivePhone);//收票人手机号
+						$("[name='billReceiveAddress']").val(data.obj.billReceiveAddress);//收票人地址
+						$("[name='billStatus']").val(data.obj.billStatus);//发票状态
+						$("[name='companyName']").val(data.obj.companyName);//单位名称
+						$("[name='registerAddress']").val(data.obj.registerAddress);//单位注册地址
+						$("[name='registerPhone']").val(data.obj.registerPhone);//单位注册手机号码
+						$("[name='openBand']").val(data.obj.openBand);//开户行
+						$("[name='bandCard']").val(data.obj.bandCard);//银行卡
+						$("[name='billReceiveName']").val(data.obj.billReceiveName);//收票人姓名
+						$("[name='billReceiveMail']").val(data.obj.billReceiveMail);//收票人邮箱
+					}
+				}
+			});
 
 	});
 	
@@ -590,4 +559,109 @@
 	$(document).on('click','.myLgtMsg',function(e) {
 	 e.stopPropagation();
 	 });
+</script>
+<script>
+    $(window).scroll(function () {
+        var scrollht = $(document).scrollTop();
+        var curht = $(window).height();
+        var curmaskHt = scrollht + curht;
+        if (curmaskHt > curht) {
+            $(".mask").css("height", curmaskHt);
+        }
+        else {
+            $(".mask").css("height", "100%");
+        }
+    });
+
+    $(".tits-box img").click(function () {
+        $(".mask").hide();
+        $(".mask-contents").hide();
+    });
+
+    $("#btn-back1").click(function () {
+        $(".mask1").show();
+        $(".mask2").hide();
+        $(".mask3").hide();
+    });
+
+    $("#btn-back2").click(function () {
+        $(".mask2").show();
+        $(".mask1").hide();
+        $(".mask3").hide();
+    });
+
+    $('#btn-next1').click(function () {
+    	debugger;
+    	if(billNatrue==null || billType==null || billTitle==null)
+    	{
+    		layer.open({
+				title : '错误信息',
+				content : '有未选择选项,请选择'
+			});
+    	}else{
+        $(".mask2").show();
+        $(".mask1").hide();
+        $(".mask3").hide();
+    	}	
+    });
+    
+    $('#btn-next2').click(function () {
+        $(".mask3").show();
+        $(".mask1").hide();
+        $(".mask2").hide();
+    });
+    
+    $('#btn-sumit').click(function () {
+       	
+    });
+
+    /******************** 选择格式 ***************************/
+    var billNatrue = "1";//发票状态 "0":"电子发票","1":"纸质发票"
+    var billType;//发票类型:01普通发票,02增值税发票
+    var billTitle;//发票抬头,001个人，002公司
+    $('.zzfp').click(function(){
+    	 $('.zzfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+    	 $('.dzfp>span>img').remove('img');
+    	 billNatrue = "1";
+    });
+    
+    $('.dzfp').click(function(){
+   	 $('.dzfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+   	 $('.zzfp>span>img').remove('img');
+   	 	billNatrue = "0";
+    });
+    
+
+    $('.ptfp').click(function(){
+    	 $('.ptfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+    	 $('.zzsfp>span>img').remove('img');
+    	 billType = "01";
+    });
+    
+    $('.zzsfp').click(function(){
+   	 	$('.zzsfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+   	 	$('.ptfp>span>img').remove('img');
+   	 	$('.dw').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+   		$('.gr>span>img').remove('img');
+   	 	billType = "02";
+    });
+   
+    $('.gr').click(function(){
+      	 $('.gr').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+      	 $('.dw>span>img').remove('img');
+      	 $('.zzsfp>span>img').remove('img');
+      	 $('.ptfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+      	 billTitle = "001";
+    });
+    
+    $('.dw').click(function(){
+     	 $('.dw').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+     	 $('.gr>span>img').remove('img');
+     	 billTitle = "002";
+    });
+    
+    
+    
+    
+    
 </script>
