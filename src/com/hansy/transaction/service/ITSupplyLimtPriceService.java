@@ -14,7 +14,7 @@ public interface ITSupplyLimtPriceService {
 	//修改
 	boolean updateLimitPrice(SupplyLimitPrice supplyLimitPrice);
 	//查询  供应商
-	String selectLimitPriceSupply(String custNo);
+	BusinessMap<Object> selectLimitPriceSupply(String custNo);
 	//查询  客户
 	StringBuilder selectLimitPriceCust(Set<String> set,Map map);
 }

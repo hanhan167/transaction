@@ -53,7 +53,7 @@
 	<!-- 供应商使用根据custNo查询 -->
 	<select id="getLimitPriceSupply" parameterClass="string" resultClass="Double">
 		select LIMIT_PRICE
-		from SUPPLY_LIMITPRICE s where t.CUST_NO=#custNo# 
+		from SUPPLY_LIMITPRICE s where s.CUST_NO=#custNo# 
 	</select>	
 	
 	<!-- 客户使用根据custNo查询 -->

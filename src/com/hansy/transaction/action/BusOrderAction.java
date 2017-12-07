@@ -1692,5 +1692,68 @@ public class BusOrderAction {
 								
 				return sb;
 			}		
+			/**
+			 * 获取供方传递的价格和名称数组
+			 * @description: TODO
+			 * @creator: cj
+			 * @createDate: 2017年3月15日
+			 * @modifier:
+			 * @modifiedDate:
+			 * @return
+			 */
+			@RequestMapping( value = "/getSupplyInvoicArr",method=RequestMethod.POST)
+			@ResponseBody
+			public BaseReslt<Object> getSupplyInvoicArr(HttpSession session ,String[] priceArr,String[] nameArr){
+				BaseReslt<Object> baseReslt = new BaseReslt<Object>(); 
+				//
+				Map<String, Object> map = new HashMap<>();
+				for (int i = 0; i < nameArr.length; i++) {
+					map.put(nameArr[i], 0);
+				}
+				Set<String> keySet = map.keySet();
+				for (String string : keySet) {
+					List<Object> list = new ArrayList<>();
+					for (int i = 0; i < nameArr.length; i++) {
+						if(string.equals(nameArr[i])){
+							list.add(i);
+							map.put(string, list);
+						}
+					}
+				}
+				
+				for (String string : keySet) {
+					double price = 0;
+					for (int i = 0; i < priceArr.length; i++) {
+						if(UUIDUtil.compare((List<Object>) map.get(string),i)){
+							price += Double.parseDouble(priceArr[i]);
+						}
+					}
+					map.put(string, price);
+					
+				}
+				
+				String supplyCustNo = (String) session.getAttribute("custNo");
+				BusinessMap<Object> priceSupply = priceService.selectLimitPriceSupply(supplyCustNo);
+				 
+				if(priceSupply.getIsSucc()){
+					Double price = (Double) priceSupply.getInfoBody();
+					//根据键来找出数据库中对应的金额，来进行比较
+					for (String name : keySet) {
+						if (((Double)map.get(name))-price > 0.000001) {
+							
+						}else{
+							baseReslt.setSuccess(false);
+							baseReslt.setMsg("【"+name+"】订单金额不足");
+							
+						}
+					}
+					
+				}else{
+					baseReslt.setSuccess(false);
+					baseReslt.setMsg(priceSupply.getMsg());
+				}
+				
+				return baseReslt;
+			}		
 }
 
