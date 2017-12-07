@@ -69,7 +69,7 @@
                 <td class="td-items dw"><span>单位</span></td>
             </tr>
             <tr>
-                <td colspan="3" class="btn-td"><span id="btn-next1">下一步</span></td>
+                <td colspan="3" class="btn-td"><span id="btn-next1" style="background-color: #26c4c7;color: #FFFFFF;">下一步</span></td>
             </tr>
         </table>
         <div class="clear-box"></div>
@@ -91,28 +91,28 @@
         <div class="tits-sel">填写发票信息(带<span style="color: #d5090c">*</span>号为必填项)</div>
         <table cellpadding="0" cellspacing="0" class="fl tab2">
             <tr>
-                <td class="tit-td"><span>*</span>单位名称:</td>
-                <td class="td-items"><input type="text" placeholder="请输入单位名称"></td>
+                <td class="tit-td"><span></span>单位名称:</td>
+                <td class="td-items"><input type="text" name="companyName" placeholder="请输入单位名称"></td>
             </tr>
             <tr>
-                <td class="tit-td"><span>*</span>纳税人识别号:</td>
-                <td class="td-items"><input type="text" placeholder="请输入纳税人识别号"></td>
+                <td class="tit-td"><span></span>纳税人识别号:</td>
+                <td class="td-items"><input type="text" name="billReceipt" placeholder="请输入纳税人识别号"></td>
             </tr>
             <tr>
-                <td class="tit-td"><span>*</span>注册地址:</td>
-                <td class="td-items"><input type="text" placeholder="请输入详细地址"></td>
+                <td class="tit-td"><span></span>注册地址:</td>
+                <td class="td-items"><input type="text" name="registerAddress" placeholder="请输入详细地址"></td>
             </tr>
             <tr>
-                <td class="tit-td"><span>*</span>注册电话:</td>
-                <td class="td-items"><input type="text" placeholder="请输入注册电话"></td>
+                <td class="tit-td"><span></span>注册电话:</td>
+                <td class="td-items"><input type="text" name="registerPhone" placeholder="请输入注册电话"></td>
             </tr>
             <tr>
-                <td class="tit-td"><span>*</span>开户银行:</td>
-                <td class="td-items"><input type="text" placeholder="请输入开户银行"></td>
+                <td class="tit-td"><span></span>开户银行:</td>
+                <td class="td-items"><input type="text" name="openBand" placeholder="请输入开户银行"></td>
             </tr>
             <tr>
-                <td class="tit-td"><span>*</span>银行账户:</td>
-                <td class="td-items"><input type="text" placeholder="请输入银行账户"></td>
+                <td class="tit-td"><span></span>银行账户:</td>
+                <td class="td-items"><input type="text" name="bandCard" placeholder="请输入银行账户"></td>
             </tr>
             <tr>
                 <td colspan="3" class="btn-td"><span id="btn-back1">上一步</span><span id="btn-next2">下一步</span></td>
@@ -137,20 +137,20 @@
         <div class="tits-sel">填写收藏地址(带<span style="color: #d5090c">*</span>号为必填项)</div>
         <table cellpadding="0" cellspacing="0" class="fl tab2">
             <tr>
-                <td class="tit-td"><span>*</span>收款人姓名:</td>
-                <td class="td-items"><input type="text" placeholder="请输入收款人姓名"></td>
+                <td class="tit-td"><span>*</span>收票人姓名:</td>
+                <td class="td-items"><input type="text" name="billReceiveName" placeholder="请输入收款人姓名"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>收票人手机:</td>
-                <td class="td-items"><input type="text" placeholder="请输入收票人手机"></td>
+                <td class="td-items"><input type="text" name="billReceivePhone" placeholder="请输入收票人手机"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>收票人邮箱:</td>
-                <td class="td-items"><input type="text" placeholder="请输入收票人邮箱"></td>
+                <td class="td-items"><input type="text" name="billReceiveMail"  placeholder="请输入收票人邮箱"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>详细地址:</td>
-                <td class="td-items"><input type="text" placeholder="请输入详细地址"></td>
+                <td class="td-items"><input type="text" name="billReceiveAddress" placeholder="请输入详细地址"></td>
             </tr>
             <tr>
                 <td colspan="3" class="btn-td"><span id="btn-back2">上一步</span><span id="btn-sumit">提交</span></td>
@@ -243,55 +243,191 @@
     });
 
     $('#btn-next1').click(function () {
-        $(".mask2").show();
-        $(".mask1").hide();
-        $(".mask3").hide();
+    	debugger;
+    	if(billNatrue==null || billType==null || billTitle==null)
+    	{
+    		layer.msg('必选项未选择', {
+				icon: 2,
+				time: 1500
+			});
+			
+			return;
+    	}
+    	else if(billNatrue=="1" && billType=="01") 
+        {
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("*");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("*");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(3)>td:eq(0)>span").html("");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(4)>td:eq(0)>span").html("");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(5)>td:eq(0)>span").html("");
+        }
+        else if(billNatrue=="1" && billType=="02")
+        {
+        	var i = 0;
+        	$(".mask2 .tab2").find("tr").each(function(){
+        		if(i<=5)
+        		{	
+             	$(this).find("td:eq(0)").find("span").html("*");     
+        		}
+        		i++;
+            });
+        	 $(".mask2").show();
+             $(".mask1").hide();
+             $(".mask3").hide();	
+        }
+        	 $(".mask2").show();
+             $(".mask1").hide();
+             $(".mask3").hide();	
+        
+    	
+       
     });
     
     $('#btn-next2').click(function () {
-        $(".mask3").show();
-        $(".mask1").hide();
-        $(".mask2").hide();
+    	debugger;
+    	if(billNatrue=="1" && billType=="01")
+    	{
+    		var myVal1 = $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
+    		var myVal2 = $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
+    		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind" || myVal2==null || myVal2.trim()==""  || myVal2=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			
+    			return;
+    		}
+    	}else if(billNatrue=="1" && billType=="02"){
+    		var myVal1 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
+    		var myVal2 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
+    		var myVal3 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(2)>td:eq(1)").find("input").val();
+    		var myVal4 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(3)>td:eq(1)").find("input").val();
+    		var myVal5 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(4)>td:eq(1)").find("input").val();
+    		var myVal6 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(5)>td:eq(1)").find("input").val();
+    		
+    		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			return;
+    		}
+    		else if(myVal2==null || myVal2.trim()=="" ||  myVal2=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			
+    			return;
+    		}
+    		else if(myVal3==null || myVal3.trim()=="" ||  myVal3=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});	
+    			return;
+    		}
+    		else if(myVal4==null || myVal4.trim()=="" ||  myVal4=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			return;
+    		}
+    		else if(myVal5==null || myVal5.trim()=="" ||  myVal5=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			return;
+    		}
+    		else if(myVal6==null || myVal6.trim()=="" ||  myVal6=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			return;
+    		}
+    	}
+    		  $(".mask3").show();
+    	      $(".mask1").hide();
+    	      $(".mask2").hide();
+    
     });
     
     $('#btn-sumit').click(function () {
-        alert("提交");
+       	
     });
 
     /******************** 选择格式 ***************************/
-    var billNatrue;//发票状态 "0":"电子发票","1":"纸质发票"
+    var billNatrue = "1";//发票状态 "0":"电子发票","1":"纸质发票"
     var billType;//发票类型:01普通发票,02增值税发票
     var billTitle;//发票抬头,001个人，002公司
     $('.zzfp').click(function(){
     	 $('.zzfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
     	 $('.dzfp>span>img').remove('img');
+    	 billNatrue = "1";
     });
     
     $('.dzfp').click(function(){
    	 $('.dzfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
    	 $('.zzfp>span>img').remove('img');
-   	});
+   	 	billNatrue = "0";
+    });
     
 
     $('.ptfp').click(function(){
     	 $('.ptfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
     	 $('.zzsfp>span>img').remove('img');
+    	 billType = "01";
     });
     
     $('.zzsfp').click(function(){
-   	 $('.zzsfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
-   	 $('.ptfp>span>img').remove('img');
-   });
+   	 	$('.zzsfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+   	 	$('.ptfp>span>img').remove('img');
+   	 	$('.dw').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+   		$('.gr>span>img').remove('img');
+   	 	billType = "02";
+   		billTitle = "002";
+    });
    
     $('.gr').click(function(){
       	 $('.gr').find('span').append("<img src='frame/static/picture/select-frame.png'>");
       	 $('.dw>span>img').remove('img');
-      });
+      	 $('.zzsfp>span>img').remove('img');
+      	 $('.ptfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+      	 billTitle = "001";
+      	 billType="01";
+    });
     
     $('.dw').click(function(){
      	 $('.dw').find('span').append("<img src='frame/static/picture/select-frame.png'>");
      	 $('.gr>span>img').remove('img');
-     });
+     	 billTitle = "002";
+    });
+    
+    $.ajax({
+		url:'busOrder/getByIds.do',
+		type:"post",
+		success:function(data){
+			if(data.success&&data.obj!=null){
+				$("[name='billReceipt']").val(data.obj.billReceipt);//纳税人识别号
+				$("[name='billReceivePhone']").val(data.obj.billReceivePhone);//收票人手机号
+				$("[name='billReceiveAddress']").val(data.obj.billReceiveAddress);//收票人地址
+				$("[name='billStatus']").val(data.obj.billStatus);//发票状态
+				$("[name='companyName']").val(data.obj.companyName);//单位名称
+				$("[name='registerAddress']").val(data.obj.registerAddress);//单位注册地址
+				$("[name='registerPhone']").val(data.obj.registerPhone);//单位注册手机号码
+				$("[name='openBand']").val(data.obj.openBand);//开户行
+				$("[name='bandCard']").val(data.obj.bandCard);//银行卡
+				$("[name='billReceiveName']").val(data.obj.billReceiveName);//收票人姓名
+				$("[name='billReceiveMail']").val(data.obj.billReceiveMail);//收票人邮箱
+			}
+		}
+	});
+    
+    
     
 </script>
 
@@ -888,6 +1024,15 @@
 	$(".goDrawing").click(function(){
 		//长度
 		var clength=$('.chooseGoOpen:checked').length;
+		
+		if(clength == 0){
+			layer.msg('请选择买家', {
+				icon: 2,
+				time: 1500
+			});
+			return;
+		}
+
 		//custNoArr长度
 		var custNoArr = new Array(clength);
 		//将custNoArr塞入其中
