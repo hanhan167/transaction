@@ -1660,7 +1660,7 @@ public class BusOrderAction {
 			 */
 			@RequestMapping( value = "/getBuyerInvoicArr",method=RequestMethod.POST)
 			@ResponseBody
-			public BaseReslt<Object> getBuyerInvoicArr(HttpSession session ,String[] priceArr,String[] nameArr){
+			public StringBuilder getBuyerInvoicArr(HttpSession session ,String[] priceArr,String[] nameArr){
 				Map<String, Object> map = new HashMap<>();
 				for (int i = 0; i < nameArr.length; i++) {
 					map.put(nameArr[i], 0);
@@ -1687,14 +1687,10 @@ public class BusOrderAction {
 					
 				}
 				
-				//根据键来找出数据库中对应的金额，来进行比较
-				Map<String,String> param = new HashMap<>();
-				for (String string : keySet) {
-					param.put("supply", string);
-				}
-				
-				
-				return new BaseReslt<Object>();
+				//根据键来找出数据库中对应的金额，来进行比较 是否需要提示金额不足
+				StringBuilder sb = priceService.selectLimitPriceCust(keySet,map);
+								
+				return sb;
 			}		
 			/**
 			 * 获取供方传递的价格和名称数组
