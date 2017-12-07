@@ -263,6 +263,10 @@ public interface ITBusOrderService {
 	 */
 	BusinessMap<Pager> selectSupplyOrdersInvoice(Map<String, Object> param,
 			Pager pager);
+	/**
+	 * 批量修改订单发票状态
+	 */
+	BusinessMap<Object> updateOrderIncoiceStatus(String[] orderNoArr);
 	
 }
 

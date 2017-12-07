@@ -632,4 +632,26 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		return bMap;
 	}
 
+	@Override
+	public BusinessMap<Object> updateOrderIncoiceStatus(String[] orderNoArr) {
+		BusinessMap<Object> bMap = new BusinessMap<>();
+		TBusOrderVo busOrder = new TBusOrderVo();
+		if(orderNoArr == null){
+			bMap.setIsSucc(false);
+			bMap.setMsg("没拿到orderNo");
+			return bMap;
+		}
+		for (int i = 0; i < orderNoArr.length; i++) {
+			busOrder.setOrderNo(orderNoArr[i]);
+			try {
+				getSqlMapClientTemplate().update("busOrder.updateInvoiceStatus", busOrder);
+			} catch (Exception e) {
+				bMap.setIsSucc(false);
+				bMap.setMsg(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return bMap;
+	}
+
 }

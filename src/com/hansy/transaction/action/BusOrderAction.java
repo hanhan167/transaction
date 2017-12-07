@@ -1758,6 +1758,47 @@ public class BusOrderAction {
 				}
 				
 				return baseReslt;
-			}		
+			}	
+			
+			
+			@RequestMapping(value="/saveBill",method=RequestMethod.POST)
+			@ResponseBody
+			public  BaseReslt<Object> saveBill(HttpSession session,TUserBill tUserBill,String[] orderNoArr){
+				System.out.println(orderNoArr == null);
+				
+				System.out.println(tUserBill.toString());
+				BaseReslt<Object> bReslt=new BaseReslt<Object>();
+				//user bill
+				String custNo = null;
+				custNo = tUserBill.getCustNo();
+				if(custNo == null){
+					custNo=(String) session.getAttribute("custNo");
+					tUserBill.setCustNo(custNo);
+				}
+				tUserBill.setBillStatus("1");
+				BusinessMap<Object> bMap1=itUserBillService.getById(custNo);
+				if(bMap1.getInfoBody()==null){
+					tUserBill.setInsertDate(new Date());
+					tUserBill.setUpdateDate(new Date());
+					itUserBillService.save(tUserBill);
+				}else{
+					tUserBill.setUpdateDate(new Date());
+					itUserBillService.update(tUserBill);
+				}
+				if (!bMap1.getIsSucc()) {
+					bReslt.setSuccess(false);
+					bReslt.setMsg(bMap1.getMsg());
+				}
+				//bus_order
+				BusinessMap<Object> bMap2 = busOrderService.updateOrderIncoiceStatus(orderNoArr);
+				if(!bMap2.getIsSucc()){
+					bReslt.setSuccess(false);
+					bReslt.setMsg(bMap2.getMsg());
+				}
+				
+				
+				return bReslt;
+			}
+
 }
 

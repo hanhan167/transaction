@@ -312,8 +312,8 @@
 			content += "</div>";
 		}
 		for ( var i in tmpguan) {
-			var tradeStus = getOrderStus(Row.rows[tmpguan[i][1]].orderStatus,
-					Row.rows[tmpguan[i][1]].updateCustType);
+			/* var tradeStus = getOrderStus(Row.rows[tmpguan[i][1]].orderStatus,
+					Row.rows[tmpguan[i][1]].updateCustType); */
 			var quantity = 0;
 			var price = parseInt(0);
 			content += "<div class='moudle'>";
@@ -357,7 +357,7 @@
 						+ (Row.rows[tmpguan[i][num]].orderType == '091001' ? '试刀'
 								: '购买') + "</div>";
 				content += "<div class='indent_operation'><p class='fs14 margin-bottom-5'>"
-						+ tradeStus
+						//+ tradeStus
 						+ "</p><a href='javascript:;' style='display:none;' class='fs12 margin-bottom-5'>订单详情</a><a style='display:none;' href='javascript:;' class='fs12'>查看物流</a></div>";
 				content += "</div>";
 			}
@@ -506,30 +506,6 @@
 	});
 	
 	
-	function getOrderStus(orderStatus, userType) {
-		var tradeStus;
-		if (orderStatus == 090005) {
-			tradeStus = '客户订单完成';
-		} else if (orderStatus == 090001) {
-			tradeStus = '供方待确认';
-		} else if (orderStatus == 090002) {
-			tradeStus = '供方待发货';
-		} else if (orderStatus == 090003) {
-			tradeStus = '客户待付款';
-		} else if (orderStatus == 090004) {
-			tradeStus = '客户待收货';
-		} else if (orderStatus == 090006) {
-			if ("00010003" == userType) {//供方
-				tradeStus = '供方订单已取消';
-			} else {//买方
-				tradeStus = '客户订单已取消';
-			}
-		}
-		return tradeStus;
-	}
-	
-	
-	
 	
 	/* 点击顶部全选 */
 	$(".header input[type=checkbox]").click(function(){command(this);});
@@ -591,7 +567,6 @@
     });
 
     $('#btn-next1').click(function () {
-    	debugger;
     	if(billNatrue==null || billType==null || billTitle==null)
     	{
     		layer.open({
@@ -611,9 +586,7 @@
         $(".mask2").hide();
     });
     
-    $('#btn-sumit').click(function () {
-       	
-    });
+   
 
     /******************** 选择格式 ***************************/
     var billNatrue = "1";//发票状态 "0":"电子发票","1":"纸质发票"
@@ -659,8 +632,59 @@
      	 $('.gr>span>img').remove('img');
      	 billTitle = "002";
     });
-    
-    
+    //保存开票信息
+    $('#btn-sumit').click(function () {
+    	var clength=$('.chooseGoOpen:checked').length;
+    	//订单编号
+		var orderNoArr = new Array(clength);
+    	var custNo =$( $('.chooseGoOpen:checked').siblings("[type = 'hidden']")).val();
+    	
+		var z = 0;
+    	$($('.chooseGoOpen:checked').siblings(".uindent")).each(function(){
+    		orderNoArr[z] = $(this).text().substring(5);
+    		z++;
+    	});
+    	debugger;
+       	
+    	$.ajax({
+    		url:'busOrder/saveBill.do',
+    		type:"post",
+	    	dataType: "json", 
+	    	async : false,
+	        cache : false,
+	        traditional: true,
+    		data:{
+    			orderNoArr:orderNoArr,//订单编号
+    			"custNo":custNo,
+    			"billNatrue":billNatrue,//发票状态 "0":"电子发票",  "1":"纸质发票"
+    			"billType":billType,//发票类型:01普通发票,02增值税发票
+    			"billTitle":billTitle,//发票抬头 1个人  2.公司
+    			"billReceipt":$("[name='billReceipt']").val(),//纳税人识别号
+    			"billContent":"产品明细",//发票内容
+    			"billReceivePhone":$("[name='billReceivePhone']").val(),//收票人手机号
+    			"billReceiveAddress":$("[name='billReceiveAddress']").val(),//收票人地址
+    			"billStatus":$("[name='billStatus']").val(),//发票状态
+    			"companyName":$("[name='companyName']").val(),//单位名称
+    			"registerAddress":$("[name='registerAddress']").val(),//单位注册地址
+    			"registerPhone":$("[name='registerPhone']").val(),//单位注册手机号码
+    			"openBand":$("[name='openBand']").val(),//开户行
+    			"bandCard":$("[name='bandCard']").val(),//银行卡
+    			"billReceiveName":$("[name='billReceiveName']").val(),//收票人姓名
+    			"billReceiveMail":$("[name='billReceiveMail']").val(),//收票人邮箱
+    		},
+    		success:function(data){
+    			if(data.success){
+    				window.location.href="${basePath}goods/toSupplyInvoicMgt.do";
+    			}else{
+    				layer.open({
+    					 title: '错误信息'
+    					 ,content:data.msg
+    				}); 
+    			}
+    		}
+    	});
+    	
+    });
     
     
     
