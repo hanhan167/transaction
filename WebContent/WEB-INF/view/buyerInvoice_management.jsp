@@ -245,7 +245,6 @@
     });
 
     $('#btn-next1').click(function () {
-    	//alert("billNatrue:"+billNatrue+";billType:"+billType+";billTitle:"+billTitle);
     	if(billNatrue==null || billType==null || billTitle==null)
     	{
     		layer.msg('必选项未选择', {
@@ -429,12 +428,15 @@
     			return;
     		}
     	}	
-    	else{
     	//订单号
     	var orderNoArr = $(".sendDate").val();
     	$.ajax({
-    	url:'busOrder/save.do',
-		type:"post",
+    		url:'busOrder/saveBill.do',
+    		type:"post",
+	    	dataType: "json", 
+	    	async : false,
+	        cache : false,
+	        traditional: true,
 		data:{
 			 orderNoArr:orderNoArr,//订单编号
 			"billNatrue":billNatrue,//发票状态 "0":"电子发票",  "1":"纸质发票"
@@ -454,8 +456,24 @@
 			"billReceiveName":$("[name='billReceiveName']").val(),//收票人姓名
 			"billReceiveMail":$("[name='billReceiveMail']").val(),//收票人邮箱
 		},
+		beforeSend:function(){
+			layer.msg('加载中...', {
+				icon: 2,
+			});
+		},
+		success:function(data){
+			if(data.success){
+				window.location.href="${basePath}goods/toInvoicMgt.do";
+			}else{
+				layer.open({
+					 title: '错误信息'
+					 ,content:data.msg
+				}); 
+			}
+		}
+
     });
-    }
+    
     });
     /******************** 选择格式 ***************************/
     var billNatrue = "1";//发票状态 "0":"电子发票","1":"纸质发票"

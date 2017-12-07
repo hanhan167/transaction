@@ -1789,6 +1789,8 @@ public class BusOrderAction {
 					bReslt.setSuccess(false);
 					bReslt.setMsg(bMap1.getMsg());
 				}
+				
+				
 				//bus_order
 				BusinessMap<Object> bMap2 = busOrderService.updateOrderIncoiceStatus(orderNoArr);
 				if(!bMap2.getIsSucc()){
