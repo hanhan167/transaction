@@ -456,11 +456,11 @@
 			"billReceiveName":$("[name='billReceiveName']").val(),//收票人姓名
 			"billReceiveMail":$("[name='billReceiveMail']").val(),//收票人邮箱
 		},
-		beforeSend:function(){
+		/* beforeSend:function(){
 			layer.msg('加载中...', {
 				icon: 2,
 			});
-		},
+		}, */
 		success:function(data){
 			if(data.success){
 				layer.msg('操作成功', {
