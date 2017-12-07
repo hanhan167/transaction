@@ -1734,7 +1734,8 @@ public class BusOrderAction {
 				
 				String supplyCustNo = (String) session.getAttribute("custNo");
 				BusinessMap<Object> priceSupply = priceService.selectLimitPriceSupply(supplyCustNo);
-				 
+				
+				StringBuffer msg = new StringBuffer();
 				if(priceSupply.getIsSucc()){
 					Double price = (Double) priceSupply.getInfoBody();
 					//根据键来找出数据库中对应的金额，来进行比较
@@ -1743,10 +1744,11 @@ public class BusOrderAction {
 							
 						}else{
 							baseReslt.setSuccess(false);
-							baseReslt.setMsg("【"+name+"】订单金额不足");
+							msg.append("【"+name+"】订单金额不足</br>");
 							
 						}
 					}
+					baseReslt.setMsg(msg.toString());
 					
 				}else{
 					baseReslt.setSuccess(false);

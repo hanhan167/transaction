@@ -525,7 +525,10 @@
 		    		if(data.success){
 						showGoDrawing();
 		    		}else{
-		    			alert(data.msg);
+		    			layer.msg(data.msg, {
+							icon: 1,
+							time: 2000
+						});
 		    		}
 		    		
 		    	},
