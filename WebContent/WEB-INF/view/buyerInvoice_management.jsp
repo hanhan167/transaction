@@ -258,6 +258,10 @@
         alert("提交");
     });
 
+    /******************** 选择格式 ***************************/
+    var billNatrue;//发票状态 "0":"电子发票","1":"纸质发票"
+    var billType;//发票类型:01普通发票,02增值税发票
+    var billTitle;//发票抬头,001个人，002公司
     $('.zzfp').click(function(){
     	 $('.zzfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
     	 $('.dzfp>span>img').remove('img');
