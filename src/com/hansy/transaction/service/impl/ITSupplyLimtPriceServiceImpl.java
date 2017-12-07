@@ -57,7 +57,9 @@ public class ITSupplyLimtPriceServiceImpl extends BaseDao implements ITSupplyLim
 			if(myPrice<price)
 			{
 				sb.append(object+"的最小开单金额为:");
+				sb.append("<br>");
 				sb.append(price+";");
+				sb.append("<br>");
 			}
 			}
 			

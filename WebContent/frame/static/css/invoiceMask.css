@@ -253,3 +253,8 @@ body .mask {
 .tab2 .td-items input:focus {
     border-color: #26c4c7;
 }
+
+.choice>a,.choice>a:hover {
+	background: #03A1A4;
+	color: #FFFFFF;
+}

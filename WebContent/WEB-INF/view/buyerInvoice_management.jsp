@@ -53,20 +53,20 @@
     <div class="select-box">
         <div class="tits-sel">设置发票类型(以下均为必填项)</div>
         <table cellpadding="0" cellspacing="0" class="fl tab1">
-            <tr>
+            <tr class="fpsz">
                 <td class="tit-td"><span>*</span>发票设置:</td>
-                <td class="td-items"><span>纸质发票<img src="frame/static/picture/select-frame.png"></span></td>
-                <td class="td-items"><span>电子发票</span></td>
+                <td class="td-items zzfp"><span>纸质发票<img src="frame/static/picture/select-frame.png"></span></td>
+                <td class="td-items dzfp"><span>电子发票</span></td>
             </tr>
-            <tr>
+            <tr class="fplx">
                 <td class="tit-td"><span>*</span>发票类型:</td>
-                <td class="td-items"><span>普通发票</span></td>
-                <td class="td-items"><span>增值税发票</span></td>
+                <td class="td-items ptfp"><span>普通发票</span></td>
+                <td class="td-items zzsfp"><span>增值税发票</span></td>
             </tr>
-            <tr>
+            <tr class="fptt">
                 <td class="tit-td"><span>*</span>发票抬头:</td>
-                <td class="td-items"><span>个人</span></td>
-                <td class="td-items"><span>单位</span></td>
+                <td class="td-items gr"><span>个人</span></td>
+                <td class="td-items dw"><span>单位</span></td>
             </tr>
             <tr>
                 <td colspan="3" class="btn-td"><span id="btn-next1">下一步</span></td>
@@ -160,13 +160,12 @@
     </div>
 </div>
 
-
 	<!-- 中间的内容 -->
 	<div class="centre">
 		<div class="content">
 			<div class="head_tab" style="margin: -30px 0 31px 7px;">
 				<ul>	
-					<li><a style="width: 137px;">未开发票订单（<span id="buyerNoInvoice"></span>）
+					<li class="choice"><a style="width: 137px;">未开发票订单（<span id="buyerNoInvoice"></span>）
 					</a></li>
 					<li><a style="width: 137px;">已开发票订单（<span id="buyerOpenInvoice"></span>）
 					</a></li>
@@ -259,6 +258,37 @@
         alert("提交");
     });
 
+    $('.zzfp').click(function(){
+    	 $('.zzfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+    	 $('.dzfp>span>img').remove('img');
+    });
+    
+    $('.dzfp').click(function(){
+   	 $('.dzfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+   	 $('.zzfp>span>img').remove('img');
+   	});
+    
+
+    $('.ptfp').click(function(){
+    	 $('.ptfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+    	 $('.zzsfp>span>img').remove('img');
+    });
+    
+    $('.zzsfp').click(function(){
+   	 $('.zzsfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+   	 $('.ptfp>span>img').remove('img');
+   });
+   
+    $('.gr').click(function(){
+      	 $('.gr').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+      	 $('.dw>span>img').remove('img');
+      });
+    
+    $('.dw').click(function(){
+     	 $('.dw').find('span').append("<img src='frame/static/picture/select-frame.png'>");
+     	 $('.gr>span>img').remove('img');
+     });
+    
 </script>
 
 <script type="text/javascript">
@@ -393,8 +423,7 @@
 			{	
 			content += "<input type='checkbox' class='vertical-m chooseGoOpen'>";
 			}
-			content += "<span class='uname' onclick='vendor(\""
-					+ Row.rows[tmpguan[i][1]].supplyNo + "\")'>卖家："
+			content += "<span class='uname'>卖家："
 					+ Row.rows[tmpguan[i][1]].supperName + "</span>";
 			content += "<span class='utel'>"
 					+ Row.rows[tmpguan[i][1]].applyPhone + "</span>";
@@ -895,12 +924,21 @@
 	    		 nameArr :nameArr,
 	    	},
 	    	success:function(data){
+	    		if(data=="" || data==null)
+	    		{
+	    			showGoDrawing();
+	    		}else{
 	    		
+	    		layer.open({
+					title : '提示',
+					content : data,
+				});	
+	    		}
 	    	},
 	    });
 		
 		
-		showGoDrawing();
+		
 		
 		
 		
