@@ -36,7 +36,9 @@
 		<jsp:include page="head.jsp" flush="true" />
 	</div>
 
-	<div class="mask"></div>
+	<div class="mask">
+	<input type="hidden" class="sendDate">
+	</div>
 	
 <!--1-->
 <div class="mask-contents mask1" style="display:none">
@@ -111,7 +113,7 @@
                 <td class="td-items"><input type="text" name="openBand" placeholder="请输入开户银行"></td>
             </tr>
             <tr>
-                <td class="tit-td"><span></span>银行账户:</td>
+                <td class="tit-td"><span></span>银行账号:</td>
                 <td class="td-items"><input type="text" name="bandCard" placeholder="请输入银行账户"></td>
             </tr>
             <tr>
@@ -146,7 +148,7 @@
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>收票人邮箱:</td>
-                <td class="td-items"><input type="text" name="billReceiveMail"  placeholder="请输入收票人邮箱"></td>
+                <td class="td-items"><input type="text" name="billReceiveMail"  placeholder="请输入收票人邮箱(电子发票必填)"></td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>详细地址:</td>
@@ -243,7 +245,7 @@
     });
 
     $('#btn-next1').click(function () {
-    	debugger;
+    	//alert("billNatrue:"+billNatrue+";billType:"+billType+";billTitle:"+billTitle);
     	if(billNatrue==null || billType==null || billTitle==null)
     	{
     		layer.msg('必选项未选择', {
@@ -253,7 +255,7 @@
 			
 			return;
     	}
-    	else if(billNatrue=="1" && billType=="01") 
+    	else if(billType=="01") 
         {
         	$(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("*");
         	$(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("*");
@@ -262,7 +264,7 @@
         	$(".mask2>.select-box>.tab2>tbody>tr:eq(4)>td:eq(0)>span").html("");
         	$(".mask2>.select-box>.tab2>tbody>tr:eq(5)>td:eq(0)>span").html("");
         }
-        else if(billNatrue=="1" && billType=="02")
+        else if(billType=="02")
         {
         	var i = 0;
         	$(".mask2 .tab2").find("tr").each(function(){
@@ -285,8 +287,7 @@
     });
     
     $('#btn-next2').click(function () {
-    	debugger;
-    	if(billNatrue=="1" && billType=="01")
+    	if(billType=="01")
     	{
     		var myVal1 = $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
     		var myVal2 = $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
@@ -298,7 +299,7 @@
     			
     			return;
     		}
-    	}else if(billNatrue=="1" && billType=="02"){
+    	}else if(billType=="02"){
     		var myVal1 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
     		var myVal2 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
     		var myVal3 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(2)>td:eq(1)").find("input").val();
@@ -350,6 +351,16 @@
     			return;
     		}
     	}
+    	
+    		if(billNatrue=="1")
+    		{
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("");
+    		}	
+    		else if(billNatrue=="0")
+    		{
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("*");
+    		}
+    	
     		  $(".mask3").show();
     	      $(".mask1").hide();
     	      $(".mask2").hide();
@@ -357,9 +368,95 @@
     });
     
     $('#btn-sumit').click(function () {
-       	
+    	var myVal1 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
+		var myVal2 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
+		var myVal3 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(1)").find("input").val();
+		var myVal4 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(3)>td:eq(1)").find("input").val();
+    	if(billNatrue=="1")
+    	{
+    		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			return;
+    		}
+    		else if(myVal2==null || myVal2.trim()=="" ||  myVal2=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			
+    			return;
+    		}
+    		else if(myVal4==null || myVal4.trim()=="" ||  myVal4=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});	
+    			return;
+    		}
+    	}
+    	else if(billNatrue=="0")
+    	{
+    		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			return;
+    		}
+    		else if(myVal2==null || myVal2.trim()=="" ||  myVal2=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			
+    			return;
+    		}
+    		else if(myVal3==null || myVal3.trim()=="" ||  myVal3=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});	
+    			return;
+    		}
+    		else if(myVal4==null || myVal4.trim()=="" ||  myVal4=="undefind"){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});
+    			return;
+    		}
+    	}	
+    	else{
+    	//订单号
+    	var orderNoArr = $(".sendDate").val();
+    	$.ajax({
+    	url:'busOrder/save.do',
+		type:"post",
+		data:{
+			 orderNoArr:orderNoArr,//订单编号
+			"billNatrue":billNatrue,//发票状态 "0":"电子发票",  "1":"纸质发票"
+			"billType":billType,//发票类型:01普通发票,02增值税发票
+			"billTitle":billTitle,//发票抬头 1个人  2.公司
+			"billReceipt":$("[name='billReceipt']").val(),//纳税人识别号
+			"billContent":"产品明细",//发票内容
+			"billReceivePhone":$("[name='billReceivePhone']").val(),//收票人手机号
+			"billReceiveAddress":$("[name='billReceiveAddress']").val(),//收票人地址
+			"billStatus":$("[name='billStatus']").val(),//发票状态
+			/* "billMoney":billMoney, //发票总金额 */
+			"companyName":$("[name='companyName']").val(),//单位名称
+			"registerAddress":$("[name='registerAddress']").val(),//单位注册地址
+			"registerPhone":$("[name='registerPhone']").val(),//单位注册手机号码
+			"openBand":$("[name='openBand']").val(),//开户行
+			"bandCard":$("[name='bandCard']").val(),//银行卡
+			"billReceiveName":$("[name='billReceiveName']").val(),//收票人姓名
+			"billReceiveMail":$("[name='billReceiveMail']").val(),//收票人邮箱
+		},
     });
-
+    }
+    });
     /******************** 选择格式 ***************************/
     var billNatrue = "1";//发票状态 "0":"电子发票","1":"纸质发票"
     var billType;//发票类型:01普通发票,02增值税发票
@@ -679,168 +776,7 @@
 		}
 		return tradeStus;
 	}
-	//填写发票信息
-	/* function invoiceInformation(orderNo, price, remark) {
-		layer.open({
-			title : '发票信息',
-			type : 2,
-			content : 'busOrder/borderBill.do?orderNo=' + orderNo
-					+ '&billMoney=' + price + '&remark=' + remark,
-			area : [ '800px', '600px' ],
-		});
-	} */
-	
-	//付款
-	function invoice(orderNo, price, element) {
-		var remark;
-		$(element).parent().parent().find("input[type='text']").each(
-				function() {
-					remark = $(this).val();
-				});
-		var supplyNo = $(element).parent().attr("data-supplyno");
-		$
-				.ajax({
-					url : 'busOrder/getUserSupplyDetail.do',
-					type : "post",
-					data : {
-						"supplyNo" : supplyNo
-					},
-					success : function(data) {
-						if (data.success) {
-							$
-							.ajax({
-								url : 'busOrder/orderOperator.do',
-								type : 'post',
-								data : {
-									"remark" : remark,
-									"orderNo" : orderNo
-								},
-								success : function(data) {
-									if (data.success) {
-										layer
-												.msg(
-														'操作成功',
-														{
-															icon : 1,
-															time : 2000
-														},
-														function() {
-															stateLook(
-																	curr,
-																	"090003");
-															orderStatus = "090003";
-															//location.reload();
-															count();
-														});
-									} else {
-										layer
-												.open({
-													title : '错误信息',
-													content : data.msg
-												});
-									}
-								}
-							});
-					/* 		layer
-									.open({
-										title : '供方帐号信息',
-										content : "<div style='font-size:16px;line-height:26px;'><span class='label'>"
-												+ data.obj.baseAcctOrg
-												+ "：</span>"
-												+ data.obj.baseAcctNo
-												+ "</div>"
-												+ "<div style='font-size:16px;line-height:26px;'><span class='label'>开户户名：</span>"
-												+ data.obj.baseAcctName
-												+ "</div>",
-										btn : [ "填写发票信息", "不需要发票", "取消" ],
-										area : [ '340px', '260px' ],
-										yes : function() {
-											layer.close(layer.index);
-											invoiceInformation(orderNo, price,
-													remark);
-										},
-										btn2 : function() {
-										
-										}
-									}); */
-						}
-					}
-				});
-		/*  */
-	}
-	//确认收货
-	function operatorOrder(orderNo, element) {
-		var remark;
-		$(element).parent().parent().find("input[type='text']").each(
-				function() {
-					remark = $(this).val();
-				});
-		$.ajax({
-			url : 'busOrder/orderOperator.do',
-			type : 'post',
-			data : {
-				"remark" : remark,
-				"orderNo" : orderNo
-			},
-			success : function(data) {
-				if (data.success) {
-					layer.msg('操作成功', {
-						icon : 1,
-						time : 2000
-					}, function() {
-						stateLook(curr, "090004");
-						orderStatus = "090004";
-						count();
-					});
-				} else {
-					layer.open({
-						title : '错误信息',
-						content : data.msg
-					});
-				}
-			}
-		});
-	};
-	//删除订单
-	function deleteOrder(orderNo, element) {
-		var orde = $(element).parent().prev().find(".clear>input").val();
-		layer.open({
-			title : '提示信息',
-			content : "是否删除已选中的订单?",
-			btn : [ '确认', '取消' ],
-			yes : function(index, layero) {
-				layer.close(index);
-				$.ajax({
-					url : 'busOrder/deleteOrder.do',
-					data : {
-						"orderNo" : orderNo,
-						"type" : "1"
-					},
-					type : 'post',
-					success : function(data) {
-						if (data.success) {
-							count();
-							layer.msg('操作成功', {
-								icon : 1,
-								time : 2000
-							}, function() {
-								stateLook(curr, orde);
-							});
-						} else {
-							layer.open({
-								title : '错误信息',
-								content : data.msg
-							});
-						}
-					}
-				});
-			},
-			btn2 : function(index, layero) {
-				layer.close(index);
-			},
-			closeBtn : 0
-		});
-	};
+
 	/* 点击顶部全选 */
 	$(".header input[type=checkbox]").click(function(){command(this);});
 	/*点击全选选中取消全选*/
@@ -854,83 +790,7 @@
 	function vendor(val) {
 		location.href = "/portal/commercial_particulars.jsp?key=" + val;
 	}
-	//取消订单
-	function cancelOrder(orderNo, orderType, element) {
-		var orde = $(element).parent().prev().find(".clear>input").val();
-		layer
-				.open({
-					title : '提示信息',
-					content : "是否取消已选中的订单?<br/><select class='cause'><option>协商取消订单</option><option>交期时间有问题</option><option>商品价格不符合预期</option><option>其他</option></select>"
-							+ "<input class='cause' placeholder='请输入取消的原因' maxlength='150'>",
-					btn : [ '确认', '取消' ],
-					yes : function(index, layero) {
-						layer.close(index);
-						$.ajax({
-							url : 'busOrder/cancelOrder.do',
-							data : {
-								"orderNo" : orderNo,
-								"dealType" : "cancel",
-								"orderType" : orderType,
-								"remark" : $("select option:selected").text()
-										+ "," + $("input.cause").val(),
-								"statusWay" : "0",
-							},
-							dataType : "json",
-							type : 'post',
-							success : function(data) {
-								if (data.success) {
-									count();
-									layer.msg('操作成功', {
-										icon : 1,
-										time : 2000
-									}, function() {
-										stateLook(curr, orde);
-									});
-								} else {
-									layer.open({
-										title : '错误信息',
-										content : data.msg
-									});
-								}
-							}
-						});
-					},
-					btn2 : function(index, layero) {
-						layer.close(index);
-					},
-					closeBtn : 0
-				});
-	}
-	//再次购买
-	function againPurchase(Row, supplyNo, element) {
-		var brands = "";
-		$(element).parents(".moudle").find(".message").each(function() {
-			brands += $(this).attr("data-brand") + ",";
-		});
-		$.ajax({
-			url : "busShoppCart/buyAgain.do",
-			data : {
-				"orderNo" : Row,
-				"brand" : brands,
-				"supplyNo" : supplyNo
-			},
-			type : "post",
-			success : function(data) {
-				if (data.success) {
-					layer.open({
-						title : '',
-						content : data.msg
-					});
-					location.href = "busShoppCart/toShoppCart.do";
-				} else {
-					layer.open({
-						title : '错误信息',
-						content : data.msg
-					});
-				}
-			}
-		});
-	}
+
 	Date.prototype.Format = function(fmt) { //author: meizz 
 		var o = {
 			"M+" : this.getMonth() + 1, //月份 
@@ -950,72 +810,14 @@
 				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k])
 						: (("00" + o[k]).substr(("" + o[k]).length)));
 		return fmt;
-	}
+	};
 	
-	//显示部分物流信息
-	var myData;
-	var myDivId;
-	function lookWlMsg(str, that) {
-		event.stopPropagation();
-		myDivId = $(that).parent().next().attr('id');
-		alert(myDivId);
-		console.log(myDivId);	
-		console.log(str);
-		$modal = $('#'+ myDivId);
-		$modal.show();
-		var $info = $('#info'), html = '';
-		$
-				.ajax({
-					type : 'GET',
-					url : "busOrder/sendlgtMsg.do",
-					data : {
-						"lgtNums" : str
-					},
-					beforeSend : function() {
-						$modal.html('加载中...');
-					},
-					success : function(dataStr) {
-					if (dataStr == 1) {
-							html = '<li style="color: red;">物流信息：' + '<span style="color: black;">客户亲自拿货' + '</span>'
-									+ '</li>';
-						}else if (dataStr == 2) {
-							html =  '<li style="color: red;">物流信息：' + '<span style="color: black;">滴滴送货,一天内到达' + '</span>'
-									+ '</li>';
-						}else{
-						myData = JSON.parse(dataStr);
-						var data = JSON.parse(dataStr);
-						if (data.status === '0' && data.msg === 'ok') {
-							var r = data.result, list = r.list, result = r.issign === '1' ? '已签收'
-									: '未签收';
-							html += '<li style="color: red;">物流状态：' + result
-									+ '</li>';
-							html += "<li>" + findSth(r.type)
-									+ "&nbsp;&nbsp;&nbsp;";
-							html += "运单号：" + r.number + "</li>";
-							for (var i = list.length - 1; i >= list.length - 1; i--) {
-								html += "<li>" + list[i].status
-										+ "<p class='timeMsg'>" + list[i].time
-										+ "</p>" + "</li>";
-							}
-							html += "<li>" + "<a id='my_a' style='color: red;' onclick='showAll(this)'>查看详情</a>" + "</li>";
-						} else {
-							html = "当前无信息";
-						}
-						}
-						$modal.html(html);
-						}
-
-				});
-	}
 
 	//显示对应的开发票信息
-	function showGoDrawing(){
-		/* $("body").not(".mask").css("opacity","0.3"); 
-		$("body").not(".mask").css("background","#000");
-		$(".mask-contents").css("z-index","100");
-		$(".mask-contents").css("background-color","#FFFFFF"); */
+	function showGoDrawing(orderNoArr){
 		$(".mask").show();
 		$(".mask1").show();
+		$(".sendDate").val(orderNoArr);
 		
 	}
 	
@@ -1033,13 +835,13 @@
 			return;
 		}
 
-		//custNoArr长度
-		var custNoArr = new Array(clength);
-		//将custNoArr塞入其中
+		
+		//orderNoArr长度
+		var orderNoArr = new Array(clength);
 		var i = 0;
 		$($('.chooseGoOpen:checked').siblings("span.uindent")).each(function(){
 			  var myVal =  ($(this).text()).substring(5);
-			  custNoArr[i] = myVal;
+			  orderNoArr[i] = myVal;
 			  i++;
 			});
 		
@@ -1075,7 +877,7 @@
 	    	success:function(data){
 	    		if(data=="" || data==null)
 	    		{
-	    			showGoDrawing();
+	    			showGoDrawing(orderNoArr);
 	    		}else{
 	    		
 	    		layer.open({
@@ -1084,222 +886,9 @@
 				});	
 	    		}
 	    	},
-	    });
-		
-		
-		
-		
-		
-		
+	    });	
 	});
 	
-	//显示所有物流信息	
-	function showAll(that) {
-		event.stopPropagation();
-		var $modal = $('#'+myDivId);
-		$modal.show();
-		var $info = $('#info'), html = '';
-		if (myData.status === '0' && myData.msg === 'ok') {
-			var r = myData.result, list = r.list, result = r.issign === '1' ? '已签收'
-					: '未签收';
-			html += '<li style="color: red;">物流状态：' + result + '</li>';
-			html += "<li>" + findSth(r.type) + "&nbsp;&nbsp;&nbsp;";
-			html += "运单号：" + r.number + "</li>";
-			for (var i = 0; i < list.length ; i++) {
-				html += "<li>" + list[i].status + "<p class='timeMsg'>"
-						+ list[i].time + "</p>" + "</li>";
-			}
-			
-			} else {
-			html = "当前无信息";
-		}
-		$modal.html(html);
-	}
-
-	//翻译英文
-	function findSth(type) {
-		var comp;
-		if (type == 'AAEWEB' || type == 'aaeweb') {
-			comp = 'AAE';
-		} else if (type == 'ARAMEX' || type == 'aramex') {
-			comp = 'Aramex';
-		} else if (type == 'DHL' || type == 'dhl') {
-			comp = 'DHL';
-		} else if (type == 'DPEX' || type == 'dpex') {
-			comp = 'DPEX';
-		} else if (type == 'DEXP' || type == 'dexp') {
-			comp = 'D速';
-		} else if (type == 'EMS' || type == 'ems') {
-			comp = 'EMS';
-		} else if (type == 'EWE' || type == 'ewe') {
-			comp = 'EWE';
-		} else if (type == 'FEDEX' || type == 'fedex') {
-			comp = 'FedEx';
-		} else if (type == 'FEDEXIN' || type == 'fedexin') {
-			comp = 'FedEx国际';
-		} else if (type == 'PCA' || type == 'pca') {
-			comp = 'PCA';
-		} else if (type == 'TNT' || type == 'txt') {
-			comp = 'TNT';
-		} else if (type == 'UPS' || type == 'ups') {
-			comp = 'UPS';
-		} else if (type == 'ANJELEX' || type == 'anjelex') {
-			comp = '安捷';
-		} else if (type == 'ANE' || type == 'ane') {
-			comp = '安能';
-		} else if (type == 'aneex' || type == 'ANEEX') {
-			comp = '安能快递';
-		} else if (type == 'ANXINDA' || type == 'anxinda') {
-			comp = '安信达';
-		} else if (type == 'EES' || type == 'ees') {
-			comp = '百福东方';
-		} else if (type == 'HTKY' || type == 'htky') {
-			comp = '百世快递';
-		} else if (type == 'BSKY' || type == 'bsky') {
-			comp = '百世快运';
-		} else if (type == 'FLYWAYEX' || type == 'flywayex') {
-			comp = '程光';
-		} else if (type == 'DTW' || type == 'dtw') {
-			comp = '大田';
-		} else if (type == 'DEPPON' || type == 'deppon') {
-			comp = '德邦';
-		} else if (type == 'GCE' || type == 'gce') {
-			comp = '飞洋';
-		} else if (type == 'PHOENIXEXP' || type == 'phoenixexp') {
-			comp = '凤凰';
-		} else if (type == 'FTD' || type == 'ftd') {
-			comp = '富腾达';
-		} else if (type == 'GSD' || type == 'gsd') {
-			comp = '共速达';
-		} else if (type == 'GTO' || type == 'gto') {
-			comp = '国通';
-		} else if (type == 'BLACKDOG' || type == 'blackdog') {
-			comp = '黑狗';
-		} else if (type == 'HENGLU' || type == 'henglu') {
-			comp = '恒路';
-		} else if (type == 'HYE' || type == 'hye') {
-			comp = '鸿远';
-		} else if (type == 'HQKY' || type == 'hqky') {
-			comp = '华企';
-		} else if (type == 'JOUST' || type == 'joust') {
-			comp = '急先达';
-		} else if (type == 'TMS' || type == 'tms') {
-			comp = '加运美';
-		} else if (type == 'JIAJI' || type == 'jiaji') {
-			comp = '佳吉';
-		} else if (type == 'KERRY' || type == 'kerry') {
-			comp = '嘉里物流';
-		} else if (type == 'HREX' || type == 'hrex') {
-			comp = '锦程快递';
-		} else if (type == 'PEWKEE' || type == 'pewkee') {
-			comp = '晋越';
-		} else if (type == 'JD' || type == 'jd') {
-			comp = '京东';
-		} else if (type == 'KKE' || type == 'kke') {
-			comp = '京广';
-		} else if (type == 'JIUYESCM' || type == 'jiuyescm') {
-			comp = '九曳';
-		} else if (type == 'KYEXPRESS' || type == 'kyexpress') {
-			comp = '跨越';
-		} else if (type == 'FASTEXPRESS' || type == 'fastexpress') {
-			comp = '快捷';
-		} else if (type == 'BLUESKY' || type == 'bluesky') {
-			comp = '蓝天';
-		} else if (type == 'LTS' || type == 'lts') {
-			comp = '联昊通';
-		} else if (type == 'LBEX' || type == 'lbex') {
-			comp = '龙邦';
-		}
-
-		else if (type == 'CNPL' || type == 'cnpl') {
-			comp = '中邮';
-		} else if (type == 'ZTO' || type == 'zto') {
-			comp = '中通';
-		} else if (type == 'ZTKY' || type == 'ztky') {
-			comp = '中铁物流';
-		} else if (type == 'CRE' || type == 'cre') {
-			comp = '中铁快运';
-		} else if (type == 'COE' || type == 'coe') {
-			comp = '中国东方';
-		} else if (type == 'ZMKMEX' || type == 'zmkmex') {
-			comp = '芝麻开门';
-		} else if (type == 'ZJS' || type == 'zjs') {
-			comp = '宅急送';
-		}
-
-		else if (type == 'YUNDA' || type == 'yunda') {
-			comp = '韵达';
-		} else if (type == 'YTEXPRESS' || type == 'ytexpress') {
-			comp = '运通';
-		} else if (type == 'YFEXPRESS' || type == 'yfexpress') {
-			comp = '越丰';
-		} else if (type == 'YCGWL' || type == 'ycgwl') {
-			comp = '远成';
-		} else if (type == 'YADEX' || type == 'yadex') {
-			comp = '源安达';
-		} else if (type == 'YTO' || type == 'yto') {
-			comp = '圆通';
-		} else if (type == 'YFHEX' || type == 'yfhex') {
-			comp = '原飞航';
-		} else if (type == 'CHINAPOST' || type == 'chinapost') {
-			comp = '邮政包裹';
-		} else if (type == 'UC56' || type == 'uc56') {
-			comp = '优速';
-		} else if (type == 'ETD' || type == 'etd') {
-			comp = '易通达';
-		} else if (type == 'QEXPRESS' || type == 'qexpress') {
-			comp = '易达通';
-		} else if (type == 'YIEXPRESS' || type == 'yiexpress') {
-			comp = '宜送';
-		} else if (type == 'BROADASIA' || type == 'broadasia') {
-			comp = '亚风';
-		} else if (type == 'XFEXPRESS' || type == 'xfexpress') {
-			comp = '信丰';
-		} else if (type == 'EWINSHINE' || type == 'ewinshine') {
-			comp = '万象';
-		} else if (type == 'WANJIA' || type == 'wanjia') {
-			comp = '万家物流';
-		} else if (type == 'VANGEN' || type == 'vangen') {
-			comp = '万庚';
-		} else if (type == 'TTKDEX' || type == 'ttdex') {
-			comp = '天天';
-		} else if (type == 'HOAU' || type == 'hoau') {
-			comp = '天地华宇';
-		} else if (type == 'SURE' || type == 'sure') {
-			comp = '速尔';
-		} else if (type == 'SUNING' || type == 'suning') {
-			comp = '苏宁';
-		} else if (type == 'SFEXPRESS' || type == 'sfexpress') {
-			comp = '顺丰';
-		} else if (type == 'SDEX' || type == 'sdex') {
-			comp = '顺达快递';
-		} else if (type == 'SHENGHUI' || type == 'shenghui') {
-			comp = '盛辉';
-		} else if (type == 'STO' || type == 'sto') {
-			comp = '申通';
-		} else if (type == 'SFC' || type == 'sfc') {
-			comp = '三态';
-		} else if (type == 'RFD' || type == 'rfd') {
-			comp = '如风达';
-		} else if (type == 'APEX' || type == 'apex') {
-			comp = '全一';
-		} else if (type == 'QFKD' || type == 'qfkd') {
-			comp = '全峰';
-		} else if (type == 'CHINZ56' || type == 'chinz56') {
-			comp = '秦远物流';
-		} else if (type == 'EFSPOST' || type == 'efspost') {
-			comp = '平安快递';
-		} else if (type == 'PEISI' || type == 'peisi') {
-			comp = '配思航宇';
-		} else if (type == 'ND56' || type == 'nd56') {
-			comp = '能达';
-		} else if (type == 'CAE' || type == 'nd56') {
-			comp = '民航';
-		} else {
-			comp = '无法识别';
-		}
-		return comp;
-	}
 	
 	$(document).on('click', '.my_link', function(e) {
 		e.stopPropagation();
