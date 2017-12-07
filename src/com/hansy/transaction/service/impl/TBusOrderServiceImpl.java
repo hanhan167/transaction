@@ -635,6 +635,8 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 	@Override
 	public BusinessMap<Object> updateOrderIncoiceStatus(String[] orderNoArr) {
 		BusinessMap<Object> bMap = new BusinessMap<>();
+		bMap.setIsSucc(true);
+		
 		TBusOrderVo busOrder = new TBusOrderVo();
 		if(orderNoArr == null){
 			bMap.setIsSucc(false);
