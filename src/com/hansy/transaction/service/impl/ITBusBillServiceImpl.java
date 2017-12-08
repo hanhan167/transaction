@@ -21,7 +21,7 @@ public class ITBusBillServiceImpl extends BaseDao implements ITBusBillService{
 			getSqlMapClientTemplate().update("busBill.save", tBusBillVo);
 		} catch (Exception e) {
 			bMap.setIsSucc(false);
-			bMap.setMsg("添加发票信息失败");
+			bMap.setMsg("添加发票信息失败(bus bill)");
 			e.printStackTrace();
 			return bMap;
 		}

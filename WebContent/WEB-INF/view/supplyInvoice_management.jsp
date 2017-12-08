@@ -417,8 +417,6 @@
 		$(".mask1").show();
 		
 	}
-	
-	
 	//开发票操作
 	$(".goDrawing").click(function(){
 		//长度
@@ -566,7 +564,6 @@ $("#btn-back2").click(function () {
 });
 
 $('#btn-next1').click(function () {
-	//alert("billNatrue:"+billNatrue+";billType:"+billType+";billTitle:"+billTitle);
 	if(billNatrue==null || billType==null || billTitle==null)
 	{
 		layer.msg('必选项未选择', {
@@ -792,10 +789,13 @@ $("#btn-sumit").click(function () {
 	    			"billReceiveMail":$("[name='billReceiveMail']").val(),//收票人邮箱
 	    		},
 	    		success:function(data){
-	    			debugger;
-	    			
 	    			if(data.success){
-	    				window.location.href="${basePath}goods/toSupplyInvoicMgt.do";
+	    				layer.msg('操作成功', {
+	    					icon: 1,
+	    					time: 1500,
+	    				}, function(){
+	    					window.location.href="${basePath}goods/toSupplyInvoicMgt.do";
+	    				});	
 	    			}else{
 	    				layer.open({
 	    					 title: '错误信息'
@@ -854,6 +854,4 @@ $('.dw').click(function(){
  	 $('.gr>span>img').remove('img');
  	 billTitle = "002";
 });
-
-
 </script>

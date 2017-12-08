@@ -267,6 +267,10 @@ public interface ITBusOrderService {
 	 * 批量修改订单发票状态
 	 */
 	BusinessMap<Object> updateOrderIncoiceStatus(String[] orderNoArr);
+	/**
+	 * 根据订单号，获取金额、订单开始时间、订单修改时间
+	 */
+	BusinessMap<TBusOrderVo> getOrderMoney(String orderNo);
 	
 }
 

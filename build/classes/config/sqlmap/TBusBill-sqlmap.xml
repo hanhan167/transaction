@@ -21,6 +21,11 @@
 		<result property="bandCard" column="BAND_CARD"/>
 		<result property="billReceiveName" column="BILL_RECEIVE_NAME"/>
 		<result property="billReceiveMail" column="BILL_RECEIVE_MAIL"/>
+		<result property="billNatrue" column="BILL_NATRUE"/>
+		<result property="supplyNo" column="SUPPLY_NO"/>
+		<result property="tableKey" column="TABLE_KEY"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="endTime" column="END_TIME"/>
 	</resultMap>
 	<sql id="allColumns">
 		ORDER_NO ,
@@ -36,13 +41,17 @@
 	BILL_MONEY,
 	CUST_NO,
 	COMPANY_NAME,
-REGISTER_ADDRESS,
-REGISTER_PHONE,
-OPEN_BAND,
-BAND_CARD,
-BILL_RECEIVE_NAME,
-BILL_RECEIVE_MAIL
-	
+	REGISTER_ADDRESS,
+	REGISTER_PHONE,
+	OPEN_BAND,
+	BAND_CARD,
+	BILL_RECEIVE_NAME,
+	BILL_RECEIVE_MAIL,
+	BILL_NATRUE,
+	SUPPLY_NO,
+	START_TIME,
+	END_TIME,
+	TABLE_KEY
 	</sql>
 	
 	<insert id="save" parameterClass="com.hansy.transaction.model.vo.TBusBillVo">
@@ -65,12 +74,19 @@ BILL_RECEIVE_MAIL
 	         #openBand#,
 	         #bandCard#,
 	         #billReceiveName#,
-	          #billReceiveMail#
+	          #billReceiveMail#,
+	          #billNatrue#,
+	          #supplyNo#,
+	          #startTime#,
+	          #endTime#,
+	          #tableKey#
 	         ) 
 	</insert>
 	
 	<select id = "getBillByOrderNo" parameterClass="map" resultClass="com.hansy.transaction.model.vo.TBusBillVo">
 	select 
+	SUPPLY_NO supplyNo,
+	BILL_NATRUE billNatrue,
 	ORDER_NO orderNo,
 	BILL_TYPE billType,
 	BILL_TITLE billTitle,
@@ -84,12 +100,12 @@ BILL_RECEIVE_MAIL
 	BILL_MONEY billMoney,
 	CUST_NO custNo,
 	COMPANY_NAME companyName,
-REGISTER_ADDRESS registerAddress,
-REGISTER_PHONE registerPhone,
-OPEN_BAND openBand,
-BAND_CARD bandCard,
-BILL_RECEIVE_NAME billReceiveName,
-BILL_RECEIVE_MAIL billReceiveMail
+	REGISTER_ADDRESS registerAddress,
+	REGISTER_PHONE registerPhone,
+	OPEN_BAND openBand,
+	BAND_CARD bandCard,
+	BILL_RECEIVE_NAME billReceiveName,
+	BILL_RECEIVE_MAIL billReceiveMail
 	from T_BUS_BILL where 1=1
 	 <dynamic prepend="">
 	   <isNotEmpty property="orderNo" prepend="and">  

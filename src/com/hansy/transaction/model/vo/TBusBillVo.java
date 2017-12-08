@@ -21,7 +21,7 @@ public class TBusBillVo {
 	private Date insertDate;//新增时间
 	private	Date updateDate;//修改时间
 	private Double billMoney;//发票总金额
-	private String custNo;//商户编号
+	private String custNo;//客户编号
 	private String	companyName;//单位名称
 	private String	registerAddress;//单位注册地址
 	private String	registerPhone;//单位注册手机号码
@@ -31,7 +31,41 @@ public class TBusBillVo {
 	private String billReceiveMail;//收票人邮箱
 	private Date startTime;
 	private Date endTime;
+	private String billNatrue;//发票状态 "0":"电子发票","1":"纸质发票"
+	private String supplyNo;//发票状态 "0":"电子发票","1":"纸质发票"
+	private String tableKey;//主键
 	
+	
+	public TBusBillVo() {
+	}
+	
+	
+	public String getTableKey() {
+		return tableKey;
+	}
+
+
+	public void setTableKey(String tableKey) {
+		this.tableKey = tableKey;
+	}
+
+
+	public String getSupplyNo() {
+		return supplyNo;
+	}
+
+
+	public void setSupplyNo(String supplyNo) {
+		this.supplyNo = supplyNo;
+	}
+
+
+	public String getBillNatrue() {
+		return billNatrue;
+	}
+	public void setBillNatrue(String billNatrue) {
+		this.billNatrue = billNatrue;
+	}
 	public Date getStartTime() {
 		return startTime;
 	}
@@ -161,7 +195,7 @@ public class TBusBillVo {
 	}
 	@Override
 	public String toString() {
-		return "TBusBillVo [orderNo=" + orderNo + ", billType=" + billType
+		return "TBusBillVo [orderNo=" + orderNo + ", billType=" + billType+",billNatrue="+billNatrue
 				+ ", billTitle=" + billTitle + ", billReceipt=" + billReceipt
 				+ ", billContent=" + billContent + ", billReceivePhone="
 				+ billReceivePhone + ", billReceiveAddress="

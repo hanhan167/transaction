@@ -1763,21 +1763,60 @@ public class BusOrderAction {
 			
 			@RequestMapping(value="/saveBill",method=RequestMethod.POST)
 			@ResponseBody
-			public  BaseReslt<Object> saveBill(HttpSession session,TUserBill tUserBill,String[] orderNoArr){
-				System.out.println(orderNoArr == null);
-				
-				System.out.println(tUserBill.toString());
+			public  BaseReslt<Object> saveBill(HttpSession session,TBusBillVo tBusBill,String[] orderNoArr){
+				System.out.println(tBusBill.toString());
 				BaseReslt<Object> bReslt=new BaseReslt<Object>();
-				//user bill
+				//bus_bill
 				String custNo = null;
-				custNo = tUserBill.getCustNo();
+				custNo = tBusBill.getCustNo();
 				if(custNo == null){
 					custNo=(String) session.getAttribute("custNo");
-					tUserBill.setCustNo(custNo);
+					tBusBill.setCustNo(custNo);
 				}
-				tUserBill.setBillStatus("1");
-				BusinessMap<Object> bMap1=itUserBillService.getById(custNo);
-				if(bMap1.getInfoBody()==null){
+				tBusBill.setBillStatus("1");
+				tBusBill.setInsertDate(new Date());
+				tBusBill.setUpdateDate(new Date());
+				for (String orderNo : orderNoArr) {
+					 BusinessMap<TBusOrderVo> bMapO = busOrderService.getOrderMoney(orderNo);
+					 if(!bMapO.getIsSucc()){
+						 bReslt.setSuccess(false);
+						 bReslt.setMsg(bMapO.getMsg());
+						 return bReslt;
+					 }
+					 tBusBill.setOrderNo(orderNo);
+					 tBusBill.setStartTime(bMapO.getInfoBody().getInsertDate());
+					 tBusBill.setEndTime(bMapO.getInfoBody().getUpdateDate());
+					 tBusBill.setSupplyNo(bMapO.getInfoBody().getSupplyNo());
+					 tBusBill.setBillMoney(bMapO.getInfoBody().getGoodsMoney());
+					 tBusBill.setTableKey(UUIDUtil.getParseUUID());
+					 
+					//调用service
+					System.out.println(tBusBill.toString());
+					BusinessMap<Object> bMap1=itBusBillService.save(tBusBill);
+					if(!bMap1.getIsSucc()){
+						bReslt.setSuccess(false);
+						bReslt.setMsg(bMap1.getMsg());
+					}
+				}
+				
+				//user bill
+				TUserBill tUserBill = new TUserBill();
+				tUserBill.setBillReceipt(tBusBill.getBillReceipt());//纳税人识别号
+				tUserBill.setBillContent(tBusBill.getBillContent());//发票内容
+				tUserBill.setBillReceivePhone(tBusBill.getBillReceivePhone());//收票人手机号
+				tUserBill.setBillReceiveAddress(tBusBill.getBillReceiveAddress());//收票人邮箱
+				tUserBill.setBillStatus(tBusBill.getBillStatus());//发票状态
+				tUserBill.setBillMoney(tBusBill.getBillMoney());//发票总金额
+				tUserBill.setCustNo(tBusBill.getCustNo());//客户编号
+				tUserBill.setCompanyName(tBusBill.getCompanyName());//单位名称
+				tUserBill.setRegisterAddress(tBusBill.getRegisterAddress());//单位注册地址
+				tUserBill.setRegisterPhone(tBusBill.getRegisterPhone());//单位注册手机号码
+				tUserBill.setOpenBand(tBusBill.getOpenBand());//开户行
+				tUserBill.setBillReceiveName(tBusBill.getBillReceiveName());//收票人姓名
+				tUserBill.setBillReceiveMail(tBusBill.getBillReceiveMail());//收票人邮箱
+				//调用service
+				BusinessMap<Object> bMap2=itUserBillService.getById(custNo);
+				if(bMap2.getInfoBody()==null){
 					tUserBill.setInsertDate(new Date());
 					tUserBill.setUpdateDate(new Date());
 					itUserBillService.save(tUserBill);
@@ -1785,22 +1824,20 @@ public class BusOrderAction {
 					tUserBill.setUpdateDate(new Date());
 					itUserBillService.update(tUserBill);
 				}
-				if (!bMap1.getIsSucc()) {
-					bReslt.setSuccess(false);
-					bReslt.setMsg(bMap1.getMsg());
-				}
-				
-				
-				//bus_order
-				BusinessMap<Object> bMap2 = busOrderService.updateOrderIncoiceStatus(orderNoArr);
-				if(!bMap2.getIsSucc()){
+				if (!bMap2.getIsSucc()) {
 					bReslt.setSuccess(false);
 					bReslt.setMsg(bMap2.getMsg());
 				}
-				
-				
+				//bus_order
+				BusinessMap<Object> bMap3 = busOrderService.updateOrderIncoiceStatus(orderNoArr);
+				if(!bMap3.getIsSucc()){
+					bReslt.setSuccess(false);
+					bReslt.setMsg(bMap3.getMsg());
+				}
 				return bReslt;
 			}
+			
+			
 
 }
 
