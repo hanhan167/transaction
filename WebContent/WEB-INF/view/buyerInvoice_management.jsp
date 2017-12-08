@@ -439,6 +439,7 @@
 	        traditional: true,
 		data:{
 			 orderNoArr:orderNoArr,//订单编号
+			 "billMoney":billMoney, //发票总金额 */
 			"billNatrue":billNatrue,//发票状态 "0":"电子发票",  "1":"纸质发票"
 			"billType":billType,//发票类型:01普通发票,02增值税发票
 			"billTitle":billTitle,//发票抬头 1个人  2.公司
@@ -447,7 +448,6 @@
 			"billReceivePhone":$("[name='billReceivePhone']").val(),//收票人手机号
 			"billReceiveAddress":$("[name='billReceiveAddress']").val(),//收票人地址
 			"billStatus":$("[name='billStatus']").val(),//发票状态
-			/* "billMoney":billMoney, //发票总金额 */
 			"companyName":$("[name='companyName']").val(),//单位名称
 			"registerAddress":$("[name='registerAddress']").val(),//单位注册地址
 			"registerPhone":$("[name='registerPhone']").val(),//单位注册手机号码
