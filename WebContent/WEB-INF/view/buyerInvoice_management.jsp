@@ -439,7 +439,7 @@
 	        traditional: true,
 		data:{
 			 orderNoArr:orderNoArr,//订单编号
-			"billNatrue":billNatrue,//发票状态 "0":"电子发票",  "1":"纸质发票"
+			"billNatrue":billNatrue,//发票状态 "1":"电子发票",  "2":"纸质发票"
 			"billType":billType,//发票类型:01普通发票,02增值税发票
 			"billTitle":billTitle,//发票抬头 1个人  2.公司
 			"billReceipt":$("[name='billReceipt']").val(),//纳税人识别号
