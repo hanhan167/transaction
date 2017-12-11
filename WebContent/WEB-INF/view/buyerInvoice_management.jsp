@@ -351,11 +351,11 @@
     		}
     	}
     	
-    		if(billNatrue=="1")
+    		if(billNatrue=="2")
     		{
     			$(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("");
     		}	
-    		else if(billNatrue=="0")
+    		else if(billNatrue=="1")
     		{
     			$(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("*");
     		}
@@ -371,7 +371,7 @@
 		var myVal2 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
 		var myVal3 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(1)").find("input").val();
 		var myVal4 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(3)>td:eq(1)").find("input").val();
-    	if(billNatrue=="1")
+    	if(billNatrue=="2")
     	{
     		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
     			layer.msg('必填项不能为空', {
@@ -396,7 +396,7 @@
     			return;
     		}
     	}
-    	else if(billNatrue=="0")
+    	else if(billNatrue=="1")
     	{
     		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
     			layer.msg('必填项不能为空', {
@@ -481,19 +481,19 @@
     
     });
     /******************** 选择格式 ***************************/
-    var billNatrue = "1";//发票状态 "0":"电子发票","1":"纸质发票"
+    var billNatrue = "2";//发票状态 "0":"电子发票","1":"纸质发票"
     var billType;//发票类型:01普通发票,02增值税发票
     var billTitle;//发票抬头,001个人，002公司
     $('.zzfp').click(function(){
     	 $('.zzfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
     	 $('.dzfp>span>img').remove('img');
-    	 billNatrue = "1";
+    	 billNatrue = "2";
     });
     
     $('.dzfp').click(function(){
    	 $('.dzfp').find('span').append("<img src='frame/static/picture/select-frame.png'>");
    	 $('.zzfp>span>img').remove('img');
-   	 	billNatrue = "0";
+   	 	billNatrue = "1";
     });
     
 
