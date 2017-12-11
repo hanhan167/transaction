@@ -447,7 +447,6 @@
 			"billReceivePhone":$("[name='billReceivePhone']").val(),//收票人手机号
 			"billReceiveAddress":$("[name='billReceiveAddress']").val(),//收票人地址
 			"billStatus":$("[name='billStatus']").val(),//发票状态
-			/* "billMoney":billMoney, //发票总金额 */
 			"companyName":$("[name='companyName']").val(),//单位名称
 			"registerAddress":$("[name='registerAddress']").val(),//单位注册地址
 			"registerPhone":$("[name='registerPhone']").val(),//单位注册手机号码
