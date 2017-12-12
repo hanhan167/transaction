@@ -26,6 +26,7 @@
 		<result property="tableKey" column="TABLE_KEY"/>
 		<result property="startTime" column="START_TIME"/>
 		<result property="endTime" column="END_TIME"/>
+		<result property="applyNo" column="APPLY_NO"/>
 	</resultMap>
 	<sql id="allColumns">
 		ORDER_NO ,
@@ -51,6 +52,7 @@
 	SUPPLY_NO,
 	START_TIME,
 	END_TIME,
+	APPLY_NO,
 	TABLE_KEY
 	</sql>
 	
@@ -79,6 +81,7 @@
 	          #supplyNo#,
 	          #startTime#,
 	          #endTime#,
+	          #applyNo#,
 	          #tableKey#
 	         ) 
 	</insert>

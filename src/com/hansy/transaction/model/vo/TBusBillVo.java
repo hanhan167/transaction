@@ -34,7 +34,7 @@ public class TBusBillVo {
 	private String billNatrue;//发票状态 "0":"电子发票","1":"纸质发票"
 	private String supplyNo;//发票状态 "0":"电子发票","1":"纸质发票"
 	private String tableKey;//主键
-	
+	private String applyNo;//申请编号
 	
 	public TBusBillVo() {
 	}
@@ -47,6 +47,16 @@ public class TBusBillVo {
 
 	public void setTableKey(String tableKey) {
 		this.tableKey = tableKey;
+	}
+
+
+	public String getApplyNo() {
+		return applyNo;
+	}
+
+
+	public void setApplyNo(String applyNo) {
+		this.applyNo = applyNo;
 	}
 
 

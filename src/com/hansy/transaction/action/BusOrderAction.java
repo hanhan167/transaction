@@ -1776,6 +1776,8 @@ public class BusOrderAction {
 				tBusBill.setBillStatus("1");
 				tBusBill.setInsertDate(new Date());
 				tBusBill.setUpdateDate(new Date());
+				tBusBill.setApplyNo(UUIDUtil.getDateString(new Date()));
+				
 				for (String orderNo : orderNoArr) {
 					 BusinessMap<TBusOrderVo> bMapO = busOrderService.getOrderMoney(orderNo);
 					 if(!bMapO.getIsSucc()){
@@ -1789,6 +1791,8 @@ public class BusOrderAction {
 					 tBusBill.setSupplyNo(bMapO.getInfoBody().getSupplyNo());
 					 tBusBill.setBillMoney(bMapO.getInfoBody().getGoodsMoney());
 					 tBusBill.setTableKey(UUIDUtil.getParseUUID());
+					 
+					 
 					 
 					//调用service
 					System.out.println(tBusBill.toString());
