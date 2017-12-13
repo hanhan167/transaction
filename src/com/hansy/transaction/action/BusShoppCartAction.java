@@ -175,7 +175,7 @@ public class BusShoppCartAction {
 	 */
 	@RequestMapping("/clearShoppCar")
 	@ResponseBody
-	public BaseReslt<Object> clearShoppCar(HttpSession session,String listGoodCodes,String listbrandNames,String listSupplyNos) {
+	public BaseReslt<Object> clearShoppCar(HttpSession session,String listGoods,String listbrandNames,String listSupplyNos) {
 		BaseReslt<Object> bReslt = new BaseReslt<>();
 		String custNo = (String) session.getAttribute("custNo");
 		if(StringUtil.isEmpty(listbrandNames)&&StringUtil.isEmpty(listSupplyNos)){
@@ -183,24 +183,45 @@ public class BusShoppCartAction {
 			bReslt.setMsg("加载数据失败请重试");
 			return bReslt;
 		}
+		String goods[] = listGoods.split(",");
 		String brandNames[] = listbrandNames.split(",");
 		String supplys[]  = listSupplyNos.split(",");
 		// 封装参数
 		Map<String, String> param = new HashMap<>();
-		param.put("custNo", custNo);
-		BusinessMap<Object> bMap = shoppCartService.deleteInvalidGoods(param);
+		/*param.put("custNo", custNo);
+		param.put("brandNames", brandNames);
+		BusinessMap<Object> bMap = shoppCartService.deleteInvalidGoods(param);*/
 		
-		if (!bMap.getIsSucc()) {
-			bReslt.setMsg(bMap.getMsg());
-			bReslt.setSuccess(false);
-			return bReslt;
+		for(int i =0;i<goods.length;i++){
+			// 判断商品是否存在
+			param.clear();
+			param.put("custNo", custNo);
+			param.put("goodsNo", goods[i]);
+			BusinessMap<CreateCart> bMap2 = shoppCartService.getCreateCart1(param);
+			CreateCart createCart = bMap2.getInfoBody();
+			if (!bMap2.getIsSucc()) {
+				bReslt.setSuccess(false);
+				bReslt.setMsg("服务器内部错误");
+				return bReslt;
+			} else {
+				if (createCart == null) {
+					BusinessMap<Object> bMap = shoppCartService.deleteInvalidGoods1(param);
+					if (!bMap2.getIsSucc()) {
+						bReslt.setMsg(bMap2.getMsg());
+						bReslt.setSuccess(false);
+						return bReslt;
+					}
+				}
+			}
 		}
+		
 		//查询品牌是否已经失效
 		Map<String, String> map5 = new HashMap<>();
 		for(int i =0;i<brandNames.length;i++){
 			map5.put("custNo", supplys[i]);
 			map5.put("code", brandNames[i]);
 			map5.put("tcustNo", custNo);
+			map5.put("goodNo", goods[i]);
 			//查询该商品是否在使用 在使用就能查出来
 			List<TPubSupplyBrand> list1 = goodsService.getTopMenu1(map5);
 			if(list1.size()==0){

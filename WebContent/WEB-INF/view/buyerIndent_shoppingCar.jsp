@@ -219,7 +219,7 @@ $(function(){
 		        	overTimeShop(datas);
 		        	
 		        	//调用清空失效商品
-		        	clearShopCar({"listbrandNames":listbrandNames,"listSupplyNos":listSupplyNos});
+		        	clearShopCar({"listbrandNames":listbrandNames,"listSupplyNos":listSupplyNos,"listGoods":listGoods});
 		        }else{
 		        	$(".centre>.content").html("<div style='text-align:center;background:#fff;padding:120px;height:400px;'><img src='frame/static/img/gouwu.png'>购物车是空的,赶快去挑选商品吧</div>");
 		        }

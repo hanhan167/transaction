@@ -155,21 +155,7 @@ and (t1.down_date     >sysdate or t1.down_date IS NULL))
 FROM t_bus_shopp_cart t
 WHERE
  t.CUST_NO =#tcustNo# and
-t.goods_no IN
-  (SELECT cpdm
-  FROM data_cp
-  WHERE brand IN
-    (SELECT t2.brand
-    FROM T_PUB_SUPPLY_BRAND t1,
-      DATA_CPMLS t2
-    WHERE t1.brand_no = t2.brand_id
-    AND t1.cust_no    = #custNo# 
-    AND t2.code       =#code#
-    AND (sysdate      > t1.down_date
-    OR t1.down_date  IS NULL
-    OR t1.status      ='1' )
-    )
-  )
+t.goods_no=#goodNo#
 	</delete>
 	<select id="getCreateOrder" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.bo.CreateOrder">
 			  select 
