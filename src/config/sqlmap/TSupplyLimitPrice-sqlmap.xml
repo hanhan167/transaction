@@ -70,6 +70,11 @@
 		select *
 		from SUPPLY_LIMITPRICE s where  s.CUST_NO = #custNo#   
 	</select>	
+	<!-- 客户使用根据custNo查询 -->
+	<select id="getBillDateByName" parameterClass="string" resultMap="supplyLPResultMap">
+		select *
+		from SUPPLY_LIMITPRICE s where  s.SUPPLY_NAME = #supplyName#   
+	</select>	
 		
 
 </sqlMap>

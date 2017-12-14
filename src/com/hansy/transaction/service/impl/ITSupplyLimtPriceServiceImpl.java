@@ -105,6 +105,24 @@ public class ITSupplyLimtPriceServiceImpl extends BaseDao implements ITSupplyLim
 		bMap.setIsSucc(true);
 		return bMap;
 	}
+
+		@Override
+		public BusinessMap<Object> getBillDateByName(String supplyName) {
+			BusinessMap<Object> bMap=new BusinessMap<Object>();
+			try {
+				
+				SupplyLimitPrice supplyLimitPrice = (SupplyLimitPrice) getSqlMapClientTemplate().queryForObject("supplyLP.getBillDateByName", supplyName);
+				//System.out.println(supplyLimitPrice.toString());
+				bMap.setInfoBody(supplyLimitPrice);
+			} catch (Exception e) {
+				e.printStackTrace();
+				bMap.setIsSucc(false);
+				bMap.setMsg("获取下限金额异常");
+			}
+	
+		bMap.setIsSucc(true);
+		return bMap;
+		}
 		
 	
 	

@@ -1894,7 +1894,26 @@ public class BusOrderAction {
 				return bReslt;
 			}
 			
-			
+			/**
+			 * 获取 发票时间
+			 * @param session
+			 * @param tBusBill
+			 * @param orderNoArr
+			 * @return
+			 */
+			@RequestMapping(value="/getBillDateByName")
+			@ResponseBody
+			public  BaseReslt<Object> getBillDateByName(HttpSession session,String supplyName){
+				BaseReslt<Object> bReslt=new BaseReslt<Object>();
+				
+				BusinessMap<Object> bMap = priceService.getBillDateByName(supplyName);
+				if(!bMap.getIsSucc()){
+					bReslt.setMsg(bMap.getMsg());
+					bReslt.setSuccess(false);
+				}
+				bReslt.setObj(bMap.getInfoBody());
+				return bReslt;
+			}
 
 }
 

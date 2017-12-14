@@ -19,5 +19,7 @@ public interface ITSupplyLimtPriceService {
 	StringBuilder selectLimitPriceCust(Set<String> set,Map map);
 	//查询下限金额和发票到达时间
 	BusinessMap<Object> getLimitPrice(String custNo);
+	//查询发票到达时间
+	BusinessMap<Object> getBillDateByName(String supplyName);
 }
 
