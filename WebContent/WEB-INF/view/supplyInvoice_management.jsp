@@ -169,7 +169,7 @@
 					</a></li>
 					<li><a style="width: 120px;">已开发票（<span id="supplyOpenInvoice"></span>）
 					</a></li>
-					<li><a style="width: 120px;">开票
+					<li><a style="width: 120px;">去开票
 					</a></li>
 					<li><a style="width: 120px;">设置
 					</a></li>
