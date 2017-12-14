@@ -364,7 +364,7 @@ function getOrderStus(orderStatus,userType){
 	}
 	return tradeStus;
 }
-//填写发票信息
+/* //填写发票信息
 function invoiceInformation(orderNo,price,remark){
 	layer.open({
 		title: '发票信息',
@@ -372,61 +372,84 @@ function invoiceInformation(orderNo,price,remark){
 		content:'busOrder/borderBill.do?orderNo='+orderNo+'&billMoney='+price+'&remark='+remark,
 		area: ['800px', '600px'],
 	});
-}
-//付款
-function invoice(orderNo,price,element){
+} */
+
+function invoice(orderNo, price, element) {
+	$(".affirm_indent").attr("disabled",true);
 	var remark;
-	$(element).parent().parent().find("input[type='text']").each(function(){
-		remark=$(this).val();
-	});
+	$(element).parent().parent().find("input[type='text']").each(
+			function() {
+				remark = $(this).val();
+			});
 	var supplyNo = $(element).parent().attr("data-supplyno");
-	$.ajax({
-		url:'busOrder/getUserSupplyDetail.do',
-		type:"post",
-		data:{
-			"supplyNo":supplyNo
-		},
-		success:function(data){
-			if(data.success){
-				layer.open({
-					title:'供方帐号信息',
-					content:"<div style='font-size:16px;line-height:26px;'><span class='label'>"+data.obj.baseAcctOrg+"：</span>"+data.obj.baseAcctNo+"</div>"
-						+"<div style='font-size:16px;line-height:26px;'><span class='label'>开户户名：</span>"+data.obj.baseAcctName+"</div>",
-					btn:["填写发票信息","不需要发票","取消"],
-					area: ['340px', '260px'],
-					yes:function(){
-						layer.close(layer.index);
-						invoiceInformation(orderNo,price,remark);
-					},
-					btn2:function(){
-						$.ajax({
-							url:'busOrder/orderOperator.do',
-							type:'post',
-							data:{"remark":remark,"orderNo":orderNo},
-							success:function(data){
-								if(data.success){
-									layer.msg('操作成功', {
-										icon: 1,
-										time: 2000
-									}, function(){
-										stateLook(curr,"090003");
-										orderStatus = "090003";
-										//location.reload();
-										count();
-									});
-								}else{
-									layer.open({
-										 title: '错误信息'
-										 ,content:data.msg
-									}); 
+	$
+			.ajax({
+				url : 'busOrder/getUserSupplyDetail.do',
+				type : "post",
+				data : {
+					"supplyNo" : supplyNo
+				},
+				success : function(data) {
+					if (data.success) {
+						$
+						.ajax({
+							url : 'busOrder/orderOperator.do',
+							type : 'post',
+							data : {
+								"remark" : remark,
+								"orderNo" : orderNo
+							},
+							success : function(data) {
+								if (data.success) {
+									layer
+											.msg(
+													'操作成功',
+													{
+														icon : 1,
+														time : 2000
+													},
+													function() {
+														stateLook(
+																curr,
+																"090003");
+														orderStatus = "090003";
+														//location.reload();
+														count();
+													});
+								} else {
+									layer
+											.open({
+												title : '错误信息',
+												content : data.msg
+											});
 								}
 							}
 						});
+				/* 		layer
+								.open({
+									title : '供方帐号信息',
+									content : "<div style='font-size:16px;line-height:26px;'><span class='label'>"
+											+ data.obj.baseAcctOrg
+											+ "：</span>"
+											+ data.obj.baseAcctNo
+											+ "</div>"
+											+ "<div style='font-size:16px;line-height:26px;'><span class='label'>开户户名：</span>"
+											+ data.obj.baseAcctName
+											+ "</div>",
+									btn : [ "填写发票信息", "不需要发票", "取消" ],
+									area : [ '340px', '260px' ],
+									yes : function() {
+										layer.close(layer.index);
+										invoiceInformation(orderNo, price,
+												remark);
+									},
+									btn2 : function() {
+									
+									}
+								}); */
 					}
-				});
-			}
-		}
-	});
+				}
+			});
 	/*  */
 }
 //确认收货
