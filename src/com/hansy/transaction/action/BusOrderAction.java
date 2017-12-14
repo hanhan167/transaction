@@ -45,6 +45,7 @@ import com.hansy.transaction.common.utils.StringUtil;
 import com.hansy.transaction.common.utils.UUIDUtil;
 import com.hansy.transaction.model.bo.CreateOrder;
 import com.hansy.transaction.model.bo.Order;
+import com.hansy.transaction.model.bo.SupplyLimitPrice;
 import com.hansy.transaction.model.bo.TUserBaseInfoBo;
 import com.hansy.transaction.model.vo.OrderList;
 import com.hansy.transaction.model.vo.TBusAddress;
@@ -1760,7 +1761,13 @@ public class BusOrderAction {
 				return baseReslt;
 			}	
 			
-			
+			/**
+			 * 保存发票信息
+			 * @param session
+			 * @param tBusBill
+			 * @param orderNoArr
+			 * @return
+			 */
 			@RequestMapping(value="/saveBill",method=RequestMethod.POST)
 			@ResponseBody
 			public  BaseReslt<Object> saveBill(HttpSession session,TBusBillVo tBusBill,String[] orderNoArr){
@@ -1835,6 +1842,54 @@ public class BusOrderAction {
 				if(!bMap3.getIsSucc()){
 					bReslt.setSuccess(false);
 					bReslt.setMsg(bMap3.getMsg());
+				}
+				return bReslt;
+			}
+			
+			
+			/**
+			 * 获取下限金额 发票时间
+			 * @param session
+			 * @param tBusBill
+			 * @param orderNoArr
+			 * @return
+			 */
+			@RequestMapping(value="/getLimitPrice")
+			@ResponseBody
+			public  BaseReslt<Object> getLimitPrice(HttpSession session){
+				BaseReslt<Object> bReslt=new BaseReslt<Object>();
+				String custNo = (String) session.getAttribute("custNo");
+				
+				BusinessMap<Object> bMap = priceService.getLimitPrice(custNo);
+				if(!bMap.getIsSucc()){
+					bReslt.setMsg(bMap.getMsg());
+					bReslt.setSuccess(false);
+				}
+				bReslt.setObj(bMap.getInfoBody());
+				return bReslt;
+			}
+			
+			/**
+			 * 修改下限金额 发票时间
+			 * @param session
+			 * @param tBusBill
+			 * @param orderNoArr
+			 * @return
+			 */
+			@RequestMapping(value="/updateLimitPrice")
+			@ResponseBody
+			public  BaseReslt<Object> updateLimitPrice(HttpSession session,String limitPrice,String billArriveDate){
+				BaseReslt<Object> bReslt=new BaseReslt<Object>();
+				String custNo = (String) session.getAttribute("custNo");
+				
+				SupplyLimitPrice supplyLimitPrice= new SupplyLimitPrice();
+				supplyLimitPrice.setCustNo(custNo);
+				supplyLimitPrice.setLimitPrice(Double.parseDouble(limitPrice));
+				supplyLimitPrice.setBillArriveDate(Integer.parseInt(billArriveDate));
+				
+				boolean updateLimitPrice = priceService.updateLimitPrice(supplyLimitPrice);
+				if(!updateLimitPrice){
+					bReslt.setSuccess(false);
 				}
 				return bReslt;
 			}

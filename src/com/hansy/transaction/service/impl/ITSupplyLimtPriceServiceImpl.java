@@ -3,7 +3,9 @@ package com.hansy.transaction.service.impl;
 
 import java.util.Map;
 import java.util.Set;
+
 import org.springframework.stereotype.Service;
+
 import com.hansy.transaction.common.BusinessMap;
 import com.hansy.transaction.model.bo.SupplyLimitPrice;
 import com.hansy.transaction.service.ITSupplyLimtPriceService;
@@ -26,8 +28,13 @@ public class ITSupplyLimtPriceServiceImpl extends BaseDao implements ITSupplyLim
 	 */
 	@Override
 	public boolean updateLimitPrice(SupplyLimitPrice supplyLimitPrice) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			 getSqlMapClientTemplate().update("supplyLP.updateLimitPrice",supplyLimitPrice);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -77,6 +84,27 @@ public class ITSupplyLimtPriceServiceImpl extends BaseDao implements ITSupplyLim
 			
 			
 		}
+	
+		/**
+		 * 	查询下限金额和发票到达时间	
+		 */	
+		@Override
+		public BusinessMap<Object> getLimitPrice(String custNo) {
+			BusinessMap<Object> bMap=new BusinessMap<Object>();
+			try {
+				
+				SupplyLimitPrice supplyLimitPrice = (SupplyLimitPrice) getSqlMapClientTemplate().queryForObject("supplyLP.getLimitPrice", custNo);
+				
+				bMap.setInfoBody(supplyLimitPrice);
+			} catch (Exception e) {
+				e.printStackTrace();
+				bMap.setIsSucc(false);
+				bMap.setMsg("获取下限金额异常");
+			}
+	
+		bMap.setIsSucc(true);
+		return bMap;
+	}
 		
 	
 	

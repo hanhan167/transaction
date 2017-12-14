@@ -6,13 +6,15 @@
 		<result property="supplyName" column="SUPPLY_NAME"/>
 		<result property="limitPrice" column="LIMIT_PRICE"/>
 		<result property="custNo" column="CUST_NO"/>
+		<result property="billArriveDate" column="BILL_ARRIVE_DATE"/>
 	</resultMap>
 	
 	<sql id="allColumns">
 		TABLE_KEY,
 	SUPPLY_NAME,
 	LIMIT_PRICE,
-	CUST_NO
+	CUST_NO,
+	BILL_ARRIVE_DATE
 	</sql>
 	
 	<!-- 新增下限金额 -->
@@ -21,12 +23,13 @@
 			( #tableKey#,  
 	         #supplyName#,  
 	         #limitPrice#,  
-	         #custNo#
+	         #custNo#,
+	         #billArriveDate#
 	         ) 
 	</insert>
 
 	<!-- 更新下限金额 -->
-	<update id="update" parameterClass="com.hansy.transaction.model.bo.SupplyLimitPrice">
+	<update id="updateLimitPrice" parameterClass="com.hansy.transaction.model.bo.SupplyLimitPrice">
 		update SUPPLY_LIMITPRICE s
 		<dynamic prepend="set">  
             <isNotEmpty property="supplyName" prepend=",">  
@@ -39,14 +42,14 @@
                     s.LIMIT_PRICE = #limitPrice# 
                 ]]>  
             </isNotEmpty>  
-            <isNotEmpty property="custNo" prepend=",">  
+            <isNotEmpty property="billArriveDate" prepend=",">  
                 <![CDATA[  
-                    s.CUST_NO = #custNo# 
+                    s.BILL_ARRIVE_DATE = #billArriveDate# 
                 ]]>  
             </isNotEmpty>  
         </dynamic> 
         <dynamic prepend="WHERE">  
-        	  s.SUPPLY_NAME = #supplyName#  
+        	  s.CUST_NO = #custNo#  
    		 </dynamic> 
 	</update>
 	
@@ -60,6 +63,12 @@
 	<select id="getLimitPriceCust" parameterClass="string" resultClass="Double">
 		select LIMIT_PRICE
 		from SUPPLY_LIMITPRICE s where  s.SUPPLY_NAME = #supplyName#   
+	</select>	
+	
+	<!-- 客户使用根据custNo查询 -->
+	<select id="getByCustNo" parameterClass="string" resultClass="com.hansy.transaction.model.bo.SupplyLimitPrice">
+		select *
+		from SUPPLY_LIMITPRICE s where  s.CUST_NO = #custNo#   
 	</select>	
 		
 
