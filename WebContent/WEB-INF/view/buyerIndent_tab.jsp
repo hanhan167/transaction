@@ -376,6 +376,7 @@ function invoiceInformation(orderNo,price,remark){
 
 function invoice(orderNo, price, element) {
 	var remark;
+	$(".affirm_indent").attr("disabled",true);
 	$(element).parent().parent().find("input[type='text']").each(
 			function() {
 				remark = $(this).val();
