@@ -38,6 +38,7 @@
 
 	<div class="mask">
 	<input type="hidden" class="sendDate">
+	<input type="hidden"  class="sendName">
 	</div>
 	
 <!--1-->
@@ -285,7 +286,21 @@
        
     });
     
+    var myLength = $('.chooseGoOpen:checked').length;
+    var nameStrr = new Array(myLength);
+   
+    var i=0;
     $('#btn-next2').click(function () {
+    	$($('.chooseGoOpen:checked').siblings("span.uname")).each(function(){
+			  var myVal =  ($(this).text()).substring(3);
+			  nameStrr[i] = myVal;
+			  i++;
+		});
+    	
+    	var supplyName =  nameStrr[0];
+    	 $(".sendName").val(supplyName);
+    	
+    	
     	if(billType=="01")
     	{
     		var myVal1 = $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
@@ -360,6 +375,8 @@
     			$(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("*");
     		}
     	
+    		
+    		
     		  $(".mask3").show();
     	      $(".mask1").hide();
     	      $(".mask2").hide();
@@ -429,6 +446,7 @@
     		}
     	}	
     	//订单号
+    	var supplyName =  $(".sendName").val();
     	var orderNoArr = $(".sendDate").val();
     	$.ajax({
     		url:'busOrder/saveBill.do',
@@ -460,14 +478,27 @@
 				icon: 2,
 			});
 		}, */
+		//
+		
 		success:function(data){
 			if(data.success){
-				layer.msg('操作成功', {
-					icon: 1,
-					time: 1500,
-				}, function(){
-					window.location.href="${basePath}goods/toInvoicMgt.do";
-				});			
+			  $.ajax({
+				  url:"busOrder/getBillDateByName.do",
+				  type:"post",
+				  data:{
+					  "supplyName":supplyName
+				  },
+			  	  success:function(data){
+			  		layer.open({
+	    				title:'提示'
+	    				,content:'操作成功</br>发票预计'+data.obj.billArriveDate+'天内到达'
+	    				,btn:['确认']
+	    				,end:function(){
+	    					window.location.href="${basePath}goods/toInvoicMgt.do";
+	    				}
+	    			});  
+			  	  },
+			  });
 			}else{
 				layer.open({
 					 title: '错误信息'
