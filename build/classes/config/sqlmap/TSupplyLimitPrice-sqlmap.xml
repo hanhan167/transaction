@@ -66,7 +66,7 @@
 	</select>	
 	
 	<!-- 客户使用根据custNo查询 -->
-	<select id="getByCustNo" parameterClass="string" resultClass="com.hansy.transaction.model.bo.SupplyLimitPrice">
+	<select id="getByCustNo" parameterClass="string" resultMap="supplyLPResultMap">
 		select *
 		from SUPPLY_LIMITPRICE s where  s.CUST_NO = #custNo#   
 	</select>	

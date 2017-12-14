@@ -37,9 +37,39 @@
 		<jsp:include page="head.jsp" flush="true" />
 	</div>
 	
+	<div class="mask">
+		<input type="hidden" class="sendDate">
+	</div>
+
+	<!-- 显示输入框 -->
+  	<div class="mask-contents myWriteMsg" style="display:none; margin-top: 6%;height: 40%;">
+    <div class="tits-box">设置
+      <!--   <img src="frame/static/picture/shut.png"> -->
+    </div>
+   	<div style="height: 16%;"></div>
+    <div class="select-box" style="height: 223px;">
+        <table cellpadding="0" cellspacing="0" class="fl tab2" style="margin-left: 18%;height: 247px;">
+            <tr>
+                <td style="text-align: center;"><span></span>预期发票到货时间(天):</td>
+                <td class="td-items"><input type="text" name="arriveTime" placeholder="请输入预期发票到货时间(天)"></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;"><span></span>最低开票金额(元):</td>
+                <td class="td-items"><input type="text" name="openTicketBalance" placeholder="请输入最低开票金额(元)"></td>
+            </tr>
+            <tr>
+                <td colspan="3" class="btn-td"><span id="goBackSetting">取消</span><span id="saveSetting">确认</span></td>
+            </tr>
+        </table>
+        <div class="clear-box"></div>
+    </div>
+	</div>
+	
+	
+	
 	
 	<!--1-->
-<div class="mask-contents mask1" style="display:none">
+	<div class="mask-contents mask1" style="display:none">
     <div class="tits-box">开发票
         <img src="frame/static/picture/shut.png">
     </div>
@@ -75,6 +105,7 @@
         <div class="clear-box"></div>
     </div>
 </div>
+
 <!--2-->
 <div class="mask-contents mask2" style="display:none">
     <div class="tits-box">开发票
@@ -250,12 +281,29 @@
 			
 		});
 		
-		$(".head_tab>ul>li:eq(2)>a").click(function() {//已打印订单
+		$(".head_tab>ul>li:eq(2)>a").click(function() {//去开票
 			
 			location.href="sys/toOpenTick.do";
 			
 		});
 		
+		
+		$(".head_tab>ul>li:eq(3)>a").click(function() {//设置
+			
+			$.ajax({
+				url:'busOrder/getLimitPrice.do',
+				beforeSend:function(){
+					$(".sheet").html("获取数据中");
+				},
+				success:function(data){
+					$("input[name=arriveTime]").val(data.obj.billArriveDate);
+					$("input[name=openTicketBalance]").val(data.obj.limitPrice);//parseInt(data.obj.limitPrice).toFixed(2)
+					
+				}
+			});
+			$(".mask").show();
+			$(".myWriteMsg").show();
+		});
 		
 	});
 
@@ -446,8 +494,8 @@
 	function showGoDrawing(){
 		$(".mask").show();
 		$(".mask1").show();
-		
 	}
+	
 	//开发票操作
 	$(".goDrawing").click(function(){
 		//长度
@@ -544,6 +592,7 @@
 			$("input[type='checkbox']").prop("checked", false);
 		}
 	}
+	
 	function vendor(val) {
 		location.href = "/portal/commercial_particulars.jsp?key=" + val;
 	}
@@ -557,11 +606,12 @@
 	
 	$(document).on('click', function() {
 		$('.myLgtMsg').hide();
-	})
+	});
 
 	$(document).on('click','.myLgtMsg',function(e) {
 	 e.stopPropagation();
 	 });
+	
 </script>
 
 <script>
@@ -634,6 +684,37 @@ $('#btn-next1').click(function () {
 	
    
 });
+
+	//填写设置条件 取消按钮
+	$("#goBackSetting").click(function(){
+		location.reload();
+	});
+
+	//确认按钮
+	$("#saveSetting").click(function(){
+		var billArriveDate =  $("input[name=arriveTime]").val();
+		var limitPrice = $("input[name=openTicketBalance]").val();
+		$.ajax({
+			url:"busOrder/updateLimitPrice.do",
+			type:"post",
+			data:{
+				"billArriveDate":billArriveDate,
+				"limitPrice":limitPrice
+			},
+			beforeSend:function(){
+				$(".sheet").html("保存中...");
+			},
+			success:function(){
+				layer.msg('操作成功', {
+					icon: 1,
+					time: 1500
+				},function(){
+					location.reload();
+				});
+			}
+		});
+	});
+
 
 $('#btn-next2').click(function () {
 	if(billType=="01")

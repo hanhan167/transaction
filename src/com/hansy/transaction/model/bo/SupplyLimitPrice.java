@@ -39,6 +39,13 @@ public class SupplyLimitPrice {
 	public void setCustNo(String custNo) {
 		this.custNo = custNo;
 	}
+	@Override
+	public String toString() {
+		return "SupplyLimitPrice [tableKey=" + tableKey + ", supplyName="
+				+ supplyName + ", limitPrice=" + limitPrice
+				+ ", billArriveDate=" + billArriveDate + ", custNo=" + custNo
+				+ "]";
+	}
 	
 	
 }

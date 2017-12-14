@@ -93,8 +93,8 @@ public class ITSupplyLimtPriceServiceImpl extends BaseDao implements ITSupplyLim
 			BusinessMap<Object> bMap=new BusinessMap<Object>();
 			try {
 				
-				SupplyLimitPrice supplyLimitPrice = (SupplyLimitPrice) getSqlMapClientTemplate().queryForObject("supplyLP.getLimitPrice", custNo);
-				
+				SupplyLimitPrice supplyLimitPrice = (SupplyLimitPrice) getSqlMapClientTemplate().queryForObject("supplyLP.getByCustNo", custNo);
+				//System.out.println(supplyLimitPrice.toString());
 				bMap.setInfoBody(supplyLimitPrice);
 			} catch (Exception e) {
 				e.printStackTrace();
