@@ -277,6 +277,27 @@
 			}
 		});
 	}
+	function getOrderStus(orderStatus, userType) {
+		var tradeStus;
+		if (orderStatus == 090005) {
+			tradeStus = '客户订单完成';
+		} else if (orderStatus == 090001) {
+			tradeStus = '供方待确认';
+		} else if (orderStatus == 090002) {
+			tradeStus = '供方待发货';
+		} else if (orderStatus == 090003) {
+			tradeStus = '客户待付款';
+		} else if (orderStatus == 090004) {
+			tradeStus = '客户待收货';
+		} else if (orderStatus == 090006) {
+			if ("00010003" == userType) {//供方
+				tradeStus = '供方订单已取消';
+			} else {//买方
+				tradeStus = '客户订单已取消';
+			}
+		}
+		return tradeStus;
+	}
 	function display(data, orderStatus, query) {
 		$(".sheet").empty();
 		var Row = data.obj;
@@ -310,13 +331,16 @@
 			content += "</div>";
 		}
 		for ( var i in tmpguan) {
-			/* var tradeStus = getOrderStus(Row.rows[tmpguan[i][1]].orderStatus,
-					Row.rows[tmpguan[i][1]].updateCustType); */
+			var tradeStus = getOrderStus(Row.rows[tmpguan[i][1]].orderStatus,
+					Row.rows[tmpguan[i][1]].updateCustType);
 			var quantity = 0;
 			var price = parseInt(0);
 			content += "<div class='moudle'>";
 			content += "<div class='line'>";
+			if(Row.rows[tmpguan[i][1]].invoicStatus!='001')
+			{	
 			content += "<input type='checkbox' class='vertical-m chooseGoOpen'>";
+			}
 			content+="<input type='hidden' value='"+Row.rows[tmpguan[i][1]].custNo+"'>";
 			content+="<span class='uname'>买家："+Row.rows[tmpguan[i][1]].custName+"</span>";
 			content+="<span class='utel'>"+Row.rows[tmpguan[i][1]].custPhone+"</span>";		
@@ -355,7 +379,7 @@
 						+ (Row.rows[tmpguan[i][num]].orderType == '091001' ? '试刀'
 								: '购买') + "</div>";
 				content += "<div class='indent_operation'><p class='fs14 margin-bottom-5'>"
-						//+ tradeStus
+						+ tradeStus
 						+ "</p><a href='javascript:;' style='display:none;' class='fs12 margin-bottom-5'>订单详情</a><a style='display:none;' href='javascript:;' class='fs12'>查看物流</a></div>";
 				content += "</div>";
 			}

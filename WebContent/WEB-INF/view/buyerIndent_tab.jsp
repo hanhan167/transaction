@@ -388,7 +388,30 @@ function invoice(orderNo,price,element){
 		},
 		success:function(data){
 			if(data.success){
-				layer.open({
+				$.ajax({
+					url:'busOrder/orderOperator.do',
+					type:'post',
+					data:{"remark":remark,"orderNo":orderNo},
+					success:function(data){
+						if(data.success){
+							layer.msg('操作成功', {
+								icon: 1,
+								time: 2000
+							}, function(){
+								stateLook(curr,"090003");
+								orderStatus = "090003";
+								//location.reload();
+								count();
+							});
+						}else{
+							layer.open({
+								 title: '错误信息'
+								 ,content:data.msg
+							}); 
+						}
+					}
+				});
+				/* layer.open({
 					title:'供方帐号信息',
 					content:"<div style='font-size:16px;line-height:26px;'><span class='label'>"+data.obj.baseAcctOrg+"：</span>"+data.obj.baseAcctNo+"</div>"
 						+"<div style='font-size:16px;line-height:26px;'><span class='label'>开户户名：</span>"+data.obj.baseAcctName+"</div>",
@@ -399,35 +422,12 @@ function invoice(orderNo,price,element){
 						invoiceInformation(orderNo,price,remark);
 					},
 					btn2:function(){
-						$.ajax({
-							url:'busOrder/orderOperator.do',
-							type:'post',
-							data:{"remark":remark,"orderNo":orderNo},
-							success:function(data){
-								if(data.success){
-									layer.msg('操作成功', {
-										icon: 1,
-										time: 2000
-									}, function(){
-										stateLook(curr,"090003");
-										orderStatus = "090003";
-										//location.reload();
-										count();
-									});
-								}else{
-									layer.open({
-										 title: '错误信息'
-										 ,content:data.msg
-									}); 
-								}
-							}
-						});
+						
 					}
-				});
+				}); */
 			}
 		}
 	});
-	/*  */
 }
 //确认收货
 function operatorOrder(orderNo,element){
