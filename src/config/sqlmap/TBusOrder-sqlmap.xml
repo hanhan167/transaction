@@ -1205,7 +1205,7 @@ where 1=1
 	</select>
 	<!-- 根据orderNo获取订单金额、开始时间、修改时间、供方编号 -->
 	<select id = "getOrderMoney" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.vo.TBusOrderVo">
-		 SELECT  ORDER_NO orderNo,
+		 SELECT DISTINCT ORDER_NO orderNo,
                  INSERT_DATE insertDate,
                  UPDATE_DATE updateDate,
                  SUPPLY_NO supplyNo,

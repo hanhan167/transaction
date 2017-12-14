@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -223,4 +224,26 @@ public class SystemAction {
 		String techUrl=Config.getInstance().getValue("techUrl");
 		return "redirect:"+techUrl+custNo;
 	}
+	
+		//去开票操作跳转
+		@RequestMapping("/toOpenTick")
+		public String toOpenTick(HttpSession session,HttpServletResponse response,HttpServletRequest request){
+			//TUserBaseInfoBo baseInfoVo=(TUserBaseInfoBo) session.getAttribute("custNo");
+			/*if (baseInfoVo==null) {
+				PrintWriter out;
+				try {
+					out = response.getWriter();
+					 response.setContentType("text/html;charset=UTF-8");
+					String url = "<script type='text/javascript'>alert('登录超时请重新登录!');setTimeout(function(){top.location.href='"+"../.."+request.getContextPath()+"/index.jsp'},1000)</script>";
+					out.print(url);
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}*/
+			String openTicketUrl=Config.getInstance().getValue("openTicketUrl");
+			return "redirect:"+openTicketUrl;
+		}
+		
+	
 }

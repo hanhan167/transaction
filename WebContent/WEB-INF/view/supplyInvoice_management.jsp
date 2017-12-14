@@ -169,9 +169,9 @@
 					</a></li>
 					<li><a style="width: 120px;">已开发票（<span id="supplyOpenInvoice"></span>）
 					</a></li>
-					<li><a>开票
+					<li><a style="width: 120px;">开票
 					</a></li>
-					<li><a>设置
+					<li><a style="width: 120px;">设置
 					</a></li>
 				</ul>
 				<div class="clear"></div>
@@ -249,6 +249,13 @@
 			orderStatus = "090005";
 			
 		});
+		
+		$(".head_tab>ul>li:eq(2)>a").click(function() {//已打印订单
+			
+			location.href="sys/toOpenTick.do";
+			
+		});
+		
 		
 	});
 
