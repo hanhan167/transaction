@@ -203,9 +203,11 @@ public class TBusBillVo {
 	public void setBillMoney(Double billMoney) {
 		this.billMoney = billMoney;
 	}
+
+
 	@Override
 	public String toString() {
-		return "TBusBillVo [orderNo=" + orderNo + ", billType=" + billType+",billNatrue="+billNatrue
+		return "TBusBillVo [orderNo=" + orderNo + ", billType=" + billType
 				+ ", billTitle=" + billTitle + ", billReceipt=" + billReceipt
 				+ ", billContent=" + billContent + ", billReceivePhone="
 				+ billReceivePhone + ", billReceiveAddress="
@@ -217,8 +219,11 @@ public class TBusBillVo {
 				+ ", openBand=" + openBand + ", bandCard=" + bandCard
 				+ ", billReceiveName=" + billReceiveName + ", billReceiveMail="
 				+ billReceiveMail + ", startTime=" + startTime + ", endTime="
-				+ endTime + "]";
+				+ endTime + ", billNatrue=" + billNatrue + ", supplyNo="
+				+ supplyNo + ", tableKey=" + tableKey + ", applyNo=" + applyNo
+				+ "]";
 	}
+	
 	
 	
 	
