@@ -258,26 +258,26 @@
 		curr = 1;
 		var pageNo = 1;
 		var orderStatus = "";
+		invoiceStatus = "";
 		
 		$(".head_tab>ul>li").click(function() {
 			$(".head_tab>ul>li").removeClass("choice");
 			$(this).addClass("choice");
 		});
 		/* if($("#loginName0").text()!=""){demo(curr);} */
-		stateLook(curr, "090005");
+		stateLook(curr);
 		
 		$(".head_tab>ul>li:eq(0)").addClass("choice");
 		$(".head_tab>ul>li:eq(0)>a").click(function() {//未打印订单
 			$('div.myOnlyheader').show();
-			stateLook(curr, "090005");
-			orderStatus = "090005";
+			stateLook(curr);
 		});
 		
 		$(".head_tab>ul>li:eq(1)>a").click(function() {//已打印订单
 			
 			$('div.myOnlyheader').hide();
-			stateLook(curr, "090005","001");
-			orderStatus = "090005";
+			stateLook(curr,"001");
+			invoiceStatus = "001";
 			
 		});
 		
@@ -310,7 +310,7 @@
 
 
 	
-	function stateLook(curr,orderStatus, invoiceStatus) {
+	function stateLook(curr, invoiceStatus) {
 		$.ajax({
 			url : 'busOrder/getSupplyOrdersInvoic.do',
 			data : {
@@ -322,7 +322,7 @@
 			},
 			success : function(data) {
 				if (data.success) {
-					display(data, orderStatus, "");
+					display(data, "090005", "");
 				} else {
 					layer.open({
 						title : '错误信息',
@@ -470,10 +470,10 @@
 					if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
 						if ((orderStatus == "") && (query == "")) {
 							demo(obj.curr);
-						} else if (query != "") {
-							seek(obj.curr, orderStatus);
+				/* 		} else if (query != "") {
+							seek(obj.curr, invoiceStatus); */
 						} else {
-							stateLook(obj.curr, orderStatus);
+							stateLook(obj.curr, invoiceStatus);
 						}
 					}
 				}
