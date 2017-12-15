@@ -1742,6 +1742,9 @@ public class BusOrderAction {
 				
 				if(priceSupply.getIsSucc()){
 					Double price = (Double) priceSupply.getInfoBody();
+					if(price == null){
+						price = 0.0;
+					}
 					//根据键来找出数据库中对应的金额，来进行比较
 					for (String name : keySet) {
 						if (((Double)map.get(name))-price > 0.000001) {
