@@ -70,6 +70,10 @@ public class ITSupplyLimtPriceServiceImpl extends BaseDao implements ITSupplyLim
 			//订单金额
 			String myPriceStr = String.valueOf(map.get(object));
 			Double myPrice = Double.parseDouble(myPriceStr);
+			if(price==null)
+			{	
+				price = 0.0;
+			}
 			if(myPrice<price)
 			{
 				sb.append(object+"的最小开单金额为:");
