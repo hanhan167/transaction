@@ -497,9 +497,9 @@ function display(data,orderStatus,query){
 				
 
 				content += "<span>总计：<em>￥" + price + "</em></span>";
-				content += "<button type='button' class='cancel_indent' onclick=invoiceLook(\'"
+				/* content += "<button type='button' class='cancel_indent' onclick=invoiceLook(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
-						+ "\')>查看发票信息</button>";
+						+ "\')>查看发票信息</button>"; */
 				content += "<button type='button'  id='makeSure' class='affirm_indent' onclick=operatorOrder(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
 						+ "\',this)>确认发货</button>";
