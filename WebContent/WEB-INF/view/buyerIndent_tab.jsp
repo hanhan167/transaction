@@ -136,6 +136,7 @@ $(function(){
 });
 
 function seek(pageNo,orderStatus){
+	debugger;
 	var query = $(".head_tab>div>input").val();
 	$.ajax({
 		url:'busOrder/getBuyerOrders.do',
@@ -303,7 +304,8 @@ function display(data,orderStatus,query){
 	$(".sheet").append(content);
 	
 	var totalPage=Math.ceil(eval(data.obj.total/data.obj.pageSize));
-    //显示分页
+    
+	//显示分页
     layui.use(['laypage', 'layer'], function(){
 		var laypage = layui.laypage;
 		var layer = layui.layer;
@@ -454,6 +456,7 @@ function invoice(orderNo, price, element) {
 }
 //确认收货
 function operatorOrder(orderNo,element){
+	$(".affirm_indent").attr("disabled",true);
 	var remark;
 	$(element).parent().parent().find("input[type='text']").each(function(){
 		remark=$(this).val();

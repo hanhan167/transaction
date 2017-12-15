@@ -583,6 +583,7 @@
 
 <script type="text/javascript">
 	var curr;
+	var invoicStatus;
 	$(function() {
 		/* $(".mask").hide();
 	    $(".mask-contents").hide(); */
@@ -597,6 +598,7 @@
 		});
 		count();
 		curr = 1;
+		//var invoicStatus = "";
 		var pageNo = 1;
 		var orderStatus = "";
 		$(".head_tab>ul>li").click(function() {
@@ -616,13 +618,30 @@
 			$('div.myOnlyheader').hide();
 			stateLook(curr, "090005","001");
 			orderStatus = "090005";
-			
+			invoicStatus = "001";
 		});
 		
 		
 	});
 
-
+	function demo(curr){
+		$.ajax({
+			url:'busOrder/getBuyerOrdersInvoic.do',
+			data:{pageNo:curr||1},
+			success:function(data){
+				if(data.success){
+					display(data,"","");
+				}else{
+					layer.open({
+						 title: '错误信息'
+						 ,content:data.msg
+					}); 
+				}
+			}
+		});
+	}
+	
+	
 	function stateLook(curr, orderStatus) {
 		$.ajax({
 			url : 'busOrder/getBuyerOrdersInvoic.do',
@@ -772,6 +791,7 @@
 		$(".sheet").append(content);
 
 		var totalPage = Math.ceil(eval(data.obj.total / data.obj.pageSize));
+		
 		//显示分页
 		layui.use([ 'laypage', 'layer' ], function() {
 			var laypage = layui.laypage;
@@ -785,12 +805,16 @@
 				prev : "<",
 		  	  next:">",
 				jump : function(obj, first) { //触发分页后的回调
+					debugger;
 					if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
 						if ((orderStatus == "") && (query == "")) {
 							demo(obj.curr);
 						} else if (query != "") {
 							seek(obj.curr, orderStatus);
-						} else {
+						} else if(invoicStatus!=""){
+							stateLook(obj.curr, orderStatus,invoicStatus);
+						} 
+						else {
 							stateLook(obj.curr, orderStatus);
 						}
 					}
