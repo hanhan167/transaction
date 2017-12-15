@@ -283,9 +283,13 @@ function display(data,orderStatus,query){
       		  	content+="</div>";
       	  	}else if(Row.rows[tmpguan[i][1]].orderStatus=='090004'){
       		 	content+="<div class='row text-bar-right'>";
+      		 	content += "<a class='my_link' herf='javascript:void(0)'  onclick=lookWlMsg(\'"
+						+ Row.rows[tmpguan[i][1]].lgtNums
+						+ "\',this)>查看物流信息</a>";
       	  	  	content+="<span>总计：<em>￥"+price+"</em></span>";
       		  	content+="<button type='button' class='affirm_indent' onclick=operatorOrder(\'"+Row.rows[tmpguan[i][1]].orderNo+"\',this)>确认收货</button>";
       		  	content+="</div>";
+      		  content += "<div class='myLgtMsg' id=\'"+Row.rows[tmpguan[i][1]].orderNo+"\'></div>";
       	  	}else if(Row.rows[tmpguan[i][1]].orderStatus=='090006'){
       	  		content+="<div class='row text-bar-right'>";
       	  		content+="<span>总计：<em>￥"+price+"</em></span>";
@@ -612,6 +616,283 @@ Date.prototype.Format = function (fmt) { //author: meizz
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+//显示部分物流信息
+var myData;
+var myDivId;
+function lookWlMsg(str, that) {
+	debugger;
+	event.stopPropagation();
+	myDivId = $(that).parent().next().attr('id');
+	
+	$modal = $('#'+ myDivId);
+	$modal.show();
+	var $info = $('#info'), html = '';
+	$
+			.ajax({
+				type : 'GET',
+				url : "busOrder/sendlgtMsg.do",
+				data : {
+					"lgtNums" : str
+				},
+				beforeSend : function() {
+					$modal.html('加载中...');
+				},
+				success : function(dataStr) {
+				if (dataStr == 1) {
+						html = '<li style="color: red;">物流信息：' + '<span style="color: black;">客户亲自拿货' + '</span>'
+								+ '</li>';
+					}else if (dataStr == 2) {
+						html =  '<li style="color: red;">物流信息：' + '<span style="color: black;">滴滴送货,一天内到达' + '</span>'
+								+ '</li>';
+					}else{
+					myData = JSON.parse(dataStr);
+					var data = JSON.parse(dataStr);
+					if (data.status === '0' && data.msg === 'ok') {
+						var r = data.result, list = r.list, result = r.issign === '1' ? '已签收'
+								: '未签收';
+						html += '<li style="color: red;">物流状态：' + result
+								+ '</li>';
+						html += "<li>" + findSth(r.type)
+								+ "&nbsp;&nbsp;&nbsp;";
+						html += "运单号：" + r.number + "</li>";
+						for (var i = list.length - 1; i >= list.length - 1; i--) {
+							html += "<li>" + list[i].status
+									+ "<p class='timeMsg'>" + list[i].time
+									+ "</p>" + "</li>";
+						}
+						html += "<li>" + "<a id='my_a' style='color: red;' onclick='showAll(this)'>查看详情</a>" + "</li>";
+					} else {
+						html = "当前无信息";
+					}
+					}
+					$modal.html(html);
+					}
+
+			});
+}
+
+//显示所有物流信息	
+function showAll(that) {
+	event.stopPropagation();
+	var $modal = $('#'+myDivId);
+	$modal.show();
+	var $info = $('#info'), html = '';
+	if (myData.status === '0' && myData.msg === 'ok') {
+		var r = myData.result, list = r.list, result = r.issign === '1' ? '已签收'
+				: '未签收';
+		html += '<li style="color: red;">物流状态：' + result + '</li>';
+		html += "<li>" + findSth(r.type) + "&nbsp;&nbsp;&nbsp;";
+		html += "运单号：" + r.number + "</li>";
+		for (var i = 0; i < list.length ; i++) {
+			html += "<li>" + list[i].status + "<p class='timeMsg'>"
+					+ list[i].time + "</p>" + "</li>";
+		}
+		
+		} else {
+		html = "当前无信息";
+	}
+	$modal.html(html)
+}
+
+//翻译英文
+function findSth(type) {
+	var comp;
+	if (type == 'AAEWEB' || type == 'aaeweb') {
+		comp = 'AAE';
+	} else if (type == 'ARAMEX' || type == 'aramex') {
+		comp = 'Aramex';
+	} else if (type == 'DHL' || type == 'dhl') {
+		comp = 'DHL';
+	} else if (type == 'DPEX' || type == 'dpex') {
+		comp = 'DPEX';
+	} else if (type == 'DEXP' || type == 'dexp') {
+		comp = 'D速';
+	} else if (type == 'EMS' || type == 'ems') {
+		comp = 'EMS';
+	} else if (type == 'EWE' || type == 'ewe') {
+		comp = 'EWE';
+	} else if (type == 'FEDEX' || type == 'fedex') {
+		comp = 'FedEx';
+	} else if (type == 'FEDEXIN' || type == 'fedexin') {
+		comp = 'FedEx国际';
+	} else if (type == 'PCA' || type == 'pca') {
+		comp = 'PCA';
+	} else if (type == 'TNT' || type == 'txt') {
+		comp = 'TNT';
+	} else if (type == 'UPS' || type == 'ups') {
+		comp = 'UPS';
+	} else if (type == 'ANJELEX' || type == 'anjelex') {
+		comp = '安捷';
+	} else if (type == 'ANE' || type == 'ane') {
+		comp = '安能';
+	} else if (type == 'aneex' || type == 'ANEEX') {
+		comp = '安能快递';
+	} else if (type == 'ANXINDA' || type == 'anxinda') {
+		comp = '安信达';
+	} else if (type == 'EES' || type == 'ees') {
+		comp = '百福东方';
+	} else if (type == 'HTKY' || type == 'htky') {
+		comp = '百世快递';
+	} else if (type == 'BSKY' || type == 'bsky') {
+		comp = '百世快运';
+	} else if (type == 'FLYWAYEX' || type == 'flywayex') {
+		comp = '程光';
+	} else if (type == 'DTW' || type == 'dtw') {
+		comp = '大田';
+	} else if (type == 'DEPPON' || type == 'deppon') {
+		comp = '德邦';
+	} else if (type == 'GCE' || type == 'gce') {
+		comp = '飞洋';
+	} else if (type == 'PHOENIXEXP' || type == 'phoenixexp') {
+		comp = '凤凰';
+	} else if (type == 'FTD' || type == 'ftd') {
+		comp = '富腾达';
+	} else if (type == 'GSD' || type == 'gsd') {
+		comp = '共速达';
+	} else if (type == 'GTO' || type == 'gto') {
+		comp = '国通';
+	} else if (type == 'BLACKDOG' || type == 'blackdog') {
+		comp = '黑狗';
+	} else if (type == 'HENGLU' || type == 'henglu') {
+		comp = '恒路';
+	} else if (type == 'HYE' || type == 'hye') {
+		comp = '鸿远';
+	} else if (type == 'HQKY' || type == 'hqky') {
+		comp = '华企';
+	} else if (type == 'JOUST' || type == 'joust') {
+		comp = '急先达';
+	} else if (type == 'TMS' || type == 'tms') {
+		comp = '加运美';
+	} else if (type == 'JIAJI' || type == 'jiaji') {
+		comp = '佳吉';
+	} else if (type == 'KERRY' || type == 'kerry') {
+		comp = '嘉里物流';
+	} else if (type == 'HREX' || type == 'hrex') {
+		comp = '锦程快递';
+	} else if (type == 'PEWKEE' || type == 'pewkee') {
+		comp = '晋越';
+	} else if (type == 'JD' || type == 'jd') {
+		comp = '京东';
+	} else if (type == 'KKE' || type == 'kke') {
+		comp = '京广';
+	} else if (type == 'JIUYESCM' || type == 'jiuyescm') {
+		comp = '九曳';
+	} else if (type == 'KYEXPRESS' || type == 'kyexpress') {
+		comp = '跨越';
+	} else if (type == 'FASTEXPRESS' || type == 'fastexpress') {
+		comp = '快捷';
+	} else if (type == 'BLUESKY' || type == 'bluesky') {
+		comp = '蓝天';
+	} else if (type == 'LTS' || type == 'lts') {
+		comp = '联昊通';
+	} else if (type == 'LBEX' || type == 'lbex') {
+		comp = '龙邦';
+	}
+
+	else if (type == 'CNPL' || type == 'cnpl') {
+		comp = '中邮';
+	} else if (type == 'ZTO' || type == 'zto') {
+		comp = '中通';
+	} else if (type == 'ZTKY' || type == 'ztky') {
+		comp = '中铁物流';
+	} else if (type == 'CRE' || type == 'cre') {
+		comp = '中铁快运';
+	} else if (type == 'COE' || type == 'coe') {
+		comp = '中国东方';
+	} else if (type == 'ZMKMEX' || type == 'zmkmex') {
+		comp = '芝麻开门';
+	} else if (type == 'ZJS' || type == 'zjs') {
+		comp = '宅急送';
+	}
+
+	else if (type == 'YUNDA' || type == 'yunda') {
+		comp = '韵达';
+	} else if (type == 'YTEXPRESS' || type == 'ytexpress') {
+		comp = '运通';
+	} else if (type == 'YFEXPRESS' || type == 'yfexpress') {
+		comp = '越丰';
+	} else if (type == 'YCGWL' || type == 'ycgwl') {
+		comp = '远成';
+	} else if (type == 'YADEX' || type == 'yadex') {
+		comp = '源安达';
+	} else if (type == 'YTO' || type == 'yto') {
+		comp = '圆通';
+	} else if (type == 'YFHEX' || type == 'yfhex') {
+		comp = '原飞航';
+	} else if (type == 'CHINAPOST' || type == 'chinapost') {
+		comp = '邮政包裹';
+	} else if (type == 'UC56' || type == 'uc56') {
+		comp = '优速';
+	} else if (type == 'ETD' || type == 'etd') {
+		comp = '易通达';
+	} else if (type == 'QEXPRESS' || type == 'qexpress') {
+		comp = '易达通';
+	} else if (type == 'YIEXPRESS' || type == 'yiexpress') {
+		comp = '宜送';
+	} else if (type == 'BROADASIA' || type == 'broadasia') {
+		comp = '亚风';
+	} else if (type == 'XFEXPRESS' || type == 'xfexpress') {
+		comp = '信丰';
+	} else if (type == 'EWINSHINE' || type == 'ewinshine') {
+		comp = '万象';
+	} else if (type == 'WANJIA' || type == 'wanjia') {
+		comp = '万家物流';
+	} else if (type == 'VANGEN' || type == 'vangen') {
+		comp = '万庚';
+	} else if (type == 'TTKDEX' || type == 'ttdex') {
+		comp = '天天';
+	} else if (type == 'HOAU' || type == 'hoau') {
+		comp = '天地华宇';
+	} else if (type == 'SURE' || type == 'sure') {
+		comp = '速尔';
+	} else if (type == 'SUNING' || type == 'suning') {
+		comp = '苏宁';
+	} else if (type == 'SFEXPRESS' || type == 'sfexpress') {
+		comp = '顺丰';
+	} else if (type == 'SDEX' || type == 'sdex') {
+		comp = '顺达快递';
+	} else if (type == 'SHENGHUI' || type == 'shenghui') {
+		comp = '盛辉';
+	} else if (type == 'STO' || type == 'sto') {
+		comp = '申通';
+	} else if (type == 'SFC' || type == 'sfc') {
+		comp = '三态';
+	} else if (type == 'RFD' || type == 'rfd') {
+		comp = '如风达';
+	} else if (type == 'APEX' || type == 'apex') {
+		comp = '全一';
+	} else if (type == 'QFKD' || type == 'qfkd') {
+		comp = '全峰';
+	} else if (type == 'CHINZ56' || type == 'chinz56') {
+		comp = '秦远物流';
+	} else if (type == 'EFSPOST' || type == 'efspost') {
+		comp = '平安快递';
+	} else if (type == 'PEISI' || type == 'peisi') {
+		comp = '配思航宇';
+	} else if (type == 'ND56' || type == 'nd56') {
+		comp = '能达';
+	} else if (type == 'CAE' || type == 'nd56') {
+		comp = '民航';
+	} else {
+		comp = '无法识别';
+	}
+	return comp;
+}
+
+$(document).on('click', '.my_link', function(e) {
+	e.stopPropagation();
+	$(that).parent().siblings('#'+ myDivId).show();
+});
+
+$(document).on('click', function() {
+	$('.myLgtMsg').hide();
+})
+
+$(document).on('click','.myLgtMsg',function(e) {
+ e.stopPropagation();
+ });
+
 
 //返回到顶部
 $(window).scroll(function(){

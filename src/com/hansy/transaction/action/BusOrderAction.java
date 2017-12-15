@@ -1663,7 +1663,7 @@ public class BusOrderAction {
 			 * @modifiedDate:
 			 * @return
 			 */
-			@RequestMapping( value = "/getBuyerInvoicArr",method=RequestMethod.POST)
+			@RequestMapping( value ="/getBuyerInvoicArr",method=RequestMethod.POST)
 			@ResponseBody
 			public StringBuilder getBuyerInvoicArr(HttpSession session ,String[] priceArr,String[] nameArr){
 				Map<String, Object> map = new HashMap<>();
