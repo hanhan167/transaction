@@ -460,11 +460,11 @@ function invoice(orderNo, price, element) {
 }
 //确认收货
 function operatorOrder(orderNo,element){
-	$(".affirm_indent").attr("disabled",true);
 	var remark;
 	$(element).parent().parent().find("input[type='text']").each(function(){
 		remark=$(this).val();
 	});
+	$(".affirm_indent").attr("disabled",true);
 	$.ajax({
 		url:'busOrder/orderOperator.do',
 		type:'post',

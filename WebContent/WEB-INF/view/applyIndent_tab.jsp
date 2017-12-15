@@ -704,15 +704,62 @@ function display(data,orderStatus,query){
 
 
 	function operatorOrder(orderNo, element) {
-		$(element).attr('disabled',true); 
+		var inputVal = $(element).siblings("input[name=WlNum]").val();
+	
+		
 		var orde = $(element).parent().prev().prev().find(".clear>input").val();
 		var remark;
 		var lgtNums = $(element).closest('.row').find('.text-input').val();
 		
 		$(element).parent().parent().find(".remark input[type='text']").each(
-				function() {
+		function() {
 					remark = $(this).val();
-				});
+		});
+		
+		if(inputVal==null || inputVal==undefined || inputVal.trim()=="")
+		{		
+			layer.open({
+			title : '提示信息',
+			content : "您未填写物流号,是否继续?",
+			btn : [ '确认', '取消' ],
+			yes : function(index, layero) {
+				layer.close(index);
+			$(element).attr('disabled',true); 
+			$.ajax({
+			url : 'busOrder/orderOperator.do',
+			type : 'post',
+			data : {
+				"remark" : remark,
+				"orderNo" : orderNo,
+				"lgtNums":lgtNums
+			},
+			success : function(data) {		
+				if (data.success) {
+					count();
+					layer.msg('操作成功', {
+						icon : 1,
+						time : 2000
+					},  function() {
+						stateLook("1", orde);
+						});
+				} else {
+					layer.open({
+						title : '错误信息',
+						content : data.msg
+					});
+				}
+			}
+			});
+			},
+			btn2 : function(index, layero) {
+				layer.close(index);
+			},
+			closeBtn : 0
+		});
+		}
+		else
+		{	
+		$(element).attr('disabled',true); 
 		$.ajax({
 			url : 'busOrder/orderOperator.do',
 			type : 'post',
@@ -738,7 +785,11 @@ function display(data,orderStatus,query){
 				}
 			}
 		});
+		}
 	}
+
+	
+	
 	function count() {
 		$.ajax({
 			url : 'busOrder/getApplyOrderCount.do',
@@ -792,7 +843,7 @@ function display(data,orderStatus,query){
 	//显示物流信息
 	var myData;
 	var myDivId;
-function lookWlMsg(str, that) {
+	function lookWlMsg(str, that) {
 		event.stopPropagation();
 		myDivId = $(that).next().attr('id');
 		var $modal = $('#' + myDivId);
