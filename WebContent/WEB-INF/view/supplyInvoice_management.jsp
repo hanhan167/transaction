@@ -689,11 +689,13 @@ $('#btn-next1').click(function () {
 	$("#goBackSetting").click(function(){
 		location.reload();
 	});
-
+	
 	//确认按钮
 	$("#saveSetting").click(function(){
 		var billArriveDate =  $("input[name=arriveTime]").val();
 		var limitPrice = $("input[name=openTicketBalance]").val();
+		//$(this).attr('disabled',true);
+		$(this).off("click");
 		$.ajax({
 			url:"busOrder/updateLimitPrice.do",
 			type:"post",
