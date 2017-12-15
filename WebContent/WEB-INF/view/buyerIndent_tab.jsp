@@ -497,6 +497,7 @@ function deleteOrder(orderNo,element){
 		,btn:['确认','取消']
 		,yes: function(index, layero){
 			layer.close(index);
+			$(".affirm_indent").attr("disabled",true);
 			$.ajax({
 				url:'busOrder/deleteOrder.do',
 				data:{"orderNo":orderNo,"type":"1"},
@@ -536,6 +537,7 @@ function cancelOrder(orderNo,orderType,element){
 		,btn:['确认','取消']
 		,yes: function(index, layero){
 			layer.close(index);
+			$(".affirm_indent").attr("disabled",true);
 			$.ajax({
 				url:'busOrder/cancelOrder.do',
 				data:{
@@ -577,6 +579,7 @@ function againPurchase(Row,supplyNo,element){
 	$(element).parents(".moudle").find(".message").each(function(){
 		brands += $(this).attr("data-brand")+",";
 	});
+	$(".affirm_indent").attr("disabled",true);
 	$.ajax({
 		url:"busShoppCart/buyAgain.do",
 		data:{
