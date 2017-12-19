@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="header-box">
     	<div class="header-img fl" id="allChoose">全选</div>
         <div class="text-tit fl">开票</div>
-        <div class="fl openTicket" style="float: right;font-size: 1.25rem;color: #f6f6f6;;">下一步</div>
+        <div class="fl goDrawing" style="float: right;font-size: 1.25rem;color: #f6f6f6;;">下一步</div>
         <div class="clear-box"></div>
     </div>
     <div class="search-terms">
@@ -278,6 +278,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			content+= "<div class='clear-box'></div>";
 			content+="</div>";
 			
+			content += "<div class='btns-box'>";
+			content += "<div class='fr'  style='margin-right: 1.1em;'>";
+			content += "<span  class='on-red'>总计：<em class='myPrice'>￥" + price + "</em></span>";
+			content += "</div>";
+			content += "</div>";
 
 			//content += "</ul>";
 			//content += "</div>";
@@ -837,6 +842,76 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$('.singleCheck').prop('checked',true);
 		}	
 	}); 
+	
+		//开发票操作
+		$(".goDrawing").click(function(){
+			//长度
+			var clength=$('.singleCheck:checked').length;
+			
+			if(clength == 0){
+				layer.open({
+						 style: 'border:1px; color:#333333;',  
+						 content:"请至少选中一条记录"
+				}); 
+				return;
+			}
+
+			//orderNoArr长度
+			var orderNoArr = new Array(clength);
+			var i = 0;
+			$($('.singleCheck:checked').parent().siblings(".title-infos").find(".tit-top").find("p:eq(1)").find(".fl")).each(function(){
+				  var myVal =  ($(this).text()).substring(4);
+				  alert(myVal);
+				  orderNoArr[i] = myVal;
+				  i++;
+				});
+			
+			//将price塞入其中
+			var priceArr = new Array(clength);
+			var j = 0;
+			$($('.singleCheck:checked').parent().siblings(".btns-box").find(".fr").find(".myPrice")).each(function(){
+				 var priceVal =  ($(this).text()).substring(1);
+				 alert(priceVal);
+				 priceArr[j] = priceVal;
+				 j++;
+				});
+			
+			//姓名
+			var nameArr = new Array(clength);
+			var z = 0;
+			$($('.singleCheck:checked').parent().siblings(".title-infos").find(".tit-top").find("p:eq(0)").find("span")).each(function(){
+				  var nameVal =  $(this).text();
+				  alert(nameVal);
+				  nameArr[z] = nameVal;
+				  z++;
+				});
+			
+		    $.ajax({
+		    	url:"busOrder/getBuyerInvoicArr.do",
+		    	type:"post",
+		    	dataType: "json", 
+		    	async : false,
+		        cache : false,
+		        traditional: true,
+		    	data:{
+		    		 priceArr :priceArr,
+		    		 nameArr :nameArr,
+		    	},
+		    	success:function(data){
+		    		if(data=="" || data==null)
+		    		{
+		    			location.href="busOrder/toinvoice_managementApp.do?orderNoArr="+orderNoArr;
+		    		}else{
+		    		layer.open({
+						title : '提示',
+						content : data,
+					});	
+		    		}
+		    	},
+		    });	
+		});
+	
+	
 	
 	$(document).on('click', function() {
 		$('.myLgtMsg').hide();
