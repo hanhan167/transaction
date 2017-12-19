@@ -20,6 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="header" style="height: 43px">
     <div class="header-box">
         <div class="text-tit fl">我的订单</div>
+        <div class="fl openTicket" style="float: right;font-size: 1.25rem;color: #f6f6f6;;">开发票</div>
         <div class="clear-box"></div>
     </div>
     <div class="search-terms">
@@ -486,6 +487,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		return tradeStus;
 	}
+	
+	$(".openTicket").click(function(){
+		location.href="busShoppCart/toOpenTicketTable.do";
+	});
+	
 	//填写发票信息
 	/* function invoiceInformation(orderNo, price, remark) {
 		layer.open({

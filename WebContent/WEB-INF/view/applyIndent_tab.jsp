@@ -484,7 +484,7 @@ function display(data,orderStatus,query){
 	   			content+="<button type='button' class='cancel_indent' onclick=load(\'"+Row.rows[tmpguan[i][1]].orderNo+"\')>拆分订单</button>";
 	   		}
 	   		content+="<button type='button' class='cancel_indent' onclick=cancelOrder(\'"+Row.rows[tmpguan[i][1]].orderNo+"\',\'"+Row.rows[tmpguan[i][1]].orderType+"\',this)>取消订单</button>";
-	   		content+="<button type='button' class='affirm_indent' onclick=operatorOrder(\'"+Row.rows[tmpguan[i][1]].orderNo+"\',this)>确认订单</button>";
+	   		content+="<button type='button' class='affirm_indent' onclick=operatorOrder1(\'"+Row.rows[tmpguan[i][1]].orderNo+"\',this)>确认订单</button>";
 	   	}else if(Row.rows[tmpguan[i][1]].orderStatus=='090002'){
 	   
 	   			
@@ -788,7 +788,41 @@ function display(data,orderStatus,query){
 		}
 	}
 
-	
+	function operatorOrder1(orderNo, element) {
+		var orde = $(element).parent().prev().prev().find(".clear>input").val();
+		
+		$(element).parent().parent().find(".remark input[type='text']").each(
+		function() {
+					remark = $(this).val();
+		});
+		
+			
+			$(element).attr('disabled',true); 
+			$.ajax({
+			url : 'busOrder/orderOperator.do',
+			type : 'post',
+			data : {
+				"remark" : remark,
+				"orderNo" : orderNo,
+			},
+			success : function(data) {		
+				if (data.success) {
+					count();
+					layer.msg('操作成功', {
+						icon : 1,
+						time : 2000
+					},  function() {
+						stateLook("1", orde);
+						});
+				} else {
+					layer.open({
+						title : '错误信息',
+						content : data.msg
+					});
+				}
+			}
+			});
+	}
 	
 	function count() {
 		$.ajax({

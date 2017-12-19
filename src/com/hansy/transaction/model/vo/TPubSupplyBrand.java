@@ -73,6 +73,16 @@ public class TPubSupplyBrand implements Serializable{
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
+	@Override
+	public String toString() {
+		return "TPubSupplyBrand [tableKey=" + tableKey + ", brandNo=" + brandNo
+				+ ", brandName=" + brandName + ", custNo=" + custNo
+				+ ", status=" + status + ", upDate1=" + upDate1 + ", downDate="
+				+ downDate + ", insertDate=" + insertDate + ", updateDate="
+				+ updateDate + "]";
+	}
+	
+	
 	
 }
 

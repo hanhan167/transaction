@@ -333,6 +333,7 @@ $(function(){
 		});
 	}
 	function Grade(){
+		debugger;
 		var grade;//左侧类型
 		var li_a = $(window.parent.document).find("#gType").val();
 		var li_calss=$(window.parent.document).find("#menu").children("li.layui-nav-item");

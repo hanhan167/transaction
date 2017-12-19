@@ -1225,6 +1225,7 @@ public class GoodsAction {
 		map.put("custNo", custNo);
 		try {
 			List<TPubSupplyBrand> list = goodsService.getTopMenu(map);
+			System.out.println(list.toString());
 			bReslt.setSuccess(true);
 			bReslt.setObj(list);
 			return bReslt;

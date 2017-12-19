@@ -98,6 +98,18 @@ public class BusShoppCartAction {
 	}
 	
 	/**
+	 * 跳转到选择开票界面
+	 * @return
+	 */
+	@RequestMapping("/toOpenTicketTable")
+	public ModelAndView toOpenTicketTable(){
+		ModelAndView view = new ModelAndView("openTicketTable");
+		return view;
+	}
+	
+	
+	
+	/**
 	 * 获取购物车内容
 	 * 
 	 * @description: TODO

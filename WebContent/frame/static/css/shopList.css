@@ -559,3 +559,15 @@ input[type="date"]::-webkit-clear-button {
 .my-imgs{
 	margin-top:5%;
 }
+
+.check-box {
+  	margin-top: 1.5em;
+    width: 10%;
+    height: 2em;
+    line-height: 110px;
+    text-align: center;
+}
+
+.check-box img {
+    height: 16px;
+}
