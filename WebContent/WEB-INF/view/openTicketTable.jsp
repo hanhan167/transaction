@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="header-box">
     	<div class="header-img fl" id="allChoose">全选</div>
         <div class="text-tit fl">开票</div>
-        <div class="fl openTicket" style="float: right;font-size: 1.25rem;color: #f6f6f6;;">开发票</div>
+        <div class="fl openTicket" style="float: right;font-size: 1.25rem;color: #f6f6f6;;">下一步</div>
         <div class="clear-box"></div>
     </div>
     <div class="search-terms">
@@ -828,7 +828,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		return comp;
 	}
 	
-	
+	/* 点击顶部全选 */
+	 $("#allChoose").click(function() {	
+		if($('.singleCheck').prop('checked'))
+		{
+			$('.singleCheck').prop('checked',false);
+		}else{
+			$('.singleCheck').prop('checked',true);
+		}	
+	}); 
 	
 	$(document).on('click', function() {
 		$('.myLgtMsg').hide();
