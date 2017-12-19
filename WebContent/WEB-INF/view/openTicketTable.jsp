@@ -890,7 +890,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			}
 			
-			
+			$(".goDrawing").attr("disabled",true);
 		    $.ajax({
 		    	url:"busOrder/getBuyerInvoicArr.do",
 		    	type:"post",

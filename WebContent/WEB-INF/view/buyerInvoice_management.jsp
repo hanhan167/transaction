@@ -137,7 +137,7 @@
         <div class="nums fl"><span class="textsNum check-col">3</span><span class="textsp span-col">填写收票地址</span></div>
     </div>
     <div class="select-box">
-        <div class="tits-sel">填写收藏地址(带<span style="color: #d5090c">*</span>号为必填项)</div>
+        <div class="tits-sel">填写收票地址(带<span style="color: #d5090c">*</span>号为必填项)</div>
         <table cellpadding="0" cellspacing="0" class="fl tab2">
             <tr>
                 <td class="tit-td"><span>*</span>收票人姓名:</td>
