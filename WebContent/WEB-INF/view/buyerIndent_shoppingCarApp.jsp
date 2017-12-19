@@ -185,7 +185,6 @@ $(function(){
 		        	laydate.skin('molv');// 切换皮肤，请查看skins下面皮肤库
 		        	clearHeight = $('#sheet').height();
 		        	fixed(clearHeight);
-		        	
 		        	//判断失效商品
 		        	var rows = data.map.shoppCart;
 		        	var listbrandNames = listSupplyNos = listGoods ="";
@@ -196,9 +195,6 @@ $(function(){
 		        	}
 		        	var datas = {"listbrandNames":listbrandNames,"listSupplyNos":listSupplyNos,"listGoods":listGoods};
 		        	overTimeShop(datas);
-		        	
-		        	//调用清空失效商品
-		        	clearShopCar({"listbrandNames":listbrandNames,"listSupplyNos":listSupplyNos});
 		        }else{
 		        	$(".mains").html("<div style='text-align:center;background:#fff;margin-top:49%;margin-left:2%;margin-right:2%'><img src='frame/static/img/gouwu.png'>购物车是空的,赶快去挑选商品吧</div>");		      
 		        }
@@ -230,12 +226,14 @@ $(function(){
 				type:"post",
 				success:function(dataMsg){
 					if(!dataMsg.success){
-						clearShopCar({"listbrandNames":data.listbrandNames,"listSupplyNos":data.listSupplyNos});
+						
 						layer.open({
 							// title: '错误信息'
 							 content:dataMsg.msg,
+							 time:1500,
 							 end:function(){
-								$("#clearInvalid").click();
+								 //调用清空失效商品
+								 clearInvalid(data);
 							 }
 						}); 
 						$("#createOrder").attr("disabled","disabled");
@@ -471,44 +469,44 @@ $(function(){
 	});
 	
 	
-	var clearShopCar = function(data){
-		//清空失效的商品
-		$("#clearInvalid").click(function(){
-			layer.open({
-				 title: '提示信息'
-				 ,content:"是否清空已失效的商品?"
-				 ,btn:['确认','取消']
-				 ,yes: function(index, layero){
-					layer.close(index);
-					$.ajax({
-						url:"busShoppCart/clearShoppCar.do",
-						data:data,
-						type:"post",
-						success:function(data){
-							if(data.success){
-								layer.open({
-									content:"清空成功",
-									end:function(){
-										location.reload();
-									}
-								});
-									   
-							}else{
-								layer.open({
-									 title: '错误信息'
-										,content:data.msg
-								}); 
-							}
+	function clearInvalid(data){
+		layer.open({
+			 title: '提示信息'
+			 ,content:"是否清空已失效的商品?"
+			 ,btn:['确认','取消']
+			 ,yes: function(index, layero){
+				layer.close(index);
+				$.ajax({
+					url:"busShoppCart/clearShoppCar.do",
+					data:data,
+					type:"post",
+					success:function(data){
+						if(data.success){
+							layer.open({
+								content:"清空成功",
+								time:1500,
+								end:function(){
+									location.reload();
+								}
+							});
+								   
+						}else{
+							layer.open({
+								 title: '错误信息'
+									,content:data.msg
+							}); 
 						}
-					});
-				  }
-				  /* ,btn2: function(index, layero){
-					 layer.close(index);
-				  } */
-				  ,closeBtn: 0
-			});
+					}
+				});
+			  }
+			  ,btn2: function(index, layero){
+				 layer.close(index);
+			  }
+			  ,closeBtn: 0
 		});
-	};
+	}
+	
+	
 	
 	//生成订单
 	$("#createOrder").click(function(){
