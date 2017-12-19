@@ -885,7 +885,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  nameArr[z] = nameVal;
 				  z++;
 				});
-			
 		    $.ajax({
 		    	url:"busOrder/getBuyerInvoicArr.do",
 		    	type:"post",
@@ -900,7 +899,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	success:function(data){
 		    		if(data=="" || data==null)
 		    		{
-		    			location.href="busOrder/toinvoice_managementApp.do?orderNoArr="+orderNoArr;
+		    			location.href="busOrder/toPage/invoice_managementApp.do?orderNoArr="+orderNoArr;
 		    		}else{
 		    		layer.open({
 						title : '提示',
