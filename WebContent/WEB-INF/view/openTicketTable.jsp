@@ -22,14 +22,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div class="header-img fl" id="allChoose">全选</div>
         <div class="text-tit fl">开票</div>
         <div class="fl goDrawing" style="float: right;font-size: 1.25rem;color: #f6f6f6;;">下一步</div>
-        <div class="clear-box"></div>
-    </div>
-    <div class="search-terms">
-      
+       <!--  <div class="clear-box"></div> -->
     </div>
 </div>
 
-<div class="mains" style="top: 88px;bottom: 0;overflow-y: auto">
+<div class="mains" style="bottom: 0;overflow-y: auto">
 <!-- content += "<div class='moudle'>"; -->
 	<div class='moudle'>
 		<div class='address-lis'>
@@ -279,7 +276,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			content+="</div>";
 			
 			content += "<div class='btns-box'>";
-			content += "<div class='fr'  style='margin-right: 1.1em;'>";
+			content += "<div class='fr'  style='margin-right: 0.3em;'>";
 			content += "<span  class='on-red'>总计：<em class='myPrice'>￥" + price + "</em></span>";
 			content += "</div>";
 			content += "</div>";
@@ -861,7 +858,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var i = 0;
 			$($('.singleCheck:checked').parent().siblings(".title-infos").find(".tit-top").find("p:eq(1)").find(".fl")).each(function(){
 				  var myVal =  ($(this).text()).substring(4);
-				  alert(myVal);
 				  orderNoArr[i] = myVal;
 				  i++;
 				});
@@ -871,7 +867,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var j = 0;
 			$($('.singleCheck:checked').parent().siblings(".btns-box").find(".fr").find(".myPrice")).each(function(){
 				 var priceVal =  ($(this).text()).substring(1);
-				 alert(priceVal);
 				 priceArr[j] = priceVal;
 				 j++;
 				});
@@ -881,10 +876,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var z = 0;
 			$($('.singleCheck:checked').parent().siblings(".title-infos").find(".tit-top").find("p:eq(0)").find("span")).each(function(){
 				  var nameVal =  $(this).text();
-				  alert(nameVal);
 				  nameArr[z] = nameVal;
 				  z++;
 				});
+			
+			for (var int = 1; int < nameArr.length; int++) {
+				if(nameArr[0] != nameArr[int]){
+					layer.open({
+					  style: 'border:1px; color:#333333;',  
+					  content:"请选择相同的卖家来开票"
+					});
+					return;
+				}
+			}
+			
+			
 		    $.ajax({
 		    	url:"busOrder/getBuyerInvoicArr.do",
 		    	type:"post",

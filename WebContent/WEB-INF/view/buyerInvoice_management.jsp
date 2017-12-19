@@ -940,6 +940,17 @@
 			z++;
 		});
 		
+		for (var int = 1; int < nameArr.length; int++) {
+			if(nameArr[0] != nameArr[int]){
+				layer.msg('请选择相同买家</br>已选择：</br>【'+nameArr[0]+'】</br>【'+nameArr[int]+'】', {
+					icon: 2,
+					time: 3000
+				});
+				return;
+			}
+		}
+		
+		
 	    $.ajax({
 	    	url:"busOrder/getBuyerInvoicArr.do",
 	    	type:"post",
