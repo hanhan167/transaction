@@ -1786,7 +1786,7 @@ public class BusOrderAction {
 				tBusBill.setBillStatus("1");
 				tBusBill.setInsertDate(new Date());
 				tBusBill.setUpdateDate(new Date());
-				tBusBill.setApplyNo(UUIDUtil.getDateString(new Date()));//发票序号
+				tBusBill.setApplyNo(UUIDUtil.generateSerialNum(5));//发票序号
 				
 				for (String orderNo : orderNoArr) {
 					 BusinessMap<TBusOrderVo> bMapO = busOrderService.getOrderMoney(orderNo);
