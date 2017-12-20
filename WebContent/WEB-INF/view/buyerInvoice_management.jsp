@@ -155,13 +155,13 @@
            		<td class="tit-td"><span>*</span>地址:</td>
            		<td class="td-items">
 				<label style="margin-left: -9%;">省:</label>
-				<select name="input_province" id="input_province" class="form-control">';
+				<select name="input_province" id="input_province" class="form-control" style="height: 34px;line-height: 36px;">
 				</select>
 				<label>市:</label>
-				<select name="input_city" id="input_city" class="form-control">';
+				<select name="input_city" id="input_city" class="form-control" style="height: 34px;line-height: 36px;">;
 				</select>
 				<label>区:</label>
-				<select name="input_area" id="input_area" class="form-control">';
+				<select name="input_area" id="input_area" class="form-control" style="height: 34px;line-height: 36px;">;
 				</select>
            		</td>
             </tr>
@@ -274,7 +274,16 @@
 			
 			return;
     	}
-    	else if(billType=="01") 
+    	else if(billType=="01"  && billTitle=="001") 
+        {
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("*");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(3)>td:eq(0)>span").html("");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(4)>td:eq(0)>span").html("");
+        	$(".mask2>.select-box>.tab2>tbody>tr:eq(5)>td:eq(0)>span").html("");
+        }
+    	else if(billType=="01"  && billTitle=="002") 
         {
         	$(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("*");
         	$(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("*");
@@ -283,13 +292,15 @@
         	$(".mask2>.select-box>.tab2>tbody>tr:eq(4)>td:eq(0)>span").html("");
         	$(".mask2>.select-box>.tab2>tbody>tr:eq(5)>td:eq(0)>span").html("");
         }
+    	
         else if(billType=="02")
         {
         	var i = 0;
         	$(".mask2 .tab2").find("tr").each(function(){
         		if(i<=5)
         		{	
-             	$(this).find("td:eq(0)").find("span").html("*");     
+             	$(this).find("td:eq(0)").find("span").html("*");   
+             	$(this).find("td:eq(1)").find("span").html("*");   
         		}
         		i++;
             });
@@ -320,19 +331,32 @@
     	 $(".sendName").val(supplyName);
     	
     	
-    	if(billType=="01")
-    	{
-    		var myVal1 = $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
-    		var myVal2 = $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
-    		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind" || myVal2==null || myVal2.trim()==""  || myVal2=="undefind"){
-    			layer.msg('必填项不能为空', {
-    				icon: 2,
-    				time: 1500
-    			});
-    			
-    			return;
-    		}
-    	}else if(billType=="02"){
+    		if(billType=="01" && billTitle=="001")
+    		{
+    			var myVal1 = $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
+    			var myVal2 = $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
+    			if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
+    				layer.msg('必填项不能为空', {
+    					icon: 2,
+    					time: 1500
+    				});
+    				
+    				return;
+    			}
+    		}	
+    		 else if(billType=="01" && billTitle=="002")
+    			{
+    				var myVal1 = $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
+    				var myVal2 = $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
+    				if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind" || myVal2==null || myVal2.trim()=="" ||  myVal2=="undefind"){
+    					layer.msg('必填项不能为空', {
+    						icon: 2,
+    						time: 1500
+    					});
+    					
+    					return;
+    				}
+    			}	else if(billType=="02"){
     		var myVal1 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
     		var myVal2 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
     		var myVal3 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(2)>td:eq(1)").find("input").val();
@@ -387,11 +411,19 @@
     	
     		if(billNatrue=="2")
     		{
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("*");
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("*");
     			$(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("");
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(3)>td:eq(0)>span").html("*");
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(4)>td:eq(0)>span").html("*");
     		}	
     		else if(billNatrue=="1")
     		{
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("");
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("");
     			$(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("*");
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(3)>td:eq(0)>span").html("");
+    			$(".mask3>.select-box>.tab2>tbody>tr:eq(4)>td:eq(0)>span").html("");
     		}
     	
     		
@@ -447,35 +479,14 @@
     	}
     	else if(billNatrue=="1")
     	{
-    		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
-    			layer.msg('必填项不能为空', {
-    				icon: 2,
-    				time: 1500
-    			});
-    			return;
-    		}
-    		else if(myVal2==null || myVal2.trim()=="" ||  myVal2=="undefind"){
-    			layer.msg('必填项不能为空', {
-    				icon: 2,
-    				time: 1500
-    			});
-    			
-    			return;
-    		}
-    		else if(myVal3==null || myVal3.trim()=="" ||  myVal3=="undefind"){
+    		if(myVal3==null || myVal3.trim()=="" ||  myVal3=="undefind"){
     			layer.msg('必填项不能为空', {
     				icon: 2,
     				time: 1500
     			});	
     			return;
     		}
-    		else if(myVal4==null || myVal4.trim()=="" ||  myVal4=="undefind"){
-    			layer.msg('必填项不能为空', {
-    				icon: 2,
-    				time: 1500
-    			});
-    			return;
-    		}
+    		
     	}	
     	//订单号
     	var supplyName =  $(".sendName").val();

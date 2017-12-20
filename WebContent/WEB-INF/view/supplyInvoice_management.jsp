@@ -179,17 +179,17 @@
                 <td class="tit-td"><span>*</span>收票人邮箱:</td>
                 <td class="td-items"><input type="text" name="billReceiveMail"  placeholder="请输入收票人邮箱(电子发票必填)"></td>
             </tr>
-            <tr>
+           <tr>
            		<td class="tit-td"><span>*</span>地址:</td>
            		<td class="td-items">
 				<label style="margin-left: -9%;">省:</label>
-				<select name="input_province" id="input_province" class="form-control">';
+				<select name="input_province" id="input_province" class="form-control" style="height: 34px;line-height: 36px;">
 				</select>
 				<label>市:</label>
-				<select name="input_city" id="input_city" class="form-control">';
+				<select name="input_city" id="input_city" class="form-control" style="height: 34px;line-height: 36px;">;
 				</select>
 				<label>区:</label>
-				<select name="input_area" id="input_area" class="form-control">';
+				<select name="input_area" id="input_area" class="form-control" style="height: 34px;line-height: 36px;">;
 				</select>
            		</td>
             </tr>
@@ -255,6 +255,7 @@
 <script type="text/javascript" src="frame/layui/layui.js"></script>
 <script type="text/javascript" src="frame/static/layer/layer.js"></script>
 <script type="text/javascript" src="frame/static/js/company.js"></script>
+<script type="text/javascript" src="frame/static/js/pdata.js"></script>
 <script type="text/javascript" src="frame/static/js/jQuery-jcDate.js"></script>
 <script type="text/javascript">
 	var curr;
@@ -268,6 +269,8 @@
 			,
 			base : 'frame/layui/' //设定扩展的Layui模块的所在目录，一般用于外部模块扩展
 		});
+		siteAdd();
+		
 		count();
 		curr = 1;
 		var pageNo = 1;
@@ -668,7 +671,16 @@ $('#btn-next1').click(function () {
 		
 		return;
 	}
-	else if(billType=="01") 
+	else if(billType=="01"  && billTitle=="001") 
+    {
+    	$(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("*");
+    	$(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("");
+    	$(".mask2>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("");
+    	$(".mask2>.select-box>.tab2>tbody>tr:eq(3)>td:eq(0)>span").html("");
+    	$(".mask2>.select-box>.tab2>tbody>tr:eq(4)>td:eq(0)>span").html("");
+    	$(".mask2>.select-box>.tab2>tbody>tr:eq(5)>td:eq(0)>span").html("");
+    }
+	else if(billType=="01"  && billTitle=="002") 
     {
     	$(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("*");
     	$(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("*");
@@ -684,6 +696,7 @@ $('#btn-next1').click(function () {
     		if(i<=5)
     		{	
          	$(this).find("td:eq(0)").find("span").html("*");     
+         	$(this).find("td:eq(1)").find("span").html("*");  
     		}
     		i++;
         });
@@ -733,11 +746,12 @@ $('#btn-next1').click(function () {
 
 
 $('#btn-next2').click(function () {
-	if(billType=="01")
+	debugger;
+	if(billType=="01" && billTitle=="001")
 	{
 		var myVal1 = $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
 		var myVal2 = $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
-		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind" || myVal2==null || myVal2.trim()==""  || myVal2=="undefind"){
+		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
 			layer.msg('必填项不能为空', {
 				icon: 2,
 				time: 1500
@@ -745,7 +759,21 @@ $('#btn-next2').click(function () {
 			
 			return;
 		}
-	}else if(billType=="02"){
+	}	
+	 else if(billType=="01" && billTitle=="002")
+		{
+			var myVal1 = $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
+			var myVal2 = $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
+			if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind" || myVal2==null || myVal2.trim()=="" ||  myVal2=="undefind"){
+				layer.msg('必填项不能为空', {
+					icon: 2,
+					time: 1500
+				});
+				
+				return;
+			}
+		}	
+		else if(billType=="02"){
 		var myVal1 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
 		var myVal2 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
 		var myVal3 =  $(".mask2>.select-box>.tab2>tbody>tr:eq(2)>td:eq(1)").find("input").val();
@@ -800,11 +828,19 @@ $('#btn-next2').click(function () {
 	
 		if(billNatrue=="2")
 		{
+			$(".mask3>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("*");
+			$(".mask3>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("*");
 			$(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("");
+			$(".mask3>.select-box>.tab2>tbody>tr:eq(3)>td:eq(0)>span").html("*");
+			$(".mask3>.select-box>.tab2>tbody>tr:eq(4)>td:eq(0)>span").html("*");
 		}	
 		else if(billNatrue=="1")
 		{
+			$(".mask3>.select-box>.tab2>tbody>tr:eq(0)>td:eq(0)>span").html("");
+			$(".mask3>.select-box>.tab2>tbody>tr:eq(1)>td:eq(0)>span").html("");
 			$(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(0)>span").html("*");
+			$(".mask3>.select-box>.tab2>tbody>tr:eq(3)>td:eq(0)>span").html("");
+			$(".mask3>.select-box>.tab2>tbody>tr:eq(4)>td:eq(0)>span").html("");
 		}
 	
 		  $(".mask3").show();
@@ -856,35 +892,16 @@ $("#btn-sumit").click(function () {
 	}
 	else if(billNatrue=="1")
 	{
-		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
-			layer.msg('必填项不能为空', {
-				icon: 2,
-				time: 1500
-			});
-			return;
-		}
-		else if(myVal2==null || myVal2.trim()=="" ||  myVal2=="undefind"){
-			layer.msg('必填项不能为空', {
-				icon: 2,
-				time: 1500
-			});
-			
-			return;
-		}
-		else if(myVal3==null || myVal3.trim()=="" ||  myVal3=="undefind"){
+		
+	
+		if(myVal3==null || myVal3.trim()=="" ||  myVal3=="undefind"){
 			layer.msg('必填项不能为空', {
 				icon: 2,
 				time: 1500
 			});	
 			return;
 		}
-		else if(myVal4==null || myVal4.trim()=="" ||  myVal4=="undefind"){
-			layer.msg('必填项不能为空', {
-				icon: 2,
-				time: 1500
-			});
-			return;
-		}
+	
 	}	
 	
 		//保存开票信息
@@ -950,6 +967,81 @@ $("#btn-sumit").click(function () {
 	   
 
 });
+
+function siteAdd() {
+	var html = "<option value=''>== 请选择 ==</option>";
+	$("#input_city").append(html);
+	$("#input_area").append(html);
+	$
+			.each(
+					pdata,
+					function(idx, item) {
+						if (parseInt(item.level) == 0) {
+							html += "<option value='" + item.names + "' exid='" + item.code + "'>"
+									+ item.names + "</option>";
+						}
+					});
+	$("#input_province").append(html);
+	$("#input_province")
+			.change(
+					function() {
+						if ($(this).val() == "")
+							return;
+						$("#input_city option").remove();
+						$("#input_area option").remove();
+						var code = $(this).find("option:selected").attr(
+								"exid");
+						code = code.substring(0, 2);
+						var html = "<option value=''>== 请选择 ==</option>";
+						$("#input_area").append(html);
+						$
+								.each(
+										pdata,
+										function(idx, item) {
+											if (parseInt(item.level) == 1
+													&& code == item.code
+															.substring(0, 2)) {
+												html += "<option value='" + item.names + "' exid='" + item.code + "'>"
+														+ item.names
+														+ "</option>";
+											}
+										});
+						$("#input_city").append(html);
+					});
+	$("#input_city")
+			.change(
+					function() {
+						if ($(this).val() == "")
+							return;
+						$("#input_area option").remove();
+						var code = $(this).find("option:selected").attr(
+								"exid");
+						code = code.substring(0, 4);
+						var html = "<option value=''>== 请选择 ==</option>";
+						$
+								.each(
+										pdata,
+										function(idx, item) {
+											if (parseInt(item.level) == 2
+													&& code == item.code
+															.substring(0, 4)) {
+												html += "<option value='" + item.names + "' exid='" + item.code + "'>"
+														+ item.names
+														+ "</option>";
+											}
+										});
+						$("#input_area").append(html);
+					});
+	//绑定
+	$("#input_province").val("北京市");
+	$("#input_province").change();
+	$("#input_city").val("市辖区");
+	$("#input_city").change();
+	$("#input_area").val("东城区");
+}
+
+
+
 /******************** 选择格式 ***************************/
 var billNatrue = "2";//发票状态 "1":"电子发票","2":"纸质发票"
 var billType;//发票类型:01普通发票,02增值税发票
