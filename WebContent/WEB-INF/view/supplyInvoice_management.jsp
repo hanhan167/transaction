@@ -166,7 +166,7 @@
     </div>
     <div class="select-box">
         <div class="tits-sel">填写收票地址(带<span style="color: #d5090c">*</span>号为必填项)</div>
-        <table cellpadding="0" cellspacing="0" class="fl tab2">
+        <table cellpadding="0" cellspacing="0" class="fl tab2" style="width: 100%;">
             <tr>
                 <td class="tit-td"><span>*</span>收票人姓名:</td>
                 <td class="td-items"><input type="text" name="billReceiveName" placeholder="请输入收款人姓名"></td>
@@ -178,6 +178,20 @@
             <tr>
                 <td class="tit-td"><span>*</span>收票人邮箱:</td>
                 <td class="td-items"><input type="text" name="billReceiveMail"  placeholder="请输入收票人邮箱(电子发票必填)"></td>
+            </tr>
+            <tr>
+           		<td class="tit-td"><span>*</span>地址:</td>
+           		<td class="td-items">
+				<label>省:</label>
+				<select name="input_province" id="input_province" class="form-control">';
+				</select>
+				<label>市:</label>
+				<select name="input_city" id="input_city" class="form-control">';
+				</select>
+				<label>区:</label>
+				<select name="input_area" id="input_area" class="form-control">';
+				</select>
+           		</td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>详细地址:</td>
@@ -803,7 +817,11 @@ $("#btn-sumit").click(function () {
 	var myVal1 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
 	var myVal2 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
 	var myVal3 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(1)").find("input").val();
-	var myVal4 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(3)>td:eq(1)").find("input").val();
+	var myVal4 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(4)>td:eq(1)").find("input").val();
+	var input_provinceVal = $("#input_province").val();
+	var input_cityVal = $("#input_city").val();
+	var input_areaVal = $("#input_area").val();
+	
 	if(billNatrue=="2")
 	{
 		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
@@ -822,6 +840,13 @@ $("#btn-sumit").click(function () {
 			return;
 		}
 		else if(myVal4==null || myVal4.trim()=="" ||  myVal4=="undefind"){
+			layer.msg('必填项不能为空', {
+				icon: 2,
+				time: 1500
+			});	
+			return;
+		}
+		else if(input_provinceVal==null ||  input_provinceVal.trim()=="" || input_cityVal==null ||  input_cityVal.trim()=="" ||  input_areaVal==null ||  input_areaVal.trim()==""){
 			layer.msg('必填项不能为空', {
 				icon: 2,
 				time: 1500
@@ -901,6 +926,9 @@ $("#btn-sumit").click(function () {
 	    			"bandCard":$("[name='bandCard']").val(),//银行卡
 	    			"billReceiveName":$("[name='billReceiveName']").val(),//收票人姓名
 	    			"billReceiveMail":$("[name='billReceiveMail']").val(),//收票人邮箱
+	    			"bilProvince":input_provinceVal,//省
+	    			"billCity":input_cityVal,//市
+	    			"billArea":input_areaVal,//区
 	    		},
 	    		success:function(data){
 	    			if(data.success){

@@ -1205,13 +1205,21 @@ where 1=1
 	</select>
 	<!-- 根据orderNo获取订单金额、开始时间、修改时间、供方编号 -->
 	<select id = "getOrderMoney" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.vo.TBusOrderVo">
-		 SELECT DISTINCT ORDER_NO orderNo,
+		 	SELECT DISTINCT ORDER_NO orderNo,
                  INSERT_DATE insertDate,
                  UPDATE_DATE updateDate,
-                 SUPPLY_NO supplyNo,
-                 goods_money goodsMoney
+                 SUPPLY_NO supplyNo
             FROM T_BUS_ORDER WHERE ORDER_NO=#orderNo#
 	</select>
+	
+	<!-- 查询总价格 -->
+	<select id = "getOrderMoneyTotal" parameterClass="java.lang.String" resultClass="com.hansy.transaction.model.vo.TBusOrderVo">
+		 	SELECT     
+		 		sum(goods_money) goodsMoney
+            FROM T_BUS_ORDER WHERE ORDER_NO=#orderNo#
+	</select>
+	
+	
 	<!-- 查看粉丝下所购买的已经完成得订单,并且根据要求还要筛选排序什么的 -->
 	<select id="getOrderByCustNo" parameterClass = "map" resultClass="com.hansy.transaction.model.bo.Order">
 SELECT TEMP.ORDER_STATUS ORDERSTATUS,

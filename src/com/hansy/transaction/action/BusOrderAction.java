@@ -1790,17 +1790,24 @@ public class BusOrderAction {
 				
 				for (String orderNo : orderNoArr) {
 					 BusinessMap<TBusOrderVo> bMapO = busOrderService.getOrderMoney(orderNo);
+					 BusinessMap<TBusOrderVo> bMap01 = busOrderService.getOrderMoneyTotal(orderNo);
 					 if(!bMapO.getIsSucc()){
 						 bReslt.setSuccess(false);
 						 bReslt.setMsg(bMapO.getMsg());
+						 return bReslt;
+					 }
+					 if(!bMap01.getIsSucc()){
+						 bReslt.setSuccess(false);
+						 bReslt.setMsg(bMap01.getMsg());
 						 return bReslt;
 					 }
 					 tBusBill.setOrderNo(orderNo);
 					 tBusBill.setStartTime(bMapO.getInfoBody().getInsertDate());
 					 tBusBill.setEndTime(bMapO.getInfoBody().getUpdateDate());
 					 tBusBill.setSupplyNo(bMapO.getInfoBody().getSupplyNo());
-					 tBusBill.setBillMoney(bMapO.getInfoBody().getGoodsMoney());
+					 tBusBill.setBillMoney(bMap01.getInfoBody().getGoodsMoney());
 					 tBusBill.setTableKey(UUIDUtil.getParseUUID());
+					 
 					 
 					//调用service
 					System.out.println(tBusBill.toString());
@@ -1826,6 +1833,9 @@ public class BusOrderAction {
 				tUserBill.setOpenBand(tBusBill.getOpenBand());//开户行
 				tUserBill.setBillReceiveName(tBusBill.getBillReceiveName());//收票人姓名
 				tUserBill.setBillReceiveMail(tBusBill.getBillReceiveMail());//收票人邮箱
+				tUserBill.setBillProvince(tBusBill.getBillProvince());//省
+				tUserBill.setBillCity(tBusBill.getBillCity());//市
+				tUserBill.setBillArea(tBusBill.getBillArea());
 				//调用service
 				BusinessMap<Object> bMap2=itUserBillService.getById(custNo);
 				if(bMap2.getInfoBody()==null){

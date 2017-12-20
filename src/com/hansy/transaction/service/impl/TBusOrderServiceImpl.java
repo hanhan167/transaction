@@ -676,4 +676,24 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		return bMap;
 	}
 
+	@Override
+	public BusinessMap<TBusOrderVo> getOrderMoneyTotal(String orderNo) {
+		BusinessMap<TBusOrderVo> bMap = new BusinessMap<>();
+		bMap.setIsSucc(true);
+		
+//		TBusOrderVo busOrder = new TBusOrderVo();
+//		busOrder.setOrderNo(orderNo);
+		try {
+			TBusOrderVo	busOrder = (TBusOrderVo) getSqlMapClientTemplate().queryForObject("busOrder.getOrderMoneyTotal", orderNo);
+			System.out.println(busOrder.toString());
+			bMap.setInfoBody(busOrder);
+		} catch (Exception e) {
+			bMap.setIsSucc(false);
+			bMap.setMsg("查询总额异常");
+			e.printStackTrace();
+		}
+		
+		return bMap;
+	}
+
 }

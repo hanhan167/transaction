@@ -30,6 +30,9 @@ public class TUserBill {
 	private Date startTime;
 	private Date endTime;
 	private String billNatrue;//发票状态 "0":"电子发票","1":"纸质发票"
+	private String billProvince;//省
+	private String billCity;//市
+	private String billArea;//区
 	
 	public String getCustNo() {
 		return custNo;
@@ -158,6 +161,26 @@ public class TUserBill {
 	public void setBillNatrue(String billNatrue) {
 		this.billNatrue = billNatrue;
 	}
+	
+	public String getBillProvince() {
+		return billProvince;
+	}
+	public void setBillProvince(String billProvince) {
+		this.billProvince = billProvince;
+	}
+	public String getBillCity() {
+		return billCity;
+	}
+	public void setBillCity(String billCity) {
+		this.billCity = billCity;
+	}
+	public String getBillArea() {
+		return billArea;
+	}
+	public void setBillArea(String billArea) {
+		this.billArea = billArea;
+	}
+	
 	@Override
 	public String toString() {
 		return "TUserBill [custNo=" + custNo + ", billType=" + billType
@@ -172,7 +195,8 @@ public class TUserBill {
 				+ bandCard + ", billReceiveName=" + billReceiveName
 				+ ", billReceiveMail=" + billReceiveMail + ", startTime="
 				+ startTime + ", endTime=" + endTime + ", billNatrue="
-				+ billNatrue + "]";
+				+ billNatrue + ", billProvince=" + billProvince + ", billCity="
+				+ billCity + ", billArea=" + billArea + "]";
 	}
 
 	

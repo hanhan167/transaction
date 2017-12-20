@@ -27,6 +27,9 @@
 		<result property="startTime" column="START_TIME"/>
 		<result property="endTime" column="END_TIME"/>
 		<result property="applyNo" column="APPLY_NO"/>
+		<result property="billProvince" column="BILL_PROVINCE"/>
+		<result property="billCity" column="BILL_CITY"/>
+		<result property="billArea" column="BILL_AREA"/>
 	</resultMap>
 	<sql id="allColumns">
 		ORDER_NO ,
@@ -53,7 +56,10 @@
 	START_TIME,
 	END_TIME,
 	APPLY_NO,
-	TABLE_KEY
+	TABLE_KEY,
+	BILL_PROVINCE,
+	BILL_CITY,
+	BILL_AREA
 	</sql>
 	
 	<insert id="save" parameterClass="com.hansy.transaction.model.vo.TBusBillVo">
@@ -82,7 +88,10 @@
 	          #startTime#,
 	          #endTime#,
 	          #applyNo#,
-	          #tableKey#
+	          #tableKey#,
+	          #billProvince#,
+	          #billCity#,
+	          #billArea#
 	         ) 
 	</insert>
 	

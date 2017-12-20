@@ -138,7 +138,7 @@
     </div>
     <div class="select-box">
         <div class="tits-sel">填写收票地址(带<span style="color: #d5090c">*</span>号为必填项)</div>
-        <table cellpadding="0" cellspacing="0" class="fl tab2">
+        <table cellpadding="0" cellspacing="0" class="fl tab2" style="width: 100%;">
             <tr>
                 <td class="tit-td"><span>*</span>收票人姓名:</td>
                 <td class="td-items"><input type="text" name="billReceiveName" placeholder="请输入收款人姓名"></td>
@@ -150,6 +150,20 @@
             <tr>
                 <td class="tit-td"><span>*</span>收票人邮箱:</td>
                 <td class="td-items"><input type="text" name="billReceiveMail"  placeholder="请输入收票人邮箱(电子发票必填)"></td>
+            </tr>
+            <tr>
+           		<td class="tit-td"><span>*</span>地址:</td>
+           		<td class="td-items">
+				<label>省:</label>
+				<select name="input_province" id="input_province" class="form-control">';
+				</select>
+				<label>市:</label>
+				<select name="input_city" id="input_city" class="form-control">';
+				</select>
+				<label>区:</label>
+				<select name="input_area" id="input_area" class="form-control">';
+				</select>
+           		</td>
             </tr>
             <tr>
                 <td class="tit-td"><span>*</span>详细地址:</td>
@@ -214,8 +228,13 @@
 <script type="text/javascript" src="frame/layui/layui.js"></script>
 <script type="text/javascript" src="frame/static/layer/layer.js"></script>
 <script type="text/javascript" src="frame/static/js/company.js"></script>
+<script type="text/javascript" src="frame/static/js/pdata.js"></script>
 
 <script>
+	$(function(){
+		siteAdd();
+	});
+
     $(window).scroll(function () {
         var scrollht = $(document).scrollTop();
         var curht = $(window).height();
@@ -387,8 +406,13 @@
     	var myVal1 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(0)>td:eq(1)").find("input").val();
 		var myVal2 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
 		var myVal3 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(1)").find("input").val();
-		var myVal4 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(3)>td:eq(1)").find("input").val();
-    	if(billNatrue=="2")
+		var myVal4 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(4)>td:eq(1)").find("input").val();
+		debugger;
+		var input_provinceVal = $("#input_province").val();
+		var input_cityVal = $("#input_city").val();
+		var input_areaVal = $("#input_area").val();
+		
+		if(billNatrue=="2")
     	{
     		if(myVal1==null || myVal1.trim()=="" ||  myVal1=="undefind"){
     			layer.msg('必填项不能为空', {
@@ -412,6 +436,14 @@
     			});	
     			return;
     		}
+    		else if(input_provinceVal==null ||  input_provinceVal.trim()=="" || input_cityVal==null ||  input_cityVal.trim()=="" ||  input_areaVal==null ||  input_areaVal.trim()==""){
+    			layer.msg('必填项不能为空', {
+    				icon: 2,
+    				time: 1500
+    			});	
+    			return;
+    		}
+    		
     	}
     	else if(billNatrue=="1")
     	{
@@ -472,6 +504,9 @@
 			"bandCard":$("[name='bandCard']").val(),//银行卡
 			"billReceiveName":$("[name='billReceiveName']").val(),//收票人姓名
 			"billReceiveMail":$("[name='billReceiveMail']").val(),//收票人邮箱
+			"billProvince":input_provinceVal,//省
+			"billCity":input_cityVal,//市
+			"billArea":input_areaVal,//区
 		},
 		/* beforeSend:function(){
 			layer.msg('加载中...', {
@@ -976,6 +1011,79 @@
 	    	},
 	    });	
 	});
+	
+	function siteAdd() {
+		var html = "<option value=''>== 请选择 ==</option>";
+		$("#input_city").append(html);
+		$("#input_area").append(html);
+		$
+				.each(
+						pdata,
+						function(idx, item) {
+							if (parseInt(item.level) == 0) {
+								html += "<option value='" + item.names + "' exid='" + item.code + "'>"
+										+ item.names + "</option>";
+							}
+						});
+		$("#input_province").append(html);
+		$("#input_province")
+				.change(
+						function() {
+							if ($(this).val() == "")
+								return;
+							$("#input_city option").remove();
+							$("#input_area option").remove();
+							var code = $(this).find("option:selected").attr(
+									"exid");
+							code = code.substring(0, 2);
+							var html = "<option value=''>== 请选择 ==</option>";
+							$("#input_area").append(html);
+							$
+									.each(
+											pdata,
+											function(idx, item) {
+												if (parseInt(item.level) == 1
+														&& code == item.code
+																.substring(0, 2)) {
+													html += "<option value='" + item.names + "' exid='" + item.code + "'>"
+															+ item.names
+															+ "</option>";
+												}
+											});
+							$("#input_city").append(html);
+						});
+		$("#input_city")
+				.change(
+						function() {
+							if ($(this).val() == "")
+								return;
+							$("#input_area option").remove();
+							var code = $(this).find("option:selected").attr(
+									"exid");
+							code = code.substring(0, 4);
+							var html = "<option value=''>== 请选择 ==</option>";
+							$
+									.each(
+											pdata,
+											function(idx, item) {
+												if (parseInt(item.level) == 2
+														&& code == item.code
+																.substring(0, 4)) {
+													html += "<option value='" + item.names + "' exid='" + item.code + "'>"
+															+ item.names
+															+ "</option>";
+												}
+											});
+							$("#input_area").append(html);
+						});
+		//绑定
+		$("#input_province").val("北京市");
+		$("#input_province").change();
+		$("#input_city").val("市辖区");
+		$("#input_city").change();
+		$("#input_area").val("东城区");
+	}
+
 	
 	
 	$(document).on('click', '.my_link', function(e) {

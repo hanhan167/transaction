@@ -21,6 +21,9 @@
 		<result property="billReceiveName" column="BILL_RECEIVE_NAME"/>
 		<result property="billReceiveMail" column="BILL_RECEIVE_MAIL"/>
 		<result property="billNatrue" column="BILL_NATRUE"/>
+		<result property="billProvince" column="BILL_PROVINCE"/>
+		<result property="billCity" column="BILL_CITY"/>
+		<result property="billArea" column="BILL_AREA"/>
 	</resultMap>
 	<sql id="allColumns">
 		CUST_NO,
@@ -41,8 +44,10 @@ REGISTER_PHONE,
 OPEN_BAND,
 BAND_CARD,
 BILL_RECEIVE_NAME,
-BILL_RECEIVE_MAIL
-	
+BILL_RECEIVE_MAIL,
+BILL_PROVINCE,
+BILL_CITY,
+BILL_AREA
 	</sql>
 	<insert id="save" parameterClass="com.hansy.transaction.model.vo.TUserBill">
 		insert into T_USER_BILL(<include refid="allColumns"/>) values
@@ -64,7 +69,10 @@ BILL_RECEIVE_MAIL
 	         #openBand#,
 	         #bandCard#,
 	         #billReceiveName#,
-	          #billReceiveMail#
+	          #billReceiveMail#,
+	          #billProvince#,
+	          #billCity#,
+	          #billArea#
 	         ) 
 	</insert>
 	<delete id="delete" parameterClass="string">
@@ -156,6 +164,21 @@ BILL_RECEIVE_MAIL
             <isNotEmpty property="billReceiveMail" prepend=",">  
                 <![CDATA[  
                     t.BILL_RECEIVE_MAIL = #billReceiveMail# 
+                ]]>  
+            </isNotEmpty> 
+              <isNotEmpty property="billProvince" prepend=",">  
+                <![CDATA[  
+                    t.BILL_PROVINCE = #billProvince# 
+                ]]>  
+            </isNotEmpty> 
+              <isNotEmpty property="billCity" prepend=",">  
+                <![CDATA[  
+                    t.BILL_CITY = #billCity# 
+                ]]>  
+            </isNotEmpty> 
+              <isNotEmpty property="billArea" prepend=",">  
+                <![CDATA[  
+                    t.BILL_AREA = #billArea# 
                 ]]>  
             </isNotEmpty> 
         </dynamic> 
