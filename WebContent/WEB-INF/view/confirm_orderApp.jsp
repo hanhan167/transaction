@@ -472,8 +472,9 @@ var supplyName = [];
 							var orderArray = new Array();
 							var address = $('input:radio[name="operation"]:checked').next().val();
 							if (address == "" || address == null) {
-								layer.msg('请先确认收货地址', {
-									icon : 2
+								layer.open({
+									content:'请先确认收货地址',
+									time:1500
 								});
 								return;
 							}
