@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	function stateLook(curr, orderStatus) {
 		$.ajax({
-			url : 'busOrder/getBuyerOrdersApp.do',
+			url : 'busOrder/getBuyerOrdersInvoic.do',
 			data : {
 				pageNo : curr || 1,
 				orderStatus : orderStatus
