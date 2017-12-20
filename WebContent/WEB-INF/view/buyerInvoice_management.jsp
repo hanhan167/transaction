@@ -154,7 +154,7 @@
             <tr>
            		<td class="tit-td"><span>*</span>地址:</td>
            		<td class="td-items">
-				<label>省:</label>
+				<label style="margin-left: -9%;">省:</label>
 				<select name="input_province" id="input_province" class="form-control">';
 				</select>
 				<label>市:</label>
