@@ -104,6 +104,7 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		try {
 			count = (int) getSqlMapClientTemplate().queryForObject(
 					"busOrder.selectBuyerOrdersCount", param);
+			System.out.println("count:"+count);
 		} catch (Exception e) {
 			bMap.setIsSucc(false);
 			bMap.setMsg("获取总记录数失败");
@@ -133,7 +134,6 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 		try {
 			orderNoList = getSqlMapClientTemplate().queryForList(
 					"busOrder.selectBuyerPageOrders", param);
-			System.out.println(orderNoList.size());
 			if (orderNoList.size() == 0) {
 				param.put("orderNoList", null);
 			} else {
@@ -161,6 +161,7 @@ public class TBusOrderServiceImpl extends BaseDao implements ITBusOrderService {
 			return bMap;
 		}
 		allPager.setCount(count);
+		allPager.setTotal(count);
 		allPager.setRows(list);
 		bMap.setInfoBody(allPager);
 		bMap.setIsSucc(true);
