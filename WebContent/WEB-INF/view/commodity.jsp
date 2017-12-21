@@ -56,6 +56,14 @@ ul.heads>li>a{
 				<li><a href="sys/toTech.do">技术平台</a></li>
 			</ul>
 			<ul id="loginOut" style="position: relative;left:0">
+				<li>
+					<a>发票管理</a>
+					<ul>
+						<li onclick="toBuyerInvoic()" id="buyerInvoic">买方发票</li>
+						
+						<li onclick="toSupplyInvoic()" id="supplyInvoic">卖方发票</li>
+					</ul>
+				</li>
 				<li id="goods"><a href="goods/toCommodity.do">商品管理</a></li>
 				<li>
 					<a>我的订单</a>
@@ -204,4 +212,10 @@ var view = {
 }
 function toBuyer(){window.location.href="${basePath}busOrder/buyerIndentTab.do";}
 function toSupply(){location.href="${basePath}busOrder/supplyIndentTab.do";}
+function toBuyerInvoic(){
+	window.location.href="${basePath}goods/toInvoicMgt.do";
+}
+function toSupplyInvoic(){
+	window.location.href="${basePath}goods/toSupplyInvoicMgt.do";
+}
 </script>

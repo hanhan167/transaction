@@ -439,7 +439,6 @@
 		var myVal2 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(1)>td:eq(1)").find("input").val();
 		var myVal3 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(2)>td:eq(1)").find("input").val();
 		var myVal4 =  $(".mask3>.select-box>.tab2>tbody>tr:eq(4)>td:eq(1)").find("input").val();
-		debugger;
 		var input_provinceVal = $("#input_province").val();
 		var input_cityVal = $("#input_city").val();
 		var input_areaVal = $("#input_area").val();
@@ -851,7 +850,6 @@
 				prev : "<",
 		  	  next:">",
 				jump : function(obj, first) { //触发分页后的回调
-					debugger;
 					if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
 						if ((orderStatus == "") && (query == "")) {
 							demo(obj.curr);
