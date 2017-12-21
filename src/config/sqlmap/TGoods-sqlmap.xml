@@ -774,7 +774,7 @@ WHERE (t.down_date IS NULL
     
 		</select>
 	<select id = "getDataCpmlss" parameterClass="map" resultClass="com.hansy.transaction.model.bo.DataCpmlss">
-		SELECT ID id,
+		SELECT 
   BRAND brand,
   CC cc,
   CODE code,
