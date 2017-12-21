@@ -95,7 +95,7 @@ public class UUIDUtil {
 	 }
 	 
 	public static void main(String[] args) {
-		System.out.println(getFixLength(11));
+		System.out.println(UUIDUtil.generateSerialNum(5));
 	}
 	
 	//map集合比较--判断发票金额
