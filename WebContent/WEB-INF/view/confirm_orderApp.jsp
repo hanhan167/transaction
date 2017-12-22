@@ -405,6 +405,7 @@ var supplyName = [];
 		///设为默认
 		$(".addressTip-table").on('click', ".default", function() {
 			var val = $(this).parent().find("[name=tableKey]").val();
+			$(".addressTip-table").attr("disabled",true);
 			$.ajax({
 				url : "busShoppCart/defaultAddress.do",
 				data : {
@@ -506,7 +507,9 @@ var supplyName = [];
 							orderArray.push(order);
 							flag = 1;
 							});
+							
 							var array = JSON.stringify(orderArray);
+							$("#createOrder").attr("disabled",true);
 							$
 									.ajax({
 										url : "busOrder/createOrder.do",
@@ -787,6 +790,7 @@ var supplyName = [];
 			});
 		} else {
 			$("#billReceivePhone").text('');
+			
 			$.ajax({
 				url : "busShoppCart/addSite.do",
 				data : {
@@ -1005,6 +1009,7 @@ var supplyName = [];
 		///设为默认
 		$(".address-lis").on("click", ".check-span", function() {
 			var val = $(this).prev().children("[name=tableKey]").val();
+			$(".address-lis").attr("disabled",true);
 			$.ajax({
 				url : "busShoppCart/defaultAddress.do",
 				data : {
