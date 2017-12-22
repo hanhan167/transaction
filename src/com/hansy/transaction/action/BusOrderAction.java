@@ -581,6 +581,7 @@ public class BusOrderAction {
 		String custNo = null;
 		String goodsNo = null;
 		String address = null;
+		Date insertDate = new Date();
 		/*String orderNo=UUIDUtil.getParseUUID();*/
 		Map<String, String> remarkMap = new HashMap<>();
 		for (int i = 0; i < list.size(); i++) {
@@ -612,6 +613,8 @@ public class BusOrderAction {
 					}
 				}
 			}
+			
+			
 			orderVo.setOrderNo(orderNo);
 			remarkMap.put(orderNo, remark);
 			orderVo.setOrderType(orderMap.get("type"));							//订单类型
@@ -624,8 +627,8 @@ public class BusOrderAction {
 			orderVo.setDefaultPayDt(createOrder.getDefaultPayDt());				//默认交期(天)
 			orderVo.setWishPayDt(DateUtil.getDay(orderMap.get("wishDate")));	//期望交期(天)
 			orderVo.setOrderStatus(OrderConstants.orderStatusNoneConfirmed); //订单状态(待确认)
-			orderVo.setInsertDate(new Date());									//新增时间
-			orderVo.setUpdateDate(new Date());									//修改时间与新增时间设置为一致
+			orderVo.setInsertDate(insertDate);									//新增时间
+			orderVo.setUpdateDate(insertDate);									//修改时间与新增时间设置为一致
 			orderVo.setSupplyNo(createOrder.getSupplyNo());						//供应商编号
 			orderVo.setGoodsCount(Integer.valueOf(orderMap.get("num")));		//商品数量
 			orderVo.setStatus(OrderConstants.orderTypeNor);					//状态
@@ -1143,6 +1146,7 @@ public class BusOrderAction {
 	    	   String userNo="";
 	    	   String address = "";
 	    	   String remark = "";
+	    	   Date newDate = new Date();
 	   		for(int i = 0 ;i<val.size();i++){
 		   		//根据订单的商品编号获取到老订单的数据
 		   		TBusOrderVo tBusOrderVo = busOrderService.getByGoodNo(val.get(i).getTableKey());
@@ -1163,8 +1167,8 @@ public class BusOrderAction {
 		   		val.get(i).setDefaultPayDt(tBusOrderVo.getDefaultPayDt());				//默认交期(天)
 		   		val.get(i).setWishPayDt(tBusOrderVo.getWishPayDt());	//期望交期(天)
 		   		val.get(i).setOrderStatus(OrderConstants.orderStatusNoneConfirmed); //订单状态(待确认)
-		   		val.get(i).setInsertDate(new Date());									//新增时间
-		   		val.get(i).setUpdateDate(new Date());									//修改时间
+		   		val.get(i).setInsertDate(newDate);									//新增时间
+		   		val.get(i).setUpdateDate(newDate);									//修改时间
 		   		val.get(i).setSupplyNo(tBusOrderVo.getSupplyNo());						//供应商编号
 //		   		val.get(i).setGoodsCount(Integer.valueOf(newtBusOrderVoList.get(i).getGoodsCount()));		1//商品数量
 		   		val.get(i).setStatus(OrderConstants.orderTypeNor);					//状态
