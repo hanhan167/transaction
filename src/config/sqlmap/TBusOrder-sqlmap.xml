@@ -1209,7 +1209,7 @@ where 1=1
                  INSERT_DATE insertDate,
                  UPDATE_DATE updateDate,
                  SUPPLY_NO supplyNo
-            FROM T_BUS_ORDER WHERE ORDER_NO=#orderNo#
+            FROM T_BUS_ORDER WHERE ORDER_NO=#orderNo# AND ROWNUM = 1
 	</select>
 	
 	<!-- 查询总价格 -->
