@@ -113,15 +113,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	
 	//延迟加载
-	var finished=0;  
-	var sover=0;  
+	var finished=0; //避免连续加载
+	var sover=0;  //最后一页时设置为1，不再加载
 	var curr = 1;  
 	
 	//如果屏幕未到整屏自动加载下一页补满  
 	var setdefult=setInterval(function (){  
 	    if(sover==1)  
 	        clearInterval(setdefult);     
-	    else if($(".mains").height()+100<$(window).height()) {
+	    else if($(".address-lis>ul").height()+100<$(window).height()) {
 	        loadmore($(window));  
 	    }
 	    else  
@@ -168,11 +168,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    if(finished==0 && sover==0)  
 	    {  
 	        
-	        if($(".loadmore").length==0)  
+	       /*  if($(".loadmore").length==0)  
 	        {  
 	            var txt='<div class="loadmore"><span class="loading"></span>加载中..</div>'  
 	            $("body").append(txt);  
-	        }  
+	        }   */
 	          
 	        if (scrollTop + scrollHeight >= windowHeight) {  
 	            //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作  
@@ -431,7 +431,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						+ "\',\'"
 						+ Row.rows[tmpguan[i][1]].orderType
 						+ "\',this)>取消订单</span>";
-				content += "<span class='on-red' onclick=invoice(\'"
+				content += "<span class='on-red qrfk' onclick=invoice(\'"
 						+ Row.rows[tmpguan[i][1]].orderNo
 						+ "\',"
 						+ price
@@ -535,6 +535,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					remark = $(this).val();
 				});
 		var supplyNo = $(element).parent().parent().attr("data-supplyno");
+		$(this).attr("disabled",true);
 		$
 				.ajax({
 					url : 'busOrder/getUserSupplyDetail.do',
@@ -588,6 +589,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				function() {
 					remark = $(this).val();
 				});
+		$(this).attr("disabled",true);
 		$.ajax({
 			url : 'busOrder/orderOperator.do',
 			type : 'post',
@@ -669,6 +671,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	//取消订单
 	function cancelOrder(orderNo, orderType, element) {
+		$(element).attr("disabled",true);
 		location.href = "busOrder/toPage/cancelOrder.do?orderNo="+orderNo+"&orderType="+orderType;
 	}
 	
@@ -678,6 +681,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$(element).parent().parent().prev().children("div[display='none']").each(function(){
 			brands += $(this).attr("data-brand") + ",";
 		});
+		$(this).attr("disabled",true);
 		$.ajax({
 			url : "busShoppCart/buyAgain.do",
 			data : {

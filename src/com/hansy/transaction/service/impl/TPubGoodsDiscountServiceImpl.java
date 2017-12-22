@@ -60,7 +60,7 @@ public class TPubGoodsDiscountServiceImpl extends BaseDao implements ITPubGoodsD
 			return bMap;
 		}
 		bMap.setIsSucc(true);
-		return bMap;
+		return bMap; 
 	}
 
 	@Override

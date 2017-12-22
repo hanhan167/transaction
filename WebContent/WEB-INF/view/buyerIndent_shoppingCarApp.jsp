@@ -430,6 +430,7 @@ $(function(){
 						}) ;
 						return;
 					}
+					$("#multiDelete").attr("disabled",true);
 					$.ajax({
 						url:"busShoppCart/deleteShoppCar.do", 
 						data:{
@@ -556,7 +557,7 @@ $(function(){
 			}) ;
 			return;
 		}
-		
+		$("#createOrder").attr("disabled",true);
 		$.ajax({
 			url:"goods/toConfirmOrderApp.do",
 			type:"post",

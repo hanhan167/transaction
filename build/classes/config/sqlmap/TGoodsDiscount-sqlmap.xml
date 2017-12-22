@@ -143,7 +143,7 @@ AND EXISTS
 	      	<iterate conjunction="">
 	        	update t_pub_goods_discount t set              
 	            	t.distcount_rate =#mapUpdate[].discount#
-	        	where t.table_key = #mapUpdate[].tableKey#;     
+	        	where t.table_key = #mapUpdate[].tableKey#;
 	       </iterate>
 	      end;    
 	</update>
