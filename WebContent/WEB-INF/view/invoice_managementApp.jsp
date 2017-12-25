@@ -202,7 +202,7 @@ request.setAttribute("basePath", basePath);
 		            </li>
 		             <li class="mail">
 		                <div class="check-texts fl">
-		                <span style="color: red;" class="red">*</span>
+		                	<span style="color: red;" class="red">*</span>
 		                    <span>收票人邮箱</span>
 		                </div>
 		                <div class="oper-texts fr">
