@@ -529,11 +529,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 	//确认付款
 	function invoice(orderNo, price, element) {
-		var remark;
+		/* var remark;
 		$(element).parent().parent().parent().find("input[type='text']").each(
 				function() {
 					remark = $(this).val();
-				});
+				}); */
 		var supplyNo = $(element).parent().parent().attr("data-supplyno");
 		$(this).attr("disabled",true);
 		$
@@ -550,7 +550,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								url : 'busOrder/orderOperator.do',
 								type : 'post',
 								data : {
-									"remark" : remark,
+									/* "remark" : remark, */
 									"orderNo" : orderNo
 								},
 								success : function(data) {
@@ -594,7 +594,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			url : 'busOrder/orderOperator.do',
 			type : 'post',
 			data : {
-				"remark" : remark,
+				/* "remark" : remark, */
 				"orderNo" : orderNo
 			},
 			success : function(data) {
