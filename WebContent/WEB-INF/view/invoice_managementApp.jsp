@@ -336,20 +336,27 @@ siteAdd();
 			
 		}
 	});
-	
-	//索取发票
-	$(".submit-btn").click(function(){
-		
+	//检验表单
+	function checkout(){
+		var flag = true;
 		$(".red").each(function(){
 			var value = $(this).parent().next().children().val();
 			if(value.trim() == "" ){
-				layer.open({
-					content:'必填项不能为空',
-					time:1500,
-				});
-				return;
+				flag = false;
 			}
 		});
+		return flag;
+	}
+	
+	//索取发票
+	$(".submit-btn").click(function(){
+		if(!checkout()){
+			layer.open({
+				content:'必填项不能为空',
+				time:1.5,
+			});
+			return;
+		}
 		var orderStr = GetQueryString("orderNoArr");
 		var orderNoArr = orderStr.split(",");
 		var input_provinceVal = $("#input_province").val();
@@ -387,7 +394,7 @@ siteAdd();
     			if(data.success){
     				layer.open({
     					content:'操作成功',
-    					time:1500,
+    					time:1.5,
     					end:function(){
     						window.location.href="busShoppCart/toOpenTicketTable.do";    						
     					}
@@ -396,6 +403,7 @@ siteAdd();
     				layer.open({
     					 title: '错误信息'
     					 ,content:data.msg
+    					 ,time:2,
     				}); 
     			}
     		}

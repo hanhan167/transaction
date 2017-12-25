@@ -230,7 +230,7 @@ $(function(){
 						layer.open({
 							// title: '错误信息'
 							 content:dataMsg.msg,
-							 time:1500,
+							 time:1.5,
 							 end:function(){
 								 //调用清空失效商品
 								 clearInvalid(data);
@@ -485,7 +485,7 @@ $(function(){
 						if(data.success){
 							layer.open({
 								content:"清空成功",
-								time:1500,
+								time:1.5,
 								end:function(){
 									location.reload();
 								}

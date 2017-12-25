@@ -474,7 +474,7 @@ var supplyName = [];
 							if (address == "" || address == null) {
 								layer.open({
 									content:'请先确认收货地址',
-									time:1500
+									time:1.5
 								});
 								return;
 							}
@@ -770,20 +770,23 @@ var supplyName = [];
 
 		if (!$.trim(address)) {
 			layer.open({
-				content : '收件地址不为空'
+				content : '收件地址不为空',
+				time:1.5
 			});
 			return;
 		}
 		if (!$.trim(addresseeName)) {
 			layer.open({
-				content : '收件人不能为空'
+				content : '收件人不能为空',
+				time:1.5
 			});
 			return;
 		}
 
 		if (!(/^1[34578]\d{9}$/.test(telephone))) {
 			layer.open({
-				content : '手机号码有误'
+				content : '手机号码有误',
+				time:1.5
 			});
 		} else {
 			$("#billReceivePhone").text('');
@@ -806,7 +809,8 @@ var supplyName = [];
 					} else {
 						layer.open({
 							title : '错误信息',
-							content : data.msg
+							content : data.msg,
+							time:2
 						});
 					}
 				}

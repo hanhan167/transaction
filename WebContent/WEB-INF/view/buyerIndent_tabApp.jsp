@@ -558,7 +558,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										layer.open(	
 										{
 											content:'操作成功',
-											time:2,
+											time:1.5,
 										    end:function() {
 												stateLook(
 														curr,
@@ -602,7 +602,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					layer.open(
 					{
 						content:'操作成功',
-						time:2,
+						time:1.5,
 						end:function() {
 							stateLook(curr, "090004");
 							orderStatus = "090004";
@@ -642,7 +642,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							layer.open(
 							{
 								content:'操作成功',
-								time:2,
+								time:1.5,
 								end:function(){
 									stateLook(curr, orde);
 											  }
