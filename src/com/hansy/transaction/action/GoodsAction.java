@@ -282,9 +282,10 @@ public class GoodsAction {
 	 * @return
 	 */
 	@RequestMapping("/toEdit")
-	public ModelAndView toEdit(String tableKey){
+	public ModelAndView toEdit(String tableKey,String goodsNo){
 		ModelAndView view=new ModelAndView("commodity_all_compile");
 		view.addObject("tableKey", tableKey);
+		view.addObject("goodsNo", goodsNo);
 		return view;
 	}
 	/**
@@ -1313,12 +1314,13 @@ public class GoodsAction {
 	 */
 	@RequestMapping("/getDataCpmlss")
 	@ResponseBody
-	public BaseReslt<Object> getDataCpmlss(String classTypeId,String brand,HttpSession session,String brandNo){
+	public BaseReslt<Object> getDataCpmlss(String classTypeId,String brand,HttpSession session,String brandNo,String rade){
 		BaseReslt<Object> bReslt=new BaseReslt<>();
 		Map<String, String> map = new HashMap<>();
 		map.put("classTypeId", classTypeId);
 		map.put("brand", brand);
 		map.put("brandNo", brandNo);
+		map.put("rade", rade);
 		if(StringUtil.isEmpty(brand)){
 			String custNo=(String) session.getAttribute("custNo");
 			map.put("custNo", custNo);

@@ -280,6 +280,7 @@ function trademark(){
 	});
 
 	function filtrate(classTypeId){
+		var rade = Grade();
 		var brand;
 		var brandNo="";
 		for(var i=0;i<$("#brand .items-box span").length;i++){
@@ -293,7 +294,7 @@ function trademark(){
 		}
 		$.ajax({
 			url:"goods/getDataCpmlss.do",
-			data:{"classTypeId":classTypeId,"brand":brand,"brandNo":brandNo},
+			data:{"classTypeId":classTypeId,"brand":brand,"brandNo":brandNo,"rade":rade},
 			type:"post",
 			success:function(data){
 				$("#shop_select").empty();

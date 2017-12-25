@@ -808,14 +808,37 @@ WHERE 1          =1
 				                    BRAND_ID = #brandNo#
 				                ]]>
 				            </isNotEmpty>
-				             <isNotEmpty property="custNo" prepend="and">  
+				             <isEmpty property="brandNo" prepend="and">  
 				                <![CDATA[ 
-				                   BRAND_ID in  (SELECT t.BRAND_NO FROM t_pub_supply_brand t,T_PUB_SUPPLY_BRAND t2
- 							where t2.BRAND_NO = t.BRAND_NO
- 						and t2.CUST_NO =#custNo#)
+				                  BRAND_ID IN (   SELECT  
+										          T.BRAND_NO    BRANDNO
+										     FROM T_PUB_SUPPLY_BRAND T
+										    WHERE CUST_NO = '93D417AEFFFFFFF009D46D0931454791'
+										      AND STATUS = '0'
+										      AND (DOWN_DATE IS NULL OR DOWN_DATE > SYSDATE)
+										      AND BRAND_NO IN
+										          (SELECT DISTINCT T2.BRAND_ID
+										             FROM (SELECT CONNECT_BY_ROOT CH_NAME AS CH_NAME1,
+										                          SYS_CONNECT_BY_PATH(CH_NAME, '/') AS AA,
+										                          SYS_CONNECT_BY_PATH(ID, '/') AS BB
+										                     FROM DATA_CATALOG_MANAGE T
+										                    START WITH ID = '396689'
+										                   CONNECT BY PRIOR TO_CHAR(ID) = GRADE) T1
+										             LEFT JOIN (SELECT DISTINCT T.BRAND, T.BRAND_ID, CLASSTYPE_ID
+										                         FROM DATA_CPMLS T
+										                        WHERE T.BRAND_ID IS NOT NULL
+										                          AND T.CLASSTYPE_ID IS NOT NULL) T2
+										               ON SUBSTR(BB,
+										                         INSTR(BB,
+										                               '/',
+										                               1,
+										                               LENGTH(BB) - LENGTH(REPLACE(BB, '/', ''))) + 1,
+										                         LENGTH(BB)) = T2.CLASSTYPE_ID
+										            WHERE T2.BRAND_ID IS NOT NULL)  )
 				                ]]>
-				            </isNotEmpty>
+				            </isEmpty>
 				        </dynamic>
+				        order by code
 	</select>
 	<select id = "getDataCpmlss11" parameterClass = "java.lang.String" resultClass="com.hansy.transaction.model.bo.DataCp">
 	 SELECT 
