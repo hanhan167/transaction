@@ -739,7 +739,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	function goShop(){
 		var custNo = "${sessionScope.custNo}";
-		location.href="http://text.cp2013.com.cn:8080/WEBAPP/User_Action_UserLogin_Mobile/"+custNo;
+		location.href="http://new.cp2013.com.cn/WEBAPP/User_Action_UserLogin_Mobile/"+custNo;
 	}
 	
 	$(document).on('click', function() {
