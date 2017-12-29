@@ -99,4 +99,9 @@ SELECT SUM(GOODS_MONEY) totalAmt, ORDER_NO orderNo, UPDATE_DATE updateDate, ORDE
 		 where temp.status = '1' 
 		 	   and (temp.supply_no = #custNo# or  temp.cust_no=#custNo#)
  	</select>
+ 	
+ 	 <select id="getCustName" parameterClass="string" resultClass="string">
+ 		select user_name from t_user_base_info  where cust_no = #custNo#
+ 	</select>
+ 	
 </sqlMap>

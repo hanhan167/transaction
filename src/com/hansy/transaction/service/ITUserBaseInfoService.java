@@ -38,4 +38,12 @@ public interface ITUserBaseInfoService {
 	public int getLoginUserOrderCount(Map<String, String> param);
 	
 	/*public Pager getMyOrderNoBill(Map<String, Object>map,Pager pager);*/
+	
+	
+	/**
+	 * 获取对应客户姓名
+	 * @param custNo
+	 * @return
+	 */
+	public String getCustName(String custNo);
 }

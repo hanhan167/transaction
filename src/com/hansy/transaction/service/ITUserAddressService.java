@@ -96,5 +96,27 @@ public interface ITUserAddressService {
 	 * @return 
 	 */
 	BusinessMap<Object> updateStatus(String tableKey, String custNo);
+	
+	/**
+	 * 获取省市县
+	 * @param custNo
+	 * @return
+	 */
+	TUserAddressVo getNotAddress(String custNo);
+	
+	/**
+	 * 具体地址
+	 * @param custNo
+	 * @return
+	 */
+	String getAddress(String custNo);
+	
+	/**
+	 * 获取电话
+	 * @param custNo
+	 * @return
+	 */
+	String getTel(String custNo);
+	
 }
 

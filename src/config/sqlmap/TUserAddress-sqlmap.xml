@@ -62,6 +62,22 @@
 		delete from t_user_address t where t.table_key=#tableKey#
 	</delete>
 	
+	<!-- 找出收货地址省市县  -->
+	<select id="getNotAddress" parameterClass="string" resultMap="userAddressVoResultMap">
+		select * from t_user_address t where t.address_status = '1' and t.user_no=#userNo# 
+	</select>
+	
+	<!-- 找出收货地址详细地址 -->
+	<select id="getAddress" parameterClass="string" resultClass="string">
+		select address from t_user_address t where t.address_status = '1' and t.user_no=#userNo# 
+	</select>
+	
+	
+	<!-- 找出电话  -->
+	<select id="getTel" parameterClass="string" resultClass="string">
+		select telephone from t_user_address t where t.address_status = '1' and t.user_no=#userNo# 
+	</select>
+	
 	<!-- 把原先默认地址改为非默认地址 -->
 	<update id="updateAddressNo" parameterClass="java.util.Map">
 		update t_user_address t set t.address_status=#statusNo# where t.table_key=(select a.table_key from t_user_address a where a.address_status=#status# and user_no=#custNo#)

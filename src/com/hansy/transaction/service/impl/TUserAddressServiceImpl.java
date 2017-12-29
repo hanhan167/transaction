@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.hansy.transaction.common.BusinessMap;
@@ -119,6 +120,39 @@ public class TUserAddressServiceImpl extends BaseDao implements ITUserAddressSer
 			bMap.setMsg("设为默认地址失败");
 		}
 		return bMap;
+	}
+
+	@Override
+	public TUserAddressVo getNotAddress(String custNo) {
+		TUserAddressVo tAddressVo = new TUserAddressVo();
+		try {
+			tAddressVo = (TUserAddressVo) getSqlMapClientTemplate().queryForObject("userAddress.getNotAddress", custNo);
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		return tAddressVo;
+	}
+
+	@Override
+	public String getAddress(String custNo) {
+		String address = null;
+		try {
+			address = (String) getSqlMapClientTemplate().queryForObject("userAddress.getAddress", custNo);
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		return address;
+	}
+
+	@Override
+	public String getTel(String custNo) {
+		String tel = null;
+		try {
+			tel = (String) getSqlMapClientTemplate().queryForObject("userAddress.getTel", custNo);
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		return tel;
 	}
 
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,7 @@ import com.hansy.transaction.common.utils.SerialNumberUtils;
 import com.hansy.transaction.common.utils.StringUtil;
 import com.hansy.transaction.common.utils.UUIDUtil;
 import com.hansy.transaction.model.bo.CreateOrder;
+import com.hansy.transaction.model.bo.CustomerDisplay;
 import com.hansy.transaction.model.bo.Order;
 import com.hansy.transaction.model.bo.SupplyLimitPrice;
 import com.hansy.transaction.model.bo.TUserBaseInfoBo;
@@ -55,6 +57,7 @@ import com.hansy.transaction.model.vo.TBusOrderVo;
 import com.hansy.transaction.model.vo.TUserAddressVo;
 import com.hansy.transaction.model.vo.TUserBill;
 import com.hansy.transaction.model.vo.TUserSupplyInfoVo;
+import com.hansy.transaction.service.ICustomerDisplayService;
 import com.hansy.transaction.service.ITBusAddressService;
 import com.hansy.transaction.service.ITBusBillService;
 import com.hansy.transaction.service.ITBusOrderDetlService;
@@ -63,6 +66,7 @@ import com.hansy.transaction.service.ITBusOrderSplitService;
 import com.hansy.transaction.service.ITBusShoppCartService;
 import com.hansy.transaction.service.ITSupplyLimtPriceService;
 import com.hansy.transaction.service.ITUserAddressService;
+import com.hansy.transaction.service.ITUserBaseInfoService;
 import com.hansy.transaction.service.ITUserBillService;
 import com.hansy.transaction.util.HttpUtils;
 
@@ -95,6 +99,10 @@ public class BusOrderAction {
 	private ITUserAddressService addressService;
 	@Resource
 	private ITSupplyLimtPriceService priceService;
+	@Resource
+	private ITUserBaseInfoService baseInfoService;
+	@Resource
+	private ICustomerDisplayService customerDisplayService;
 
 	@RequestMapping("/productRank")
 	@ResponseBody
@@ -566,7 +574,7 @@ public class BusOrderAction {
 	 */
 	@RequestMapping("/createOrder")
 	@ResponseBody
-	public BaseReslt<Object> createOrder(String orderArray){
+	public BaseReslt<Object> createOrder(String orderArray,HttpSession session){
 		BaseReslt<Object> bReslt=new BaseReslt<>();
 		List list=(List) JSONObject.parse(orderArray);
 
@@ -699,6 +707,70 @@ public class BusOrderAction {
 		//生成订单成功以后删除购物车
 		shoppCartService.delete(deleteParam);
 
+		//************************************插入Cd表***********************************
+		String supplyNoCd = null;
+		List cdList = new ArrayList<>();
+		
+		for (int i = 0; i < list.size(); i++) {
+			//解析成为键值对形式
+			Map<String, String> orderMap=(Map<String, String>) JSONObject.parse(list.get(i).toString());
+			//判断有几个不同的供应商
+			supplyNoCd= orderMap.get("supplyNo");
+			cdList.add(supplyNoCd);
+		}
+		//去重
+		Set set = new HashSet(cdList);
+		
+		String cdCustNo = (String) session.getAttribute("custNo");
+		
+		//通过电话判断是否重复地址表
+		String telephoneAd = addressService.getTel(cdCustNo);
+		List testList = new ArrayList<>();
+		//查询cd表电话
+		for (Object object : set) {
+			CustomerDisplay cDisplay = new CustomerDisplay();
+			cDisplay.setConntNums((String)object);
+			cDisplay.setTelephone(Long.valueOf(telephoneAd));
+			String telCd = customerDisplayService.findTelCd(cDisplay);
+			if(telCd!=null && !"".equals(telCd))
+			{
+				testList.add((String)object);
+			}
+		}
+		
+		for (Object object : testList) {
+			set.remove(object);
+		}
+		
+		
+		Integer flag = 0;
+		//插入
+		if(set.size()>0)
+		{	
+		for (Object object : set) {
+			CustomerDisplay cd = new CustomerDisplay();
+			cd.setUserNo("GR" + new Date().getTime());//主键
+			String userName = baseInfoService.getCustName(cdCustNo);
+			cd.setUserName(userName);//用户表名称
+			cd.setUserStatus("1");
+			String cdAddress = addressService.getAddress(cdCustNo);
+			cd.setAddress(cdAddress);//收货地址(详细地址)
+			TUserAddressVo notAddress = addressService.getNotAddress(cdCustNo);
+			String city = notAddress.getProvince() + notAddress.getCity() + notAddress.getArea();
+			cd.setCity(city);//省市县
+			String telephone = addressService.getTel(cdCustNo);
+			cd.setTelephone(Long.valueOf(telephone));
+			cd.setConntNums((String)object);
+			flag = customerDisplayService.addCd(cd);
+			}	
+		}
+			if(flag==1)
+			{
+				System.out.println("插入成功!");
+			}
+		
+		
+		
 		bReslt.setSuccess(true);
 		bReslt.setMsg("生成订单成功");
 		return bReslt;

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="customerDisplaySql">
+	<resultMap class="com.hansy.transaction.model.bo.CustomerDisplay" id="cdResultMap">
+		<result property="userNo" column="userNo"/>
+		<result property="userName" column="userName"/>
+		<result property="salesMan" column="salesMan"/>
+		<result property="PriceLevel" column="PriceLevel"/>
+		<result property="lineOfCredit" column="lineOfCredit"/>
+		<result property="address" column="address"/>
+		<result property="primaryContact" column="primaryContact"/>		
+		<result property="personPosition" column="personPosition"/>	
+		<result property="userEmail" column="userEmail"/>
+		<result property="remarks" column="remarks"/>
+		<result property="userStatus" column="userStatus"/>
+		<result property="invoiceAddress" column="invoiceAddress"/>
+		<result property="city" column="city"/>
+		<result property="postCode" column="postCode"/>
+		<result property="telephone" column="telephone"/>
+		<result property="status" column="status"/>
+		<result property="netAddress" column="netAddress"/>
+		<result property="conntNums" column="conntNums"/>
+		<result property="faxes" column="faxes"/>
+		<result property="userBank" column="userBank"/>
+		<result property="bankAcctnum" column="bankAcctnum"/>
+		<result property="tfn" column="tfn"/>
+	</resultMap>
+	
+	<sql id="allColumns">
+	userNo,
+	userName,
+	salesMan,
+	PriceLevel,
+ 	lineOfCredit,
+ 	address,
+	primaryContact,
+	personPosition,
+	userEmail,
+	remarks,
+	userStatus, 
+	invoiceAddress,
+	city,
+	postCode,
+	telephone,
+	status,
+	netAddress,
+	conntNums,
+	faxes,
+	userBank,
+	bankAcctnum,
+	tfn
+	</sql>
+	
+	<insert id="save" parameterClass="com.hansy.transaction.model.bo.CustomerDisplay">
+		insert into CUSTOMER_DISPLAY(<include refid="allColumns"/>) values
+			(#userNo#,
+			#userName#,
+			#salesMan#,
+			#PriceLevel#,
+ 			#lineOfCredit#,
+ 			#address#,
+			#primaryContact#,
+			#personPosition#,
+			#userEmail#,
+			#remarks#,
+			#userStatus#, 
+			#invoiceAddress#,
+			#city#,
+			#postCode#,
+			#telephone#,
+			#status#,
+			#netAddress#,
+			#conntNums#,
+			#faxes#,
+			#userBank#,
+			#bankAcctnum#,
+			#tfn#
+	         ) 
+	</insert>
+	
+	
+	<select id="findTel"  parameterClass="com.hansy.transaction.model.bo.CustomerDisplay"  resultClass="string">
+		select telephone  from CUSTOMER_DISPLAY t where t.telephone = #telephone# and  t.conntNums = #conntNums#
+	</select>
+	
+</sqlMap>

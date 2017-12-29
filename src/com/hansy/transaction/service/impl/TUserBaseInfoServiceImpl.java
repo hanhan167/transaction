@@ -77,4 +77,16 @@ public class TUserBaseInfoServiceImpl extends BaseDao implements ITUserBaseInfoS
 	}
 	
 	
+	@Override
+	public String getCustName(String custNo) {
+		String  custName = null;
+		try {
+			  custName = (String)getSqlMapClientTemplate().queryForObject("userBaseInfo.getCustName", custNo);
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		return  custName;
+	}
+	
+	
 }

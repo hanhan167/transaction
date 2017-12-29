@@ -15,6 +15,7 @@
      <sqlMap resource="config/sqlmap/TUserBill-sqlmap.xml"/> 
      <sqlMap resource="config/sqlmap/TBusAddress-sqlmap.xml"/> 
       <sqlMap resource="config/sqlmap/TSupplyLimitPrice-sqlmap.xml"/> 
+      <sqlMap resource="config/sqlmap/TCustomerDisplay-sqlmap.xml"/> 
 </sqlMapConfig>
 
 
