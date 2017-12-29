@@ -90,8 +90,9 @@ $(function(){
 	});
 	
 	$(document).on("click",".commodityEdit",function(){
+		var goodsNo = $(this).parents().eq(1).find("td").eq(1).text();
 		var dataId = $(this).attr("data-id");
-		edit(dataId);
+		edit(dataId,goodsNo);
 	});
 	
 	function fiflterCommodity(val,pageNo){
@@ -285,7 +286,7 @@ $(function(){
 		}
 		$.ajax({
 			url:"goods/getDataCpmlss.do",
-			data:{"classTypeId":classTypeId,"brand":brand,"brandNo":brandNo},
+			data:{"classTypeId":classTypeId,"brand":brand,"brandNo":brandNo,"rade":rade},
 			type:"post",
 			success:function(data){
 				var shop_option="";
@@ -481,8 +482,8 @@ $(function(){
 		});
 	}
 	//编辑
-	function edit(tableKey){
-	    layui.use('layer', function(){
+	function edit(tableKey,goodsNo){
+		layui.use('layer', function(){
 			var layer = layui.layer;
 			layer.open({
 				type:2,
@@ -490,7 +491,7 @@ $(function(){
 				title: '修改商品价格与折扣信息',
 				area:['500px','520px'],
 				resize:false,
-				content: ['goods/toEdit.do?tableKey='+tableKey,'no']
+				content: ['goods/toEdit.do?tableKey='+tableKey+'&goodsNo='+goodsNo,'no']
 			});
 		});
 	}

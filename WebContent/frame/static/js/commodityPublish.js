@@ -308,7 +308,7 @@ $(function(){
 		var before;
 		$.ajax({
 			url:"goods/getDataCpmlss.do",
-			data:{"classTypeId":classTypeId,"brand":brand,"brandNo":brandNo},
+			data:{"classTypeId":classTypeId,"brand":brand,"brandNo":brandNo,"rade":rade},
 			type:"post",
 			success:function(data){
 				layer.close(before)
@@ -333,7 +333,6 @@ $(function(){
 		});
 	}
 	function Grade(){
-		debugger;
 		var grade;//左侧类型
 		var li_a = $(window.parent.document).find("#gType").val();
 		var li_calss=$(window.parent.document).find("#menu").children("li.layui-nav-item");

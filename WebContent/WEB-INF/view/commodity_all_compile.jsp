@@ -21,9 +21,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<hr />
 	<form action="" method="post" onsubmit="return false" id="postForm">
 		<input type="hidden" value="${tableKey}" id="goodsKey" />
+		<input type="hidden" value="${goodsNo}" id="goodsNo" />
 		<div class="danjia">
 			<label>商品单价：</label>
-			<input type="text" class="margin-right-10" id="goodsPrice" goodsNo="${goodsNo}" name="goodsPrice"/>元
+			<input type="text" class="margin-right-10" id="goodsPrice"  name="goodsPrice"/>元
 		</div>
 		<div id="discount">
 			
@@ -50,6 +51,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input class="margin-right-10" type="text" gradeNo="<*=temp.gradeNo*>" name="<*=temp2.tableKey*>" value="<*=temp2.discountRate==null?'10':temp2.discountRate*>"/>折
 	<*}*>
 </script>
+<script id="bd_t2" type="text/template">
+	<*for(var key in list){*>
+		<*var temp = list[key]*>
+		<*var temp2 = list2[key]*>
+		<label><*=temp.discountObject*>：</label>
+		<input class="margin-right-10" type="text" gradeNo="<*='grade00'+(key++)*>" name="<*=''*>" value="<*=10*>"/>折
+	<*}*>
+</script>
 <script type="text/javascript">
 $(function(){
 	baidu.template.LEFT_DELIMITER='<*';
@@ -62,9 +71,15 @@ $(function(){
 		success:function(data){
 			var goodsAll=data.obj;
 			if(data.success){
-				$("#goodsPrice").val(goodsAll.goodsPrice);
-				var html=baidu.template('bd_t1',goodsAll);
-				$("#discount").html(html);
+				if(goodsAll.list2.length > 0){
+					$("#goodsPrice").val(goodsAll.goodsPrice);
+					var html=baidu.template('bd_t1',goodsAll);
+					$("#discount").html(html);
+				}else{
+					$("#goodsPrice").val(goodsAll.goodsPrice);
+					var html=baidu.template('bd_t2',goodsAll);
+					$("#discount").html(html);
+				}
 			}else{
 				alert("获取信息失败，请重试");
 			}
@@ -77,7 +92,7 @@ $(function(){
 	$(".affirm").click(function(){
 		var goodsPrice=$("#goodsPrice").val();
 		var goodsKey=$("#goodsKey").val();
-		var goodsNo=$("#goodsKey").attr("goodsNo");
+		var goodsNo=$("#goodsNo").val();
 		var flag=1;
 		var pricePattern=new RegExp("^[1-9]?\\d+(\\.\\d{1,2})?$");
 		var param={};
@@ -118,24 +133,25 @@ $(function(){
 		}
 		param["discount"]=discountArray;
 		param=JSON.stringify(param);
-		$.ajax({
-			url:"goods/updateDiscountPrice.do",
-			data:{"param":param},
-			type:"post",
-			dataType:"json",
-			success:function(data){
-				if(data.success){
-					layer.msg('操作成功', {icon: 1,time: 2000},
-						function(){parent.location.reload();}		
-					);
-				}else{
-					layer.open({
-						 title: '错误信息'
-						 ,content:data.msg
-					}); 
+			$.ajax({
+				url:"goods/updateDiscountPrice.do",
+				data:{"param":param},
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					if(data.success){
+						layer.msg('操作成功', {icon: 1,time: 2000},
+							function(){parent.location.reload();}		
+						);
+					}else{
+						layer.open({
+							 title: '错误信息'
+							 ,content:data.msg
+						}); 
+					}
 				}
-			}
-		});
+			});
+		
 	});
 	
 	//折扣验证
